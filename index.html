@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--
-  MI ESPACIO · App Vital — archivo único de la app (v5.2 · 05/11/2026)
+  MI ESPACIO · App Vital — archivo único de la app (v5.3 · 05/11/2026)
   Arranca sin depender de ningún CDN: funciona sin conexión.
   · Estilos: Tailwind CSS v3 PRECOMPILADO en <style id="tw-build">. Si usas una clase de Tailwind que aún no
     aparece en el archivo, regenera ese bloque con tailwindcss@3 y esta config, o escribe CSS normal en
@@ -298,6 +298,28 @@ p.md-warn { font-size: 11px; font-weight: 700; color: #7A2424; }
 .md-repo { display: flex; align-items: center; gap: 8px; }
 .md-repo b { font-size: 13px; font-weight: 700; white-space: nowrap; color: #7A6858; }
 .md-repo-name { max-width: 60%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* v5.3: PROPONER y REVISAR */
+.wk-options .wk-wide { grid-column: 1 / -1; min-height: 52px; background: #F8F5F0; border-style: dashed; letter-spacing: 1px; }
+.wk-cover-btn { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: pointer; }
+.sg-head { display: grid; grid-template-columns: 96px 1fr; gap: 12px; align-items: center; }
+.sg-cover .cv { border-radius: 10px; }
+.sg-syn { max-height: 9em; overflow: auto; }
+.rv { position: fixed; inset: 0; z-index: 45; background: #F8F5F0; display: flex; flex-direction: column; max-width: 430px; margin: 0 auto; }
+.rv[hidden] { display: none; }
+.rv-bar { display: flex; align-items: center; gap: 12px; padding: 14px 16px 6px; }
+.rv-bar .wk-title { flex: 1; font-size: 14px; }
+.rv-bar .wk-button { min-height: 40px; padding: 6px 14px; }
+.rv-body { flex: 1; overflow: auto; padding: 8px 20px 24px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.rv-cover { width: min(58vw, 230px); }
+.rv-cover .cv { border-radius: 14px; box-shadow: 0 10px 28px rgba(52, 37, 25, .18); }
+.rv-title { font-size: 19px; font-weight: 800; text-align: center; line-height: 1.2; margin: 4px 0 0; }
+.rv-meta { font-size: 12px; color: #7A6858; text-align: center; font-weight: 600; margin: 0; }
+.rv-mem { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
+.rv-mem button { border: 1.5px solid #C8BBAE; border-radius: 999px; padding: 7px 11px; font-size: 10px; font-weight: 800; letter-spacing: .6px; color: #7A6858; background: #F2ECE4; }
+.rv-mem button[aria-pressed="true"] { background: #342519; border-color: #342519; color: #F8F5F0; }
+.rv-actions { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; width: 100%; }
+.rv-actions .wk-button { padding: 12px 4px; font-size: 11px; }
+.rv-empty { display: grid; gap: 12px; width: 100%; margin-top: 18vh; text-align: center; }
   </style>
 </head>
 <body class="booting">
@@ -413,6 +435,13 @@ p.md-warn { font-size: 11px; font-weight: 700; color: #7A2424; }
               <span class="text-[17px] font-semibold uppercase tracking-wide">EN VIVO</span>
             </div>
             <i data-lucide="chevron-right" class="w-5 h-5 text-earthMuted"></i>
+          </div>
+          <div id="reviewEntry" class="sub-btn" style="display:none" onclick="openReview()">
+            <div class="flex items-center gap-3.5">
+              <svg class="w-7 h-7 text-espresso" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="13" height="16" rx="2"/><path d="M19 7v13a2 2 0 0 1-2 2H8"/><path d="m6.5 12 2.5 2.5 4-5"/></svg>
+              <span class="text-[17px] font-semibold uppercase tracking-wide">REVISAR</span>
+            </div>
+            <span class="text-sm font-bold text-earthMuted" data-n>0</span>
           </div>
         </div>
       </div>
@@ -651,6 +680,7 @@ p.md-warn { font-size: 11px; font-weight: 700; color: #7A2424; }
         <button id="statusPill-EN_CURSO" onclick="setArteStatusFilter('EN_CURSO')" class="filter-pill">EN CURSO</button>
         <button id="statusPill-PENDIENTE" onclick="setArteStatusFilter('PENDIENTE')" class="filter-pill">PENDIENTE</button>
         <button id="statusPill-VISTO" onclick="setArteStatusFilter('VISTO')" class="filter-pill">VISTO</button>
+        <button id="statusPill-REVIEW" onclick="openReview(currentArteBranch)" class="filter-pill" style="display:none">POR REVISAR</button>
       </div>
 
       <!-- FILA 2: FILTROS DESPLEGABLES -->
@@ -1078,6 +1108,10 @@ p.md-warn { font-size: 11px; font-weight: 700; color: #7A2424; }
   <div id="fileViewer" class="fv" hidden role="dialog" aria-modal="true" aria-label="Ficha">
     <div class="fv-bar"><span id="fvTitle" class="fv-title"></span><button type="button" class="fv-x" onclick="closeFileViewer()" aria-label="Cerrar">×</button></div>
     <div id="fvBody" class="fv-body"></div>
+  </div>
+  <div id="reviewPanel" class="rv" hidden role="dialog" aria-modal="true" aria-label="Revisar obras">
+    <div class="rv-bar"><span class="wk-title">REVISAR</span><span id="rvCount" class="wk-subtle"></span><button type="button" class="wk-button" onclick="closeReview()" aria-label="Cerrar">×</button></div>
+    <div id="rvBody" class="rv-body"></div>
   </div>
   <div id="toast" class="toast" hidden role="status" aria-live="polite"><span></span><button type="button"></button></div>
 
@@ -2328,6 +2362,7 @@ function escapeWeek(value) { return String(value ?? '').replace(/[&<>"']/g, c =>
 
       return (appState.arte || []).filter(item => {
         if (item.branch !== currentArteBranch) return false;
+        if (item.review) return false;   // pendiente de revisar (REVISAR)
         const genre = document.getElementById('arteGenreFilter').value;
         if (['AUDIOVISUAL','MÚSICA'].includes(currentArteBranch) && genre !== 'ALL' && !arteGenres(item).includes(genre)) return false;
         if (currentArteStatusFilter !== 'ALL' && item.status !== currentArteStatusFilter) return false;
@@ -2355,6 +2390,7 @@ function escapeWeek(value) { return String(value ?? '').replace(/[&<>"']/g, c =>
     }
 
     function renderArteGrid() {
+      if (typeof updateReviewEntry === 'function') updateReviewEntry();
       const items = getFilteredArteItems();
       const gridBox = document.getElementById('arteGridContainer');
       const cityGroupBox = document.getElementById('arteCityGroupedContainer');
@@ -2898,60 +2934,245 @@ function finishWeekCompletion() {
   if(entry&&editingArteStatus==='VISTO')entry.done=true;
   pendingWeekCompletion=null;
 }
-const PROPOSAL_STEPS=[
-  ['¿QUÉ TIPO DE ARTE?',['Cine','Serie','Anime','Libro','Cómic','Disco','Museo / Arquitectura']],
-  ['¿NUEVO O REPETIR?',['Descubrimiento','Re-disfrutar una joya']],
-  ['¿QUÉ ENERGÍA BUSCAS?',['Denso / Filosófico','Acción / Tensión','Drama','Calma / Belleza','Ligero']],
-  ['¿CUÁNTO TIEMPO?',['< 30 min','30 min – 1 h','1 h – 2 h','> 2 h / Inmersivo']],
-  ['¿DE DÓNDE?',['Mi lista de pendientes / base','Sugerencia de la app']]
+/* ---------- PROPONER (v5.3): preguntas según el tipo, SORPRÉNDEME, ALEATORIO y tirada extra ---------- */
+// Cada respuesta puede ser «SORPRÉNDEME» (cualquiera). Las preferencias ordenan; no esconden nada.
+const PROP_ANY = 'any';
+const TONES_AV = ['Denso / Filosófico', 'Acción / Tensión', 'Drama', 'Calma / Belleza', 'Ligero'];
+const minutesOf = it => { const r = Number(it.runtime); if (r > 0) return r; const b = it.durationBand; return b === 0 || b === '0' ? 20 : b == null || b === '' ? null : [20, 45, 100, 150][Number(b)] ?? null; };
+const pagesOf = it => (it.branch === 'LITERATURA' && Number(it.total) > 0 ? Number(it.total) : null);
+const within = (v, lo, hi) => (v == null ? null : v > lo && v <= hi);
+const PROP_TYPES = [
+  { label: 'Cine', subcats: ['Cine'], toneQ: '¿QUÉ ENERGÍA BUSCAS?', tones: TONES_AV, timeQ: '¿CUÁNTO PUEDE DURAR?',
+    times: [['Hasta 2 h', it => within(minutesOf(it), 0, 125)], ['Más de 2 h', it => within(minutesOf(it), 125, 1e9)]] },
+  { label: 'Serie', subcats: ['Series'], toneQ: '¿QUÉ ENERGÍA BUSCAS?', tones: TONES_AV, timeQ: '¿CUÁNTO POR EPISODIO?',
+    times: [['Menos de 30 min', it => within(minutesOf(it), 0, 32)], ['30 min – 1 h', it => within(minutesOf(it), 32, 65)], ['Más de 1 h', it => within(minutesOf(it), 65, 1e9)]] },
+  { label: 'Anime', subcats: ['Anime'], toneQ: '¿QUÉ ENERGÍA BUSCAS?', tones: TONES_AV, timeQ: '¿CUÁNTO POR EPISODIO?',
+    times: [['Menos de 30 min', it => within(minutesOf(it), 0, 32)], ['30 min – 1 h', it => within(minutesOf(it), 32, 65)], ['Película · más de 1 h', it => within(minutesOf(it), 65, 1e9)]] },
+  { label: 'Libro', subcats: ['Novela', 'Filosofía y Ensayo', 'Historia'], toneQ: '¿QUÉ TE APETECE LEER?', tones: ['Denso / Filosófico', 'Intriga / Aventura', 'Drama', 'Calma / Belleza', 'Ligero'], timeQ: '¿QUÉ EXTENSIÓN?',
+    times: [['Corto · menos de 200 págs (≈ 5 h)', it => within(pagesOf(it), 0, 200)], ['Medio · 200–400 págs (5–10 h)', it => within(pagesOf(it), 200, 400)], ['Largo · más de 400 págs (+10 h)', it => within(pagesOf(it), 400, 1e9)]] },
+  { label: 'Cómic', subcats: ['Cómic y Manga'], toneQ: '¿QUÉ TE APETECE LEER?', tones: ['Denso / Filosófico', 'Acción / Aventura', 'Drama', 'Calma / Belleza', 'Ligero'], timeQ: '¿QUÉ EXTENSIÓN?',
+    times: [['Breve · menos de 120 págs (≈ 1 h)', it => within(pagesOf(it), 0, 120)], ['Medio · 120–250 págs', it => within(pagesOf(it), 120, 250)], ['Largo · más de 250 págs', it => within(pagesOf(it), 250, 1e9)]] },
+  { label: 'Disco', subcats: ['Discos', 'Clásica y BSO', 'Directos'], toneQ: '¿QUÉ AMBIENTE?', tones: ['Intenso / Complejo', 'Energía', 'Emotivo', 'Calma', 'Ligero / De fondo'], timeQ: '¿CUÁNTO TIEMPO TIENES?',
+    times: [['Menos de 40 min', it => within(minutesOf(it), 0, 40)], ['40 min – 1 h', it => within(minutesOf(it), 40, 62)], ['Más de 1 h', it => within(minutesOf(it), 62, 1e9)]] },
+  { label: 'Museo / Arquitectura', subcats: ['Museos', 'Arquitectura', 'Exposiciones'], toneQ: '¿QUÉ TIPO DE VISITA?', tones: ['Contemporáneo / Reto', 'Grandes obras', 'Historia', 'Belleza / Calma', 'Visita ligera'], timeQ: '¿CUÁNTO TIEMPO TIENES?',
+    times: [['Visita rápida · menos de 1 h', it => within(minutesOf(it), 0, 60)], ['1 – 2 h', it => within(minutesOf(it), 60, 120)], ['Medio día o más', it => within(minutesOf(it), 120, 1e9)]] }
 ];
-const TYPE_SUBCATS=[['Cine'],['Series'],['Anime'],['Novela','Filosofía y Ensayo','Historia'],['Cómic y Manga'],['Discos','Clásica y BSO','Directos'],['Museos','Arquitectura']];
-// Selección editorial local: los tiempos son franjas orientativas de una sesión.
-const SUGGESTION_ROWS=[
-  ['Perfect Days','Wim Wenders',0,3,2],['Paterson','Jim Jarmusch',0,3,2],['Before Sunrise','Richard Linklater',0,2,2],
-  ['Memento','Christopher Nolan',0,1,2],['The Truman Show','Peter Weir',0,0,2],['The Grand Budapest Hotel','Wes Anderson',0,4,2],
-  ['The Wire','David Simon',1,2,1],['Severance','Dan Erickson',1,1,1],['Fleabag','Phoebe Waller-Bridge',1,4,0],
-  ['Mushishi','Yuki Urushibara',2,3,0],['Monster','Naoki Urasawa',2,1,0],['Cowboy Bebop','Shinichirō Watanabe',2,2,0],
-  ['Meditaciones','Marco Aurelio',3,0,0],['El extranjero','Albert Camus',3,0,1],['El viejo y el mar','Ernest Hemingway',3,3,1],
-  ['Maus','Art Spiegelman',4,2,1],['El almanaque de mi padre','Jirō Taniguchi',4,3,1],['Watchmen','Alan Moore y Dave Gibbons',4,0,1],
-  ['Kind of Blue','Miles Davis',5,3,1],['In Rainbows','Radiohead',5,2,1],['The Köln Concert','Keith Jarrett',5,3,2],
-  ['Museo del Prado','Madrid',6,3,3],['Museo Sorolla','Madrid',6,3,2],['IVAM','Valencia',6,0,2]
+
+/* Catálogo de la app: sugerencias y «primera subida» de la bóveda (MIS DATOS → CARGAR CATÁLOGO INICIAL).
+   [tipo, título, autor, año, tono, extra, subcategoría?, ciudad?]
+   extra = cine y museos: franja (2 ≤ 2 h, 3 > 2 h · museos 1 < 1 h, 2 = 1–2 h, 3 medio día) ·
+           series, anime y discos: minutos · libros y cómics: páginas. */
+const CATALOG_ROWS = [
+  [0, 'Taxi Driver', 'Martin Scorsese', 1976, 2, 2], [0, 'Uno de los nuestros', 'Martin Scorsese', 1990, 1, 3], [0, 'Toro salvaje', 'Martin Scorsese', 1980, 2, 2],
+  [0, 'Casino', 'Martin Scorsese', 1995, 1, 3], [0, 'El irlandés', 'Martin Scorsese', 2019, 2, 3], [0, 'Los asesinos de la luna', 'Martin Scorsese', 2023, 2, 3],
+  [0, 'Origen', 'Christopher Nolan', 2010, 1, 3], [0, 'Interstellar', 'Christopher Nolan', 2014, 0, 3], [0, 'El caballero oscuro', 'Christopher Nolan', 2008, 1, 3],
+  [0, 'El truco final', 'Christopher Nolan', 2006, 1, 3], [0, 'Oppenheimer', 'Christopher Nolan', 2023, 0, 3], [0, 'Memento', 'Christopher Nolan', 2000, 1, 2],
+  [0, 'Pulp Fiction', 'Quentin Tarantino', 1994, 1, 3], [0, 'Reservoir Dogs', 'Quentin Tarantino', 1992, 1, 2], [0, 'Malditos bastardos', 'Quentin Tarantino', 2009, 1, 3],
+  [0, 'Érase una vez en Hollywood', 'Quentin Tarantino', 2019, 4, 3], [0, 'Django desencadenado', 'Quentin Tarantino', 2012, 1, 3], [0, 'Heat', 'Michael Mann', 1995, 1, 3],
+  [0, 'Blade Runner', 'Ridley Scott', 1982, 0, 2], [0, '2001: una odisea del espacio', 'Stanley Kubrick', 1968, 0, 3], [0, 'El padrino', 'Francis Ford Coppola', 1972, 2, 3],
+  [0, 'Apocalypse Now', 'Francis Ford Coppola', 1979, 0, 3], [0, 'No es país para viejos', 'Joel y Ethan Coen', 2007, 1, 2], [0, 'Pozos de ambición', 'Paul Thomas Anderson', 2007, 2, 3],
+  [0, 'Drive', 'Nicolas Winding Refn', 2011, 1, 2], [0, 'Sicario', 'Denis Villeneuve', 2015, 1, 2], [0, 'Dune', 'Denis Villeneuve', 2021, 1, 3],
+  [0, 'La gran belleza', 'Paolo Sorrentino', 2013, 3, 3], [0, 'La sociedad de la nieve', 'J. A. Bayona', 2023, 2, 3], [0, 'Perfect Days', 'Wim Wenders', 2023, 3, 2],
+  [0, 'Paterson', 'Jim Jarmusch', 2016, 3, 2], [0, 'Antes del amanecer', 'Richard Linklater', 1995, 2, 2], [0, 'El show de Truman', 'Peter Weir', 1998, 0, 2],
+  [0, 'El gran hotel Budapest', 'Wes Anderson', 2014, 4, 2],
+  [1, 'Los Soprano', 'David Chase', 1999, 2, 55], [1, 'The Wire', 'David Simon', 2002, 2, 58], [1, 'Breaking Bad', 'Vince Gilligan', 2008, 1, 47],
+  [1, 'Better Call Saul', 'Vince Gilligan y Peter Gould', 2015, 2, 50], [1, 'True Detective', 'Nic Pizzolatto', 2014, 0, 58], [1, 'Mad Men', 'Matthew Weiner', 2007, 2, 48],
+  [1, 'Succession', 'Jesse Armstrong', 2018, 2, 60], [1, 'Chernobyl', 'Craig Mazin', 2019, 2, 65], [1, 'Mindhunter', 'Joe Penhall', 2017, 1, 55],
+  [1, 'Severance', 'Dan Erickson', 2022, 1, 50], [1, 'The Bear', 'Christopher Storer', 2022, 2, 30], [1, 'Shōgun', 'Rachel Kondo y Justin Marks', 2024, 1, 60],
+  [1, 'Dark', 'Baran bo Odar y Jantje Friese', 2017, 0, 55], [1, 'Hermanos de sangre', 'Tom Hanks y Steven Spielberg', 2001, 1, 65], [1, 'Fleabag', 'Phoebe Waller-Bridge', 2016, 4, 26],
+  [1, 'The Office', 'Greg Daniels', 2005, 4, 22],
+  [2, 'Cowboy Bebop', 'Shinichirō Watanabe', 1998, 2, 24], [2, 'Monster', 'Naoki Urasawa', 2004, 1, 24], [2, 'Mushishi', 'Hiroshi Nagahama', 2005, 3, 24],
+  [2, 'Neon Genesis Evangelion', 'Hideaki Anno', 1995, 0, 24], [2, 'Fullmetal Alchemist: Brotherhood', 'Yasuhiro Irie', 2009, 1, 24], [2, 'Ataque a los titanes', 'Tetsurō Araki', 2013, 1, 24],
+  [2, 'Vinland Saga', 'Shūhei Yabuta', 2019, 2, 24], [2, 'Death Note', 'Tetsurō Araki', 2006, 1, 23], [2, 'Mob Psycho 100', 'Yuzuru Tachikawa', 2016, 4, 24],
+  [2, 'El viaje de Chihiro', 'Hayao Miyazaki', 2001, 3, 125], [2, 'La princesa Mononoke', 'Hayao Miyazaki', 1997, 1, 134], [2, 'Your Name', 'Makoto Shinkai', 2016, 3, 106],
+  [2, 'Ghost in the Shell', 'Mamoru Oshii', 1995, 0, 82],
+  [3, 'Meditaciones', 'Marco Aurelio', 180, 0, 250, 'Filosofía y Ensayo'], [3, 'Cartas a Lucilio', 'Séneca', 65, 0, 480, 'Filosofía y Ensayo'], [3, 'Sobre la brevedad de la vida', 'Séneca', 49, 0, 96, 'Filosofía y Ensayo'],
+  [3, 'Enquiridión', 'Epicteto', 125, 0, 80, 'Filosofía y Ensayo'], [3, 'El hombre en busca de sentido', 'Viktor Frankl', 1946, 0, 160, 'Filosofía y Ensayo'], [3, 'El mito de Sísifo', 'Albert Camus', 1942, 0, 190, 'Filosofía y Ensayo'],
+  [3, 'Así habló Zaratustra', 'Friedrich Nietzsche', 1883, 0, 400, 'Filosofía y Ensayo'], [3, 'El infinito en un junco', 'Irene Vallejo', 2019, 3, 450, 'Filosofía y Ensayo'], [3, 'Sapiens', 'Yuval Noah Harari', 2011, 0, 500, 'Historia'],
+  [3, 'SPQR', 'Mary Beard', 2015, 0, 600, 'Historia'], [3, 'Anábasis', 'Jenofonte', '', 1, 300, 'Historia'], [3, 'El extranjero', 'Albert Camus', 1942, 0, 128, 'Novela'],
+  [3, 'El viejo y el mar', 'Ernest Hemingway', 1952, 3, 128, 'Novela'], [3, 'Stoner', 'John Williams', 1965, 2, 320, 'Novela'], [3, 'Meridiano de sangre', 'Cormac McCarthy', 1985, 1, 400, 'Novela'],
+  [3, 'La carretera', 'Cormac McCarthy', 2006, 2, 220, 'Novela'], [3, 'Crimen y castigo', 'Fiódor Dostoievski', 1866, 0, 670, 'Novela'], [3, '1984', 'George Orwell', 1949, 0, 350, 'Novela'],
+  [3, 'Siddhartha', 'Hermann Hesse', 1922, 3, 150, 'Novela'], [3, 'Patria', 'Fernando Aramburu', 2016, 2, 650, 'Novela'], [3, 'Moby Dick', 'Herman Melville', 1851, 0, 700, 'Novela'],
+  [4, 'Maus', 'Art Spiegelman', 1991, 2, 300], [4, 'El almanaque de mi padre', 'Jirō Taniguchi', 1995, 3, 280], [4, 'Watchmen', 'Alan Moore y Dave Gibbons', 1987, 0, 420],
+  [4, 'Akira', 'Katsuhiro Otomo', 1982, 1, 360], [4, 'Berserk', 'Kentaro Miura', 1989, 1, 220], [4, 'Vagabond', 'Takehiko Inoue', 1998, 1, 240],
+  [4, 'Persépolis', 'Marjane Satrapi', 2000, 2, 350], [4, 'Arrugas', 'Paco Roca', 2007, 2, 100], [4, 'El arte de volar', 'Antonio Altarriba y Kim', 2009, 2, 210],
+  [5, 'Kind of Blue', 'Miles Davis', 1959, 3, 46], [5, 'A Love Supreme', 'John Coltrane', 1965, 0, 33], [5, 'In Rainbows', 'Radiohead', 2007, 2, 42],
+  [5, 'OK Computer', 'Radiohead', 1997, 0, 53], [5, 'The Dark Side of the Moon', 'Pink Floyd', 1973, 0, 43], [5, 'Abbey Road', 'The Beatles', 1969, 4, 47],
+  [5, 'Rumours', 'Fleetwood Mac', 1977, 4, 39], [5, 'Blue', 'Joni Mitchell', 1971, 2, 36], [5, 'Pet Sounds', 'The Beach Boys', 1966, 3, 36],
+  [5, 'Nevermind', 'Nirvana', 1991, 1, 49], [5, 'Random Access Memories', 'Daft Punk', 2013, 4, 74], [5, 'El mal querer', 'Rosalía', 2018, 1, 30],
+  [5, 'Fuente y caudal', 'Paco de Lucía', 1973, 3, 35], [5, 'The Köln Concert', 'Keith Jarrett', 1975, 3, 66, 'Directos'], [5, 'Interstellar (banda sonora)', 'Hans Zimmer', 2014, 3, 67, 'Clásica y BSO'],
+  [5, 'Las cuatro estaciones', 'Antonio Vivaldi', 1725, 3, 40, 'Clásica y BSO'], [5, 'Variaciones Goldberg (1981)', 'Glenn Gould', 1982, 3, 51, 'Clásica y BSO'],
+  [6, 'Museo del Prado', 'Museo Nacional del Prado', '', 1, 3, 'Museos', 'Madrid'], [6, 'Museo Reina Sofía', 'Museo Nacional Centro de Arte Reina Sofía', '', 0, 3, 'Museos', 'Madrid'],
+  [6, 'Museo Thyssen-Bornemisza', 'Museo Nacional Thyssen-Bornemisza', '', 1, 2, 'Museos', 'Madrid'], [6, 'Museo Sorolla', 'Museo Sorolla', '', 3, 1, 'Museos', 'Madrid'],
+  [6, 'IVAM', 'Institut Valencià d\'Art Modern', '', 0, 2, 'Museos', 'Valencia'], [6, 'Museo Guggenheim Bilbao', 'Frank Gehry', 1997, 0, 2, 'Museos', 'Bilbao'],
+  [6, 'Fundació Pilar i Joan Miró', 'Josep Lluís Sert', 1992, 3, 1, 'Museos', 'Palma'], [6, 'Es Baluard', 'Museu d\'Art Modern i Contemporani de Palma', '', 0, 1, 'Museos', 'Palma'],
+  [6, 'Museo Picasso Málaga', 'Museo Picasso Málaga', '', 1, 2, 'Museos', 'Málaga'], [6, 'Museo del Louvre', 'Musée du Louvre', '', 1, 3, 'Museos', 'París'],
+  [6, 'Tate Modern', 'Herzog & de Meuron', 2000, 0, 2, 'Museos', 'Londres'], [6, 'MoMA', 'Museum of Modern Art', '', 0, 3, 'Museos', 'Nueva York'],
+  [6, 'Sagrada Familia', 'Antoni Gaudí', 1882, 3, 2, 'Arquitectura', 'Barcelona'], [6, 'Casa Batlló', 'Antoni Gaudí', 1906, 3, 1, 'Arquitectura', 'Barcelona'],
+  [6, 'Pabellón Alemán de Barcelona', 'Ludwig Mies van der Rohe', 1929, 3, 1, 'Arquitectura', 'Barcelona'], [6, 'Ciudad de las Artes y las Ciencias', 'Santiago Calatrava', 1998, 4, 2, 'Arquitectura', 'Valencia'],
+  [6, 'Catedral de Mallorca', 'La Seu', 1601, 2, 1, 'Arquitectura', 'Palma'], [6, 'Alhambra', 'Alhambra', 1238, 2, 3, 'Arquitectura', 'Granada'],
+  [6, 'Fundación César Manrique', 'César Manrique', 1992, 3, 1, 'Arquitectura', 'Lanzarote']
 ];
-const EDITORIAL_SUGGESTIONS=SUGGESTION_ROWS.map((r,i)=>({id:'editorial_'+i,title:r[0],author:r[1],subcat:TYPE_SUBCATS[r[2]][0],branch:r[2]<3?'AUDIOVISUAL':r[2]<5?'LITERATURA':r[2]===5?'MÚSICA':'EN VIVO',tone:r[3],durationBand:r[4],year:'',cover:''}));
-function renderProposal() {
-  const root=document.getElementById('viewProponer'),[question,options]=PROPOSAL_STEPS[proposalStep];
-  root.innerHTML=`<div class="wk-progress">${PROPOSAL_STEPS.map((_,i)=>`<span class="${i<=proposalStep?'active':''}"></span>`).join('')}</div><div class="wk-row"><h3 class="wk-title">${question}</h3><span class="wk-subtle">${proposalStep+1} / 5</span></div><div class="wk-options">${options.map((o,i)=>`<button class="wk-button" onclick="chooseProposal(${i})">${escapeWeek(o)}</button>`).join('')}</div>${proposalStep?'<button class="wk-button" onclick="proposalStep--;renderProposal()">ATRÁS</button>':''}`;
+const CATALOG = CATALOG_ROWS.map(([t, title, author, year, tone, extra, sub, city], i) => {
+  const type = PROP_TYPES[t], subcat = sub || type.subcats[0];
+  const branch = Object.keys(ARTE_BRANCHES).find(b => ARTE_BRANCHES[b].includes(subcat));
+  const item = { id: 'editorial_' + i, title, author, year: year === '' ? '' : String(year), branch, subcat, tone, city: city || '', cover: '', genres: [] };
+  if (t === 0 || t === 6) item.durationBand = extra;
+  else if (t === 3 || t === 4) item.total = extra;
+  else { item.runtime = extra; item.durationBand = extra < 30 ? 0 : extra <= 60 ? 1 : extra <= 120 ? 2 : 3; }
+  return item;
+});
+
+const Prop = { ans: {}, step: 0, pool: [], offset: 0, label: '' };
+function propSteps() {
+  const s = ['type', 'mode'];
+  if (Prop.ans.mode === 'new' || Prop.ans.mode === 'repeat') s.push('tone', 'time');
+  if (Prop.ans.mode === 'new') s.push('origin');
+  return s;
 }
-function chooseProposal(value){proposalAnswers[proposalStep]=value;proposalAnswers.length=proposalStep+1;if(proposalStep<4){proposalStep++;renderProposal();}else showProposalResults();}
-function proposalMatches(item) {return TYPE_SUBCATS[proposalAnswers[0]].includes(item.subcat);}
-function proposalScore(item){
-  const fit=Number(item.tone===proposalAnswers[2])*2+Number(item.durationBand===proposalAnswers[3]);
-  if(proposalAnswers[1]!==1)return fit;
+function propQuestion(key) {
+  const type = PROP_TYPES[Prop.ans.type];
+  if (key === 'type') return ['¿QUÉ TIPO DE ARTE?', PROP_TYPES.map((t, i) => [i, t.label]), null];
+  if (key === 'mode') return ['¿NUEVO O REPETIR?', [['new', 'Descubrimiento'], ['repeat', 'Re-disfrutar una joya']], ['random', 'ALEATORIO']];
+  if (key === 'tone') return [type.toneQ, type.tones.map((t, i) => [i, t]), [PROP_ANY, 'SORPRÉNDEME']];
+  if (key === 'time') return [type.timeQ, type.times.map(([t], i) => [i, t]), [PROP_ANY, 'SORPRÉNDEME']];
+  return ['¿DE DÓNDE?', [['mine', 'Mi lista de pendientes'], ['app', 'Sugerencias de la app']], [PROP_ANY, 'SORPRÉNDEME']];
+}
+// Llamada al abrir PROPONER (openWeekScreen pone proposalStep = 0 y vacía proposalAnswers).
+function renderProposal() {
+  if (!proposalStep && !proposalAnswers.length) { Prop.ans = {}; Prop.step = 0; }
+  renderPropStep();
+}
+function renderPropStep() {
+  const root = document.getElementById('viewProponer'), steps = propSteps(), key = steps[Prop.step];
+  const [question, options, extra] = propQuestion(key);
+  const btn = ([v, label], wide) => `<button class="wk-button${wide ? ' wk-wide' : ''}" data-v="${escapeWeek(String(v))}">${escapeWeek(label)}</button>`;
+  root.innerHTML = `<div class="wk-progress">${steps.map((_, i) => `<span class="${i <= Prop.step ? 'active' : ''}"></span>`).join('')}</div>
+    <div class="wk-row"><h3 class="wk-title">${escapeWeek(question)}</h3><span class="wk-subtle">${Prop.step + 1} / ${steps.length}</span></div>
+    <div class="wk-options">${options.map(o => btn(o)).join('')}${extra ? btn(extra, true) : ''}</div>
+    ${Prop.step ? '<button class="wk-button" id="propBack">ATRÁS</button>' : ''}`;
+  root.querySelectorAll('.wk-options .wk-button').forEach(b => { b.onclick = () => choosePropAnswer(key, b.dataset.v); });
+  const back = document.getElementById('propBack');
+  if (back) back.onclick = () => { Prop.step--; renderPropStep(); };
+}
+function choosePropAnswer(key, raw) {
+  const v = /^\d+$/.test(raw) ? Number(raw) : raw;
+  Prop.ans[key] = v;
+  // Lo que venía después ya no vale si cambia una respuesta anterior.
+  const order = ['type', 'mode', 'tone', 'time', 'origin'];
+  for (const k of order.slice(order.indexOf(key) + 1)) delete Prop.ans[k];
+  const next = propSteps();
+  if (Prop.step + 1 < next.length) { Prop.step++; renderPropStep(); } else buildProposalPool();
+}
+const propKey = a => normTitle(a.title) + '|' + a.subcat;
+function propNotInterested() { return new Set((appState.settings && appState.settings.notInterested) || []); }
+function propInBase(item) { return (appState.arte || []).find(a => a.id === item.id) || findArteDuplicate({ ...item, id: '__propuesta' }, appState.arte); }
+function propSuggestions(subcats) {
+  const no = propNotInterested();
+  const review = (appState.arte || []).filter(a => a.review && subcats.includes(a.subcat));
+  return [...CATALOG.filter(c => subcats.includes(c.subcat) && !no.has(propKey(c)) && !propInBase(c)), ...review];
+}
+function propScore(item) {
+  const type = PROP_TYPES[Prop.ans.type];
+  let s = 0;
+  if (Prop.ans.tone !== undefined && Prop.ans.tone !== PROP_ANY) s += item.tone == null || item.tone === '' ? 0.5 : Number(item.tone) === Prop.ans.tone ? 2 : -1;
+  if (Prop.ans.time !== undefined && Prop.ans.time !== PROP_ANY) { const r = type.times[Prop.ans.time][1](item); s += r == null ? 0.3 : r ? 1.5 : -1; }
   // Re-disfrutar: primero lo que mejor valoraste y menos recuerdas.
-  return fit+({forgotten:1.5,vague:0.75}[item.memory]||0)+(Number(item.stars)||0)/5;
+  if (Prop.ans.mode === 'repeat') s += ({ forgotten: 1.5, vague: 0.75 }[item.memory] || 0) + (Number(item.stars) || 0) / 5;
+  return s;
+}
+function shuffled(list) { const a = [...list]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function buildProposalPool() {
+  const type = PROP_TYPES[Prop.ans.type], subcats = type.subcats, mode = Prop.ans.mode;
+  const mine = (appState.arte || []).filter(a => !a.review && subcats.includes(a.subcat));
+  const pinned = new Set(weekData().art.map(e => e.id));
+  let pool;
+  if (mode === 'random') { pool = [...mine, ...propSuggestions(subcats)]; Prop.label = 'Al azar'; }
+  else if (mode === 'repeat') { pool = mine.filter(a => a.status === 'VISTO' || a.times > 0); Prop.label = 'De lo que ya disfrutaste'; }
+  else {
+    const pending = mine.filter(a => a.status === 'PENDIENTE' || a.status === 'EN_CURSO');
+    pool = Prop.ans.origin === 'mine' ? pending : Prop.ans.origin === 'app' ? propSuggestions(subcats) : [...pending, ...propSuggestions(subcats)];
+    Prop.label = Prop.ans.origin === 'mine' ? 'De tu lista de pendientes' : Prop.ans.origin === 'app' ? 'Sugerencias de la app' : 'Tu lista y sugerencias';
+  }
+  pool = shuffled(pool.filter(a => !pinned.has(a.id)));
+  if (mode !== 'random') pool.sort((a, b) => propScore(b) - propScore(a));   // orden estable: entre iguales, al azar
+  Prop.pool = pool; Prop.offset = 0;
+  showProposalResults();
+}
+function proposalExtraRoll() {
+  if (Prop.pool.length <= 3) { showToast('No hay más propuestas con estas respuestas. Prueba SORPRÉNDEME o ALEATORIO.'); return; }
+  Prop.offset += 3;
+  if (Prop.offset >= Prop.pool.length) { Prop.offset = 0; Prop.pool = Prop.ans.mode === 'random' ? shuffled(Prop.pool) : Prop.pool; showToast('Ya has visto todas: vuelven a salir desde el principio.'); }
+  showProposalResults();
 }
 function showProposalResults() {
-  const fromApp=proposalAnswers[4]===1,repeat=proposalAnswers[1]===1;
-  let pool;
-  if(repeat)pool=appState.arte.filter(a=>a.status==='VISTO'||a.times>0);
-  else if(fromApp)pool=EDITORIAL_SUGGESTIONS.filter(a=>!appState.arte.some(b=>b.title.toLocaleLowerCase()===a.title.toLocaleLowerCase()));
-  else pool=appState.arte.filter(a=>a.status==='PENDIENTE'||a.status==='EN_CURSO');
-  pool=pool.filter(proposalMatches).filter(a=>!weekData().art.some(e=>e.id===a.id));
-  // Missing metadata is kept visible as unclassified, never asserted to match a preference.
-  proposalCandidates=pool.sort((a,b)=>proposalScore(b)-proposalScore(a)).slice(0,3);
-  const root=document.getElementById('viewProponer');
-  root.innerHTML=`<h3 class="wk-title">PARA TU SEMANA</h3><div id="proposalShelf" class="wk-shelf"></div><p class="wk-subtle">${repeat?'De tus obras disfrutadas: primero lo mejor valorado que menos recuerdas.':fromApp?'Selección editorial de la app.':'De tu colección.'} Tono y duración ordenan las propuestas; no son filtros excluyentes. Tiempo por sesión, orientativo.</p><button class="wk-button" onclick="proposalStep=4;renderProposal()">CAMBIAR PREFERENCIAS</button><button class="wk-button" onclick="openWeekScreen('semana')">VER MI SEMANA</button>`;
-  const shelf=document.getElementById('proposalShelf');
-  if(!proposalCandidates.length){shelf.className='wk-empty';shelf.textContent='No hay candidatas de este tipo. Cambia el origen o añade obras a tu colección.';}
-  const proposalCovers=[];
-  proposalCandidates.forEach((item,i)=>{
-    const card=document.createElement('article');card.className='wk-book';const poster=weekPoster(item);proposalCovers.push({item,img:poster});card.append(poster);
-    const title=document.createElement('strong');title.textContent=item.title;title.title=item.title;
-    const meta=document.createElement('span');meta.className='wk-subtle';const metaParts=[item.tone==null||item.tone===''?'':PROPOSAL_STEPS[2][1][item.tone],item.durationBand==null||item.durationBand===''?'':PROPOSAL_STEPS[3][1][item.durationBand]].filter(Boolean);meta.textContent=metaParts.length?metaParts.join(' · '):'Sin tono ni duración clasificados';
-    const b=document.createElement('button');b.className='wk-button primary';b.textContent='+ FIJAR EN MI SEMANA';b.onclick=()=>{pinWeekArt(item);b.disabled=true;b.textContent='✓ FIJADA';};card.append(title,meta,b);shelf.append(card);
-  });
-  decorateProposalCovers(proposalCovers);
+  const root = document.getElementById('viewProponer');
+  const shown = Prop.pool.slice(Prop.offset, Prop.offset + 3);
+  proposalCandidates = shown;
+  root.innerHTML = `<div class="wk-row"><h3 class="wk-title">PARA TU SEMANA</h3><span class="wk-subtle">${escapeWeek(Prop.label)}</span></div>
+    <div id="proposalShelf" class="wk-shelf"></div>
+    <button class="wk-button primary" id="propRoll">TIRADA EXTRA</button>
+    <button class="wk-button" id="propChange">CAMBIAR PREFERENCIAS</button>
+    <button class="wk-button" onclick="openWeekScreen('semana')">VER MI SEMANA</button>`;
+  document.getElementById('propRoll').onclick = proposalExtraRoll;
+  document.getElementById('propChange').onclick = () => { Prop.step = Math.max(0, propSteps().length - 1); renderPropStep(); };
+  const shelf = document.getElementById('proposalShelf');
+  if (!shown.length) { shelf.className = 'wk-empty'; shelf.textContent = 'No hay nada de este tipo con estas respuestas. Prueba otro origen o ALEATORIO.'; return; }
+  const covers = [];
+  for (const item of shown) {
+    const own = propInBase(item), mine = own && !own.review;
+    const card = document.createElement('article'); card.className = 'wk-book';
+    const coverBtn = document.createElement('button'); coverBtn.className = 'wk-cover-btn'; coverBtn.setAttribute('aria-label', 'Abrir ficha de ' + item.title);
+    const poster = weekPoster(mine ? own : item); coverBtn.append(poster); covers.push({ item, img: poster });
+    coverBtn.onclick = () => (mine ? openArteDetailModal(own.id) : openSuggestionPreview(item));
+    const title = document.createElement('strong'); title.textContent = item.title; title.title = item.title;
+    const type = PROP_TYPES[Prop.ans.type];
+    const meta = document.createElement('span'); meta.className = 'wk-subtle';
+    meta.textContent = [item.author, item.tone != null && item.tone !== '' ? type.tones[item.tone] : ''].filter(Boolean)[0] || item.subcat;
+    const pin = document.createElement('button'); pin.className = 'wk-button primary'; pin.textContent = '+ MI SEMANA';
+    pin.onclick = () => { const id = pinWeekArt(own || item); const a = appState.arte.find(x => x.id === id); if (a && a.review) { delete a.review; saveState(); } pin.disabled = true; pin.textContent = '✓ FIJADA'; };
+    card.append(coverBtn, title, meta, pin);
+    if (!mine) { const add = document.createElement('button'); add.className = 'wk-button'; add.textContent = '+ MI BASE'; add.onclick = () => openSuggestionPreview(item); card.append(add); }
+    shelf.append(card);
+  }
+  decorateProposalCovers(covers);
 }
+// Ficha de una sugerencia que aún no está en tu base: añadir como pendiente o como vista (y valorarla).
+async function openSuggestionPreview(item) {
+  const own = propInBase(item);
+  const meta = [item.author, item.year, item.subcat, item.city].filter(Boolean).map(escapeWeek).join(' · ');
+  const syn = item.synopsis ? `<p class="wk-subtle sg-syn">${escapeWeek(String(item.synopsis).slice(0, 360))}</p>` : '';
+  const buttons = [['want', 'LA QUIERO VER', true], ['seen', 'YA LA HE VISTO'], ['no', 'NO ME INTERESA'], [null, 'CERRAR']];
+  const p = choiceBox(item.title, `<div class="sg-head"><div id="sgCover" class="sg-cover"></div><p class="wk-subtle">${meta}</p></div>${syn}`, buttons);
+  const box = document.getElementById('sgCover'); if (box) box.append(coverImg(own || item));
+  const v = await p;
+  if (!v) return;
+  if (v === 'no') {
+    const keys = new Set(propNotInterested()); keys.add(propKey(item));
+    appState.settings.notInterested = [...keys];
+    if (own && own.review) appState.arte = appState.arte.filter(a => a !== own);
+    saveState(); showToast('No volverá a salir'); showProposalResults(); return;
+  }
+  const id = addSuggestionToBase(item, v === 'seen' ? 'VISTO' : 'PENDIENTE');
+  showProposalResults();
+  if (v === 'seen') openArteDetailModal(id);   // para ponerle nota y recuerdo
+  else showToast('Añadida a tu base · PENDIENTE');
+}
+function addSuggestionToBase(item, status) {
+  let actual = propInBase(item);
+  if (actual) delete actual.review;
+  else {
+    const { id, ...rest } = item;
+    actual = { ...deepClone(rest), id: 'art_' + uid(), stars: 0, times: 0, progress: '', person: '', notes: '', city: item.city || '', genres: item.genres || [] };
+    appState.arte.unshift(actual);
+  }
+  actual.status = status;
+  if (status === 'VISTO') actual.times = Math.max(1, Number(actual.times) || 0);
+  saveState();
+  if (!hasCover(actual)) CoverAuto.enqueue(actual.id); else if (!actual.coverLocal) cacheRemoteCover(actual);
+  return actual.id;
+}
+
 // MIS DATOS (copias, importación con fusión y puntos de restauración) está en el bloque «MIS DATOS».
 
 </script>
@@ -5461,12 +5682,13 @@ function profileLine() { const n = appState.nutrition || {}; return `${currentAg
    ATRÁS DEL MÓVIL, AVISOS CON DESHACER Y VISOR DE FICHAS
    ===================================================================== */
 // Capas que el botón Atrás de Android cierra, de la más alta a la más baja.
-const LAYERS = ['fileViewer', 'weekModal', 'coverPicker', 'modalArteDetalle', 'modalAddArte', 'modalAddRecord', 'modalCoachUpload', 'modalSupplements', 'modalRutina', 'modalQuickHub'];
+const LAYERS = ['fileViewer', 'weekModal', 'coverPicker', 'modalArteDetalle', 'modalAddArte', 'modalAddRecord', 'modalCoachUpload', 'modalSupplements', 'modalRutina', 'modalQuickHub', 'reviewPanel'];
 function isLayerOpen(id) { const el = document.getElementById(id); return !!el && !(el.hidden || el.classList.contains('hidden')); }
 function closeLayer(id) {
   if (id === 'weekModal') closeWeekModal();
   else if (id === 'coverPicker') closeCoverPicker();
   else if (id === 'fileViewer') closeFileViewer();
+  else if (id === 'reviewPanel') closeReview();
   else closeModal(id);
 }
 // Mientras no estás en la pantalla de inicio hay una entrada de historial «de guardia»:
@@ -5488,6 +5710,7 @@ const Nav = {
     const toast = document.getElementById('toast');
     if (toast && !toast.hidden) toast.classList.toggle('toast-top', LAYERS.some(isLayerOpen));
     if (Store.stale) maybeReloadFromDisk();
+    if (typeof reviewAfterLayers === 'function') reviewAfterLayers();
     // Cambios de la nube que esperaban a que cerraras un panel.
     if (typeof Cloud !== 'undefined' && Cloud.deferredApply && Cloud.online() && canApplyRemote()) Cloud.schedule(400);
   },
@@ -5510,6 +5733,7 @@ function refreshCurrentView() {
     else if (currentScreen === 'semana') renderWeek();
   } catch (error) { console.error(error); }
   updateBackupDot();
+  if (typeof updateReviewEntry === 'function') updateReviewEntry();
 }
 
 let toastTimer = 0;
@@ -5615,8 +5839,10 @@ async function openDataTools() {
       ${demo.length ? `<button class="wk-button" id="mdDemo">QUITAR DATOS DE EJEMPLO (${demo.length})</button>` : ''}</div>
     <div class="md-sec"><div class="wk-row"><h3 class="wk-title">PERFIL</h3><span id="mdAge" class="wk-subtle">${escapeWeek(profileLine())}</span></div>
       <label>FECHA DE NACIMIENTO<input type="date" id="mdBirth" value="${escapeWeek(appState.nutrition.birthDate || '')}" min="1900-01-01" max="${localISO()}"></label></div>
+    ${typeof bulkToolsHtml === 'function' ? bulkToolsHtml() : ''}
     ${coverToolsHtml()}`);
   if (typeof wireCloudSection === 'function') wireCloudSection();
+  if (typeof wireBulkTools === 'function') wireBulkTools();
   initCoverTools();
   const busy = async (btn, fn) => { const t = btn.textContent; btn.disabled = true; btn.textContent = 'PREPARANDO…'; try { await fn(); } finally { btn.disabled = false; btn.textContent = t; } };
   document.getElementById('mdExportFull').onclick = e => busy(e.currentTarget, () => exportBackup('full'));
@@ -5699,6 +5925,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   Nav.init();
   document.body.classList.remove('booting');
   updateBackupDot();
+  if (typeof updateReviewEntry === 'function') updateReviewEntry();
   if (typeof Cloud !== 'undefined') Cloud.init().catch(error => console.error(error));
   if (Store.memoryOnly) showToast('Este navegador no permite guardar aquí: lo que hagas se perderá al cerrar. Exporta desde MIS DATOS.', { ms: 0, action: 'MIS DATOS', onAction: openDataTools });
   setTimeout(() => CoverAuto.start(), 1200);
@@ -5902,7 +6129,7 @@ function canApplyRemote() {
   const typing = ae && ae !== document.body && !ae.closest('#weekModalPanel') && (ae.isContentEditable || ae.tagName === 'TEXTAREA'
     || (ae.tagName === 'INPUT' && !/^(checkbox|radio|button|submit|range|color|file)$/i.test(ae.type)));
   if (typing) return false;
-  const open = LAYERS.filter(isLayerOpen);
+  const open = LAYERS.filter(id => id !== 'reviewPanel' && isLayerOpen(id));
   // MIS DATOS y los diálogos de la nube no sujetan registros: con ellos abiertos sí se aplica.
   return !open.length || (open.length === 1 && open[0] === 'weekModal' && !!document.querySelector('#weekModalPanel #mdExportFull, #weekModalPanel #cxMsg'));
 }
@@ -6360,6 +6587,195 @@ async function cloudDisconnect() {
   }
   openDataTools();
   if (ok) showToast('Nube desconectada en este dispositivo');
+}
+</script>
+<script>
+/* =====================================================================
+   REVISAR (v5.3): entrada masiva y validación obra a obra
+   Las obras que entran en bloque (lista de títulos o catálogo inicial) llevan
+   review:true: no salen en la bóveda hasta revisarlas una a una con
+   VISTO (nota y recuerdo) · PENDIENTE · NO ME INTERESA. Las carátulas y
+   fichas se completan solas en segundo plano.
+   ===================================================================== */
+const REVIEW_ORDER = ['AUDIOVISUAL', 'LITERATURA', 'MÚSICA', 'ARTES PLÁSTICAS', 'EN VIVO'];
+const Review = { ids: [], i: 0, branch: '', draft: null, fromDetail: false };
+function reviewCount(branch) { return (appState.arte || []).filter(a => a.review && (!branch || a.branch === branch)).length; }
+function updateReviewEntry() {
+  if (!appState) return;
+  const n = reviewCount();
+  const entry = document.getElementById('reviewEntry');
+  if (entry) { entry.style.display = n ? '' : 'none'; entry.querySelector('[data-n]').textContent = n; }
+  const pill = document.getElementById('statusPill-REVIEW');
+  if (pill) { const m = currentScreen === 'arte' ? reviewCount(currentArteBranch) : 0; pill.style.display = m ? '' : 'none'; pill.textContent = `POR REVISAR (${m})`; }
+}
+function openReview(branch = '') {
+  Review.branch = branch;
+  Review.ids = (appState.arte || []).filter(a => a.review && (!branch || a.branch === branch))
+    .sort((a, b) => REVIEW_ORDER.indexOf(a.branch) - REVIEW_ORDER.indexOf(b.branch)).map(a => a.id);
+  Review.i = 0;
+  document.getElementById('reviewPanel').hidden = false;
+  renderReview();
+}
+function closeReview() {
+  document.getElementById('reviewPanel').hidden = true;
+  refreshCurrentView();
+}
+function currentReviewItem() {
+  while (Review.ids.length) {
+    if (Review.i >= Review.ids.length) Review.i = 0;
+    const it = (appState.arte || []).find(a => a.id === Review.ids[Review.i]);
+    if (it && it.review) return it;
+    Review.ids.splice(Review.i, 1);   // ya revisada (aquí, en su ficha o en otro dispositivo)
+  }
+  return null;
+}
+function renderReview() {
+  const body = document.getElementById('rvBody'), count = document.getElementById('rvCount');
+  const it = currentReviewItem();
+  count.textContent = it ? `${Review.i + 1} / ${Review.ids.length}` : '';
+  if (!it) {
+    const left = typeof catalogPendingCount === 'function' ? catalogPendingCount() : 0;
+    body.innerHTML = `<div class="rv-empty"><strong>NADA POR REVISAR</strong>
+      ${left ? `<button class="wk-button primary" id="rvCatalog">CARGAR CATÁLOGO INICIAL (${left})</button>` : ''}
+      <button class="wk-button" id="rvBulk">AÑADIR LISTA DE TÍTULOS</button></div>`;
+    const cat = document.getElementById('rvCatalog'); if (cat) cat.onclick = loadCatalogFlow;
+    document.getElementById('rvBulk').onclick = openBulkList;
+    return;
+  }
+  Review.draft = { stars: clampStars(it.stars), memory: it.memory || null };
+  const meta = [it.author, it.year, it.subcat, it.city].filter(Boolean).map(escapeWeek).join(' · ');
+  body.innerHTML = `<div class="rv-cover" id="rvCover"></div>
+    <h2 class="rv-title">${escapeWeek(it.title)}</h2><p class="rv-meta">${meta}</p>
+    <div class="rv-stars" id="rvStars"></div>
+    <div class="rv-mem">${[['clear', 'ME ACUERDO'], ['vague', 'A MEDIAS'], ['forgotten', 'NO ME ACUERDO']].map(([v, l]) => `<button type="button" data-m="${v}" aria-pressed="${Review.draft.memory === v}">${l}</button>`).join('')}</div>
+    <div class="rv-actions"><button class="wk-button primary" id="rvSeen">VISTO</button><button class="wk-button" id="rvPending">PENDIENTE</button><button class="wk-button" id="rvNo">NO ME INTERESA</button></div>
+    <div class="md-links"><button type="button" id="rvSkip">SALTAR</button><button type="button" id="rvDetail">FICHA COMPLETA</button></div>`;
+  document.getElementById('rvCover').append(coverImg(it));
+  document.getElementById('rvStars').append(starInput({ value: Review.draft.stars, size: 34, label: 'Tu nota', onChange: v => { Review.draft.stars = v; } }));
+  body.querySelectorAll('.rv-mem button').forEach(b => {
+    b.onclick = () => { Review.draft.memory = Review.draft.memory === b.dataset.m ? null : b.dataset.m; body.querySelectorAll('.rv-mem button').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.m === Review.draft.memory))); };
+  });
+  document.getElementById('rvSeen').onclick = () => reviewAct('seen');
+  document.getElementById('rvPending').onclick = () => reviewAct('pending');
+  document.getElementById('rvNo').onclick = () => reviewAct('no');
+  document.getElementById('rvSkip').onclick = () => { Review.i = (Review.i + 1) % Review.ids.length; renderReview(); };
+  document.getElementById('rvDetail').onclick = () => { Review.fromDetail = true; openArteDetailModal(it.id); };
+}
+function reviewAct(kind) {
+  const it = currentReviewItem();
+  if (!it) return;
+  const before = deepClone(it), at = appState.arte.indexOf(it), pos = Review.i;
+  if (kind === 'no') {
+    appState.arte.splice(at, 1);
+    const keys = new Set((appState.settings && appState.settings.notInterested) || []); keys.add(normTitle(it.title) + '|' + it.subcat);
+    appState.settings.notInterested = [...keys];
+  } else {
+    delete it.review;
+    it.status = kind === 'seen' ? 'VISTO' : 'PENDIENTE';
+    if (kind === 'seen') { it.stars = Review.draft.stars; it.times = Math.max(1, Number(it.times) || 0); if (Review.draft.memory) it.memory = Review.draft.memory; else delete it.memory; }
+  }
+  Review.ids.splice(Review.i, 1);
+  saveState();
+  undoToast(kind === 'no' ? `«${it.title}» descartada` : `«${it.title}» · ${kind === 'seen' ? 'VISTO' : 'PENDIENTE'}`, () => {
+    if (kind === 'no') {
+      appState.arte.splice(Math.min(at, appState.arte.length), 0, before);
+      appState.settings.notInterested = (appState.settings.notInterested || []).filter(k => k !== normTitle(before.title) + '|' + before.subcat);
+    } else {
+      const j = appState.arte.findIndex(a => a.id === before.id);
+      if (j >= 0) appState.arte[j] = before; else appState.arte.splice(Math.min(at, appState.arte.length), 0, before);
+    }
+    Review.ids.splice(Math.min(pos, Review.ids.length), 0, before.id);
+    Review.i = Math.min(pos, Review.ids.length - 1);
+    saveState();
+    if (!document.getElementById('reviewPanel').hidden) renderReview(); else refreshCurrentView();
+  });
+  renderReview();
+}
+// Al volver de la ficha completa se repinta (la nota o el recuerdo pueden haber cambiado).
+function reviewAfterLayers() {
+  if (Review.fromDetail && !isLayerOpen('modalArteDetalle')) { Review.fromDetail = false; if (!document.getElementById('reviewPanel').hidden) renderReview(); }
+}
+
+/* ---------- Entrada masiva: lista de títulos ---------- */
+function parseTitleList(text) {
+  let lines = String(text || '').split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+  if (lines.length === 1 && lines[0].includes(',')) lines = lines[0].split(',').map(s => s.trim()).filter(Boolean);
+  const out = [], seen = new Set();
+  for (const raw of lines) {
+    const line = raw.replace(/^[-•*\d.)\s]+(?=\S)/, '').trim();
+    const m = /^(.*?)\s*[(\[]\s*(\d{4})\s*[)\]]\s*$/.exec(line) || /^(.*?)\s+(\d{4})$/.exec(line);
+    const title = (m ? m[1] : line).trim(), year = m ? m[2] : '';
+    const key = normTitle(title) + '|' + year;
+    if (title && !seen.has(key)) { seen.add(key); out.push({ title, year }); }
+  }
+  return out;
+}
+function addBulkTitles(list, branch, subcat, mode) {
+  let added = 0, dup = 0;
+  const fresh = [];
+  for (const { title, year } of list) {
+    const item = { id: 'art_' + uid(), branch, subcat, title, year, author: '', status: mode === 'VISTO' ? 'VISTO' : 'PENDIENTE', stars: 0, times: mode === 'VISTO' ? 1 : 0, progress: '', person: '', notes: '', city: '', cover: '', genres: [] };
+    if (mode === 'review') item.review = true;
+    if (findArteDuplicate(item, [...fresh, ...(appState.arte || [])])) { dup++; continue; }
+    fresh.push(item); added++;
+  }
+  appState.arte.unshift(...fresh);
+  saveState();
+  setTimeout(() => CoverAuto.start(), 300);
+  updateReviewEntry();
+  return { added, dup };
+}
+function openBulkList() {
+  const groups = Object.entries(ARTE_BRANCHES).map(([b, subs]) => `<optgroup label="${escapeWeek(b)}">${subs.map(s => `<option value="${escapeWeek(b + '|' + s)}">${escapeWeek(s)}</option>`).join('')}</optgroup>`).join('');
+  showWeekModal('AÑADIR LISTA', `<label>TIPO<select id="blType">${groups}</select></label>
+    <label>TÍTULOS · UNO POR LÍNEA<textarea id="blText" rows="9" placeholder="Taxi Driver (1976)&#10;Heat&#10;El irlandés"></textarea></label>
+    <label>ENTRAN COMO<select id="blMode"><option value="review">POR REVISAR</option><option value="VISTO">VISTAS (sin nota)</option><option value="PENDIENTE">PENDIENTES</option></select></label>
+    <p id="blMsg" class="wk-subtle" role="status"></p>
+    <button class="wk-button primary" id="blGo">AÑADIR</button>`);
+  document.getElementById('blGo').onclick = () => {
+    const [branch, subcat] = document.getElementById('blType').value.split('|');
+    const list = parseTitleList(document.getElementById('blText').value), mode = document.getElementById('blMode').value;
+    if (!list.length) { document.getElementById('blMsg').textContent = 'Escribe al menos un título.'; return; }
+    const r = addBulkTitles(list, branch, subcat, mode);
+    closeWeekModal();
+    refreshCurrentView();
+    const text = `${r.added} ${r.added === 1 ? 'obra añadida' : 'obras añadidas'}${r.dup ? ` · ${r.dup} ya estaban` : ''}`;
+    if (mode === 'review' && r.added) showToast(text, { action: 'REVISAR', onAction: () => openReview(), ms: 9000 }); else showToast(text);
+  };
+}
+
+/* ---------- Catálogo inicial (primera subida) ---------- */
+function catalogPendingItems() {
+  const no = new Set((appState.settings && appState.settings.notInterested) || []);
+  return CATALOG.filter(c => !no.has(normTitle(c.title) + '|' + c.subcat) && !findArteDuplicate({ ...c, id: '__catalogo' }, appState.arte || []));
+}
+function catalogPendingCount() { return appState.settings && appState.settings.catalogLoaded ? 0 : catalogPendingItems().length; }
+async function loadCatalogFlow() {
+  const items = catalogPendingItems();
+  if (!items.length) { showToast('Ya tienes todo el catálogo'); return; }
+  const by = {}; for (const c of items) by[c.branch] = (by[c.branch] || 0) + 1;
+  const ok = await confirmBox({ title: 'CATÁLOGO INICIAL', html: `<p class="wk-subtle">Se añaden ${items.length} obras (${Object.entries(by).map(([b, n]) => `${n} de ${b.toLowerCase()}`).join(', ')}) para revisar una a una: VISTO con tu nota, PENDIENTE o NO ME INTERESA. No salen en tu bóveda hasta que las revises. Las carátulas se completan solas.</p>`, ok: 'CARGAR' });
+  if (!ok) return;
+  for (const c of items) { const { id, ...rest } = c; appState.arte.push({ ...deepClone(rest), id: 'art_' + uid(), status: 'PENDIENTE', stars: 0, times: 0, progress: '', person: '', notes: '', review: true }); }
+  appState.settings.catalogLoaded = 1;
+  saveState();
+  setTimeout(() => CoverAuto.start(), 300);
+  updateReviewEntry();
+  refreshCurrentView();
+  showToast(`${items.length} obras para revisar`, { action: 'REVISAR', onAction: () => openReview(), ms: 9000 });
+}
+function bulkToolsHtml() {
+  const left = catalogPendingCount(), n = reviewCount();
+  return `<div class="md-sec"><h3 class="wk-title">ENTRADA MASIVA</h3>
+    ${left ? `<button class="wk-button" id="mdCatalog">CARGAR CATÁLOGO INICIAL (${left})</button>` : ''}
+    <button class="wk-button" id="mdBulk">AÑADIR LISTA DE TÍTULOS</button>
+    ${n ? `<button class="wk-button" id="mdReview">REVISAR (${n})</button>` : ''}</div>`;
+}
+function wireBulkTools() {
+  const $ = id => document.getElementById(id);
+  if ($('mdCatalog')) $('mdCatalog').onclick = loadCatalogFlow;
+  if ($('mdBulk')) $('mdBulk').onclick = openBulkList;
+  if ($('mdReview')) $('mdReview').onclick = () => { closeWeekModal(); openReview(); };
 }
 </script>
 </body>
