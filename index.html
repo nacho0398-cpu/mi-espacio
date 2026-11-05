@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--
-  MI ESPACIO · App Vital — archivo único de la app (v5.3 · 05/11/2026)
+  MI ESPACIO · App Vital — archivo único de la app (v5.3.1 · 05/11/2026)
   Arranca sin depender de ningún CDN: funciona sin conexión.
   · Estilos: Tailwind CSS v3 PRECOMPILADO en <style id="tw-build">. Si usas una clase de Tailwind que aún no
     aparece en el archivo, regenera ese bloque con tailwindcss@3 y esta config, o escribe CSS normal en
@@ -323,6 +323,26 @@ p.md-warn { font-size: 11px; font-weight: 700; color: #7A2424; }
   </style>
 </head>
 <body class="booting">
+<script>
+(function () {
+  var errs = window.__bootErrors = window.__bootErrors || [];
+  window.addEventListener('error', function (e) { errs.push((e.message || 'error') + (e.lineno ? ' (línea ' + e.lineno + ')' : '')); });
+  window.addEventListener('unhandledrejection', function (e) { var r = e.reason; errs.push('promesa: ' + (r && r.message || r)); });
+  function rescue() {
+    if (!document.body || !document.body.classList.contains('booting') || document.getElementById('bootRescue')) return;
+    document.body.classList.remove('booting');
+    try { if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function (r) { r.update(); if (r.active) r.active.postMessage({ type: 'check-update' }); }).catch(function () {}); } catch (_) {}
+    var d = document.createElement('div');
+    d.id = 'bootRescue';
+    d.setAttribute('style', 'position:fixed;left:12px;right:12px;bottom:16px;z-index:99;background:#342519;color:#F8F5F0;border-radius:14px;padding:14px 16px;font:500 13px/1.4 system-ui,sans-serif;max-width:420px;margin:0 auto');
+    d.innerHTML = '<div style="font-weight:800;letter-spacing:.04em;margin-bottom:6px">LA APP NO HA TERMINADO DE ARRANCAR</div><div id="bootRescueMsg" style="opacity:.85;word-break:break-word"></div><div style="display:flex;gap:8px;margin-top:10px"><button type="button" style="flex:1;min-height:40px;border-radius:10px;border:1.5px solid #C8BBAE;background:#F8F5F0;color:#342519;font-weight:800" onclick="location.reload()">REINTENTAR</button><button type="button" style="flex:1;min-height:40px;border-radius:10px;border:1.5px solid #C8BBAE;background:transparent;color:#F8F5F0;font-weight:800" onclick="try{navigator.clipboard.writeText(document.getElementById(\'bootRescueMsg\').textContent)}catch(_){}">COPIAR ERROR</button></div>';
+    document.body.appendChild(d);
+    document.getElementById('bootRescueMsg').textContent = errs.length ? errs.slice(0, 3).join(' · ') : 'Sin mensaje de error. Copia esto y pásalo: ' + navigator.userAgent;
+  }
+  setTimeout(function () { if (errs.length) rescue(); }, 6000);
+  setTimeout(rescue, 15000);
+})();
+</script>
 
   <div class="app-shell px-4 pt-5">
 
@@ -5916,23 +5936,30 @@ async function restoreSnapshotFlow(key) {
 /* =====================================================================
    ARRANQUE
    ===================================================================== */
+// Cada paso va protegido: si uno falla con tus datos, la app arranca igual, avisa del error
+// y sigue pudiendo recibir versiones nuevas (el registro del service worker va primero).
+async function bootStep(name, fn) {
+  try { await fn(); }
+  catch (error) { console.error('[arranque] ' + name, error); (window.__bootErrors = window.__bootErrors || []).push(name + ': ' + (error && error.message || error)); }
+}
 window.addEventListener('DOMContentLoaded', async () => {
-  lucide.createIcons();
-  await initDB();
-  migrateArteTypes();
-  initWeekState();
-  await migrateCovers();
-  Nav.init();
+  await bootStep('actualizaciones', registerServiceWorker);
+  await bootStep('iconos', () => lucide.createIcons());
+  await bootStep('datos', initDB);
+  await bootStep('tipos de arte', migrateArteTypes);
+  await bootStep('semana', initWeekState);
+  await bootStep('carátulas', migrateCovers);
+  await bootStep('navegación', () => Nav.init());
   document.body.classList.remove('booting');
-  updateBackupDot();
-  if (typeof updateReviewEntry === 'function') updateReviewEntry();
+  await bootStep('estado', updateBackupDot);
+  await bootStep('revisar', () => { if (typeof updateReviewEntry === 'function') updateReviewEntry(); });
   if (typeof Cloud !== 'undefined') Cloud.init().catch(error => console.error(error));
   if (Store.memoryOnly) showToast('Este navegador no permite guardar aquí: lo que hagas se perderá al cerrar. Exporta desde MIS DATOS.', { ms: 0, action: 'MIS DATOS', onAction: openDataTools });
+  else if ((window.__bootErrors || []).length) showToast('Algo ha fallado al abrir: ' + window.__bootErrors[0], { ms: 0, action: 'COPIAR', onAction: () => { try { navigator.clipboard.writeText(window.__bootErrors.join('\n')); } catch (_) {} } });
   setTimeout(() => CoverAuto.start(), 1200);
-  ensurePersistence().then(updateBackupDot);
+  ensurePersistence().then(updateBackupDot).catch(() => {});
   const idle = window.requestIdleCallback || (fn => setTimeout(fn, 1500));
   setTimeout(() => idle(() => { pruneSnapshots().catch(() => {}); gcBinaries().catch(() => {}); }), 15000);
-  registerServiceWorker();
 });
 function registerServiceWorker() {
   if (!('serviceWorker' in navigator) || !/^https?:$/.test(location.protocol)) return;
