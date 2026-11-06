@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--
-  MI ESPACIO · App Vital — archivo único de la app (v5.3.1 · 05/11/2026)
+  MI ESPACIO · App Vital — archivo único de la app (v5.4 · 05/11/2026)
   Arranca sin depender de ningún CDN: funciona sin conexión.
   · Estilos: Tailwind CSS v3 PRECOMPILADO en <style id="tw-build">. Si usas una clase de Tailwind que aún no
     aparece en el archivo, regenera ese bloque con tailwindcss@3 y esta config, o escribe CSS normal en
@@ -320,12 +320,46 @@ p.md-warn { font-size: 11px; font-weight: 700; color: #7A2424; }
 .rv-actions { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; width: 100%; }
 .rv-actions .wk-button { padding: 12px 4px; font-size: 11px; }
 .rv-empty { display: grid; gap: 12px; width: 100%; margin-top: 18vh; text-align: center; }
+/* ---------- v5.4: subcategorías, buscador, fichas de género, PROPONER limpio ---------- */
+.as-list:not(.hidden) { display: flex; flex-direction: column; justify-content: center; gap: 12px; flex: 1; padding: 8px 0 40px; }
+.as-btn { width: 100%; height: 76px; text-align: left; font: inherit; color: #3A2A1E; }
+.arte-search { position: relative; display: block; }
+.arte-search svg, .arte-search i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #7A6858; pointer-events: none; }
+.arte-search input { width: 100%; height: 42px; border: 1.5px solid #C8BBAE; border-radius: 999px; background: #F2ECE4; padding: 0 16px 0 38px; font-size: 15px; font-weight: 600; color: #3A2A1E; }
+.arte-search input::placeholder { color: #7A6858; font-weight: 600; }
+.arte-search input:focus { outline: none; border-color: #3A2A1E; }
+select.filter-pill { -webkit-appearance: none; appearance: none; padding-right: 26px; cursor: pointer; background-repeat: no-repeat; background-position: right 10px center; background-size: 10px 10px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233A2A1E' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); }
+select.filter-pill.active-filter { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23F8F5F0' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); }
+select.filter-pill option { background: #F8F5F0; color: #3A2A1E; }
+.as-else { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; padding-top: 10px; }
+.ge-box, .ge-row { border: 1.5px solid #C8BBAE; border-radius: 14px; background: #F2ECE4; padding: 10px 12px; }
+.ge-row { display: grid; gap: 8px; }
+.ge-box summary { display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none; min-height: 28px; }
+.ge-box summary::-webkit-details-marker { display: none; }
+.ge-box summary::after { content: '▾'; color: #7A6858; font-size: 12px; transition: transform .15s ease; }
+.ge-box[open] summary { margin-bottom: 10px; }
+.ge-box[open] summary::after { transform: rotate(180deg); }
+.ge-l { font-size: 10px; font-weight: 700; letter-spacing: .04em; color: #7A6858; text-transform: uppercase; flex-shrink: 0; }
+.ge-sum { font-size: 12px; font-weight: 700; color: #3A2A1E; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: right; }
+.ge-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.ge-chip { border: 1.5px solid #C8BBAE; border-radius: 999px; background: #F8F5F0; padding: 7px 11px; font-size: 11px; font-weight: 700; color: #3A2A1E; line-height: 1.1; }
+.ge-chip[aria-pressed="true"] { background: #3A2A1E; border-color: #3A2A1E; color: #F8F5F0; }
+.ge-other { margin-top: 10px; width: 100%; border: 1px dashed #C8BBAE; border-radius: 12px; background: #F8F5F0; padding: 9px 12px; font-size: 14px; color: #3A2A1E; }
+.wk-cover-btn { position: relative; }
+.wk-pin { position: absolute; top: 6px; right: 6px; width: 24px; height: 24px; border-radius: 999px; background: #5F6F52; color: #F8F5F0; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; box-shadow: 0 1px 4px #3425192e; }
+.wk-meta { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: -4px; }
+.wk-options.wk-many .wk-button { min-height: 58px; padding: 10px 12px; }
+.sg-gen { margin-top: 2px; font-weight: 700; color: #3A2A1E; }
+.arte-search input::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; width: 18px; height: 18px; cursor: pointer;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233A2A1E' stroke-width='2.6' stroke-linecap='round'%3E%3Cpath d='M18 6 6 18M6 6l12 12'/%3E%3C/svg%3E") center / 14px no-repeat; }
   </style>
 </head>
 <body class="booting">
 <script>
 (function () {
   var errs = window.__bootErrors = window.__bootErrors || [];
+  var t0 = Date.now(); window.__bootStep = 'cargar la app';
   window.addEventListener('error', function (e) { errs.push((e.message || 'error') + (e.lineno ? ' (línea ' + e.lineno + ')' : '')); });
   window.addEventListener('unhandledrejection', function (e) { var r = e.reason; errs.push('promesa: ' + (r && r.message || r)); });
   function rescue() {
@@ -337,7 +371,7 @@ p.md-warn { font-size: 11px; font-weight: 700; color: #7A2424; }
     d.setAttribute('style', 'position:fixed;left:12px;right:12px;bottom:16px;z-index:99;background:#342519;color:#F8F5F0;border-radius:14px;padding:14px 16px;font:500 13px/1.4 system-ui,sans-serif;max-width:420px;margin:0 auto');
     d.innerHTML = '<div style="font-weight:800;letter-spacing:.04em;margin-bottom:6px">LA APP NO HA TERMINADO DE ARRANCAR</div><div id="bootRescueMsg" style="opacity:.85;word-break:break-word"></div><div style="display:flex;gap:8px;margin-top:10px"><button type="button" style="flex:1;min-height:40px;border-radius:10px;border:1.5px solid #C8BBAE;background:#F8F5F0;color:#342519;font-weight:800" onclick="location.reload()">REINTENTAR</button><button type="button" style="flex:1;min-height:40px;border-radius:10px;border:1.5px solid #C8BBAE;background:transparent;color:#F8F5F0;font-weight:800" onclick="try{navigator.clipboard.writeText(document.getElementById(\'bootRescueMsg\').textContent)}catch(_){}">COPIAR ERROR</button></div>';
     document.body.appendChild(d);
-    document.getElementById('bootRescueMsg').textContent = errs.length ? errs.slice(0, 3).join(' · ') : 'Sin mensaje de error. Copia esto y pásalo: ' + navigator.userAgent;
+    document.getElementById('bootRescueMsg').textContent = (errs.length ? errs.slice(0, 3).join(' · ') + ' · ' : '') + 'Se ha quedado en: ' + window.__bootStep + ' (' + Math.round((Date.now() - t0) / 1000) + ' s). ' + (/^datos: (abrir|leer)/.test(window.__bootStep) ? 'El móvil tiene ocupado el almacén de la app: reinicia el móvil y vuelve a abrirla. Tus datos siguen ahí.' : navigator.userAgent);
   }
   setTimeout(function () { if (errs.length) rescue(); }, 6000);
   setTimeout(rescue, 15000);
@@ -692,6 +726,8 @@ p.md-warn { font-size: 11px; font-weight: 700; color: #7A2424; }
     <!-- ==========================================
          VISTA 6: MÓDULO ARTE (5 RAMAS + FILTROS + GRID 3 COL)
          ========================================== -->
+    <section id="viewArteSubs" class="hidden as-list" aria-label="Subcategorías"></section>
+
     <section id="viewArte" class="hidden space-y-3.5">
 
       <!-- FILA 1: PÍLDORAS DE ESTADO -->
@@ -703,10 +739,13 @@ p.md-warn { font-size: 11px; font-weight: 700; color: #7A2424; }
         <button id="statusPill-REVIEW" onclick="openReview(currentArteBranch)" class="filter-pill" style="display:none">POR REVISAR</button>
       </div>
 
+      <!-- BUSCADOR -->
+      <label class="arte-search"><i data-lucide="search" class="w-4 h-4"></i><input id="arteSearch" type="search" placeholder="Buscar" autocomplete="off" enterkeyhint="search" aria-label="Buscar obra" oninput="onArteSearchInput()"></label>
+
       <!-- FILA 2: FILTROS DESPLEGABLES -->
       <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
-        <select id="arteSubcatFilter" onchange="renderArteGrid()" class="filter-pill focus:outline-none cursor-pointer">
-          <option value="ALL">SUBCATEGORÍA ▾</option>
+        <select id="arteSubcatFilter" onchange="onArteSubcatChange()" class="filter-pill focus:outline-none cursor-pointer" aria-label="Subcategoría">
+          <option value="ALL">TODAS</option>
         </select>
 
         <select id="arteGenreFilter" onchange="renderArteGrid()" class="filter-pill" aria-label="Género"></select>
@@ -719,18 +758,18 @@ p.md-warn { font-size: 11px; font-weight: 700; color: #7A2424; }
         </select>
 
         <select id="arteMemoryFilter" onchange="renderArteGrid()" class="filter-pill focus:outline-none cursor-pointer" aria-label="Recuerdo">
-          <option value="ALL">💭 RECUERDO ▾</option>
+          <option value="ALL">💭 RECUERDO</option>
           <option value="clear">ME ACUERDO</option>
           <option value="vague">A MEDIAS</option>
           <option value="forgotten">NO ME ACUERDO</option>
         </select>
 
         <select id="arteCityFilter" onchange="renderArteGrid()" class="filter-pill focus:outline-none cursor-pointer">
-          <option value="ALL">📍 CIUDAD ▾</option>
+          <option value="ALL">📍 CIUDAD</option>
         </select>
 
         <select id="artePersonFilter" onchange="renderArteGrid()" class="filter-pill focus:outline-none cursor-pointer">
-          <option value="ALL">👤 PERSONA ▾</option>
+          <option value="ALL">👤 PERSONA</option>
         </select>
 
         <button id="arteRewatchBtn" onclick="toggleArteRewatchFilter()" class="filter-pill">
@@ -966,7 +1005,7 @@ p.md-warn { font-size: 11px; font-weight: 700; color: #7A2424; }
       </div>
 
       <details class="bento-card p-3"><summary class="text-xs font-bold uppercase">PREFERENCIAS PARA PROPONER</summary>
-      <div class="grid grid-cols-2 gap-2 mt-3"><label class="text-xs">TONO<select id="arteDetailTone" class="w-full p-2 bg-sand rounded-lg"><option value="">Sin clasificar</option><option value="0">Denso / Filosófico</option><option value="1">Acción / Tensión</option><option value="2">Drama</option><option value="3">Calma / Belleza</option><option value="4">Ligero</option></select></label>
+      <div class="grid grid-cols-2 gap-2 mt-3"><label class="text-xs">ENERGÍA<select id="arteDetailTone" class="w-full p-2 bg-sand rounded-lg"><option value="">Sin clasificar</option><option value="0">Denso / Filosófico</option><option value="1">Tensión / Adrenalina</option><option value="2">Drama / Emoción</option><option value="3">Calma / Belleza</option><option value="4">Ligero / Divertido</option><option value="5">Oscuro / Inquietante</option><option value="6">Épico / Aventura</option><option value="7">Asombro / Imaginación</option></select></label>
       <label class="text-xs">TIEMPO POR SESIÓN<select id="arteDetailDuration" class="w-full p-2 bg-sand rounded-lg"><option value="">Sin clasificar</option><option value="0">&lt; 30 min</option><option value="1">30 min – 1 h</option><option value="2">1 h – 2 h</option><option value="3">&gt; 2 h / Inmersivo</option></select></label></div></details>
       <div id="arteSituationalFields" class="space-y-3"></div>
       <!-- Valoración por estrellas: medias estrellas tocando la mitad o deslizando -->
@@ -1147,6 +1186,24 @@ p.md-warn { font-size: 11px; font-weight: 700; color: #7A2424; }
    Para un icono nuevo: añade su contenido SVG (lucide.dev) a ICON_PATHS.
    ===================================================================== */
 const ICON_PATHS = {
+  "search": "<path d=\"m21 21-4.34-4.34\"/><circle cx=\"11\" cy=\"11\" r=\"8\"/>",
+  "guitar": "<path d=\"m11.9 12.1 4.514-4.514\"/><path d=\"M20.1 2.3a1 1 0 0 0-1.4 0l-1.114 1.114A2 2 0 0 0 17 4.828v1.344a2 2 0 0 1-.586 1.414A2 2 0 0 1 17.828 7h1.344a2 2 0 0 0 1.414-.586L21.7 5.3a1 1 0 0 0 0-1.4z\"/><path d=\"m6 16 2 2\"/><path d=\"M8.23 9.85A3 3 0 0 1 11 8a5 5 0 0 1 5 5 3 3 0 0 1-1.85 2.77l-.92.38A2 2 0 0 0 12 18a4 4 0 0 1-4 4 6 6 0 0 1-6-6 4 4 0 0 1 4-4 2 2 0 0 0 1.85-1.23z\"/>",
+  "drama": "<path d=\"M10 11h.01\"/><path d=\"M14 6h.01\"/><path d=\"M18 6h.01\"/><path d=\"M6.5 13.1h.01\"/><path d=\"M22 5c0 9-4 12-6 12s-6-3-6-12c0-2 2-3 6-3s6 1 6 3\"/><path d=\"M17.4 9.9c-.8.8-2 .8-2.8 0\"/><path d=\"M10.1 7.1C9 7.2 7.7 7.7 6 8.6c-3.5 2-4.7 3.9-3.7 5.6 4.5 7.8 9.5 8.4 11.2 7.4.9-.5 1.9-2.1 1.9-4.7\"/><path d=\"M9.1 16.5c.3-1.1 1.4-1.7 2.4-1.4\"/>",
+  "image": "<rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\" ry=\"2\"/><circle cx=\"9\" cy=\"9\" r=\"2\"/><path d=\"m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21\"/>",
+  "mic-vocal": "<path d=\"m11 7.601-5.994 8.19a1 1 0 0 0 .1 1.298l.817.818a1 1 0 0 0 1.314.087L15.09 12\"/><path d=\"M16.5 21.174C15.5 20.5 14.372 20 13 20c-2.058 0-3.928 2.356-6 2-2.072-.356-2.775-3.369-1.5-4.5\"/><circle cx=\"16\" cy=\"7\" r=\"5\"/>",
+  "piano": "<path d=\"M10 13v4\"/><path d=\"M14 13v4\"/><path d=\"M18 13v4\"/><path d=\"M2 13h20\"/><path d=\"M22 11.5A3.5 3.5 0 0018.5 8a3.52 3.52 0 01-3.173-2A7 7 0 002 9v10a2 2 0 002 2h16a2 2 0 002-2z\"/><path d=\"M6 13v4\"/>",
+  "disc-3": "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M6 12c0-1.7.7-3.2 1.8-4.2\"/><circle cx=\"12\" cy=\"12\" r=\"2\"/><path d=\"M18 12c0 1.7-.7 3.2-1.8 4.2\"/>",
+  "camera": "<path d=\"M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z\"/><circle cx=\"12\" cy=\"13\" r=\"3\"/>",
+  "church": "<path d=\"M10 9h4\"/><path d=\"M12 7v5\"/><path d=\"M14 21v-3a2 2 0 0 0-4 0v3\"/><path d=\"m18 9 3.52 2.147a1 1 0 0 1 .48.854V19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-6.999a1 1 0 0 1 .48-.854L6 9\"/><path d=\"M6 21V7a1 1 0 0 1 .376-.782l5-3.999a1 1 0 0 1 1.249.001l5 4A1 1 0 0 1 18 7v14\"/>",
+  "shapes": "<path d=\"M8.3 10a.7.7 0 0 1-.626-1.079L11.4 3a.7.7 0 0 1 1.198-.043L16.3 8.9a.7.7 0 0 1-.572 1.1Z\"/><rect x=\"3\" y=\"14\" width=\"7\" height=\"7\" rx=\"1\"/><circle cx=\"17.5\" cy=\"17.5\" r=\"3.5\"/>",
+  "palette": "<path d=\"M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z\"/><circle cx=\"13.5\" cy=\"6.5\" r=\".5\" fill=\"currentColor\"/><circle cx=\"17.5\" cy=\"10.5\" r=\".5\" fill=\"currentColor\"/><circle cx=\"6.5\" cy=\"12.5\" r=\".5\" fill=\"currentColor\"/><circle cx=\"8.5\" cy=\"7.5\" r=\".5\" fill=\"currentColor\"/>",
+  "book-image": "<path d=\"m20 13.7-2.1-2.1a2 2 0 0 0-2.8 0L9.7 17\"/><path d=\"M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20\"/><circle cx=\"10\" cy=\"8\" r=\"2\"/>",
+  "scroll-text": "<path d=\"M15 12h-5\"/><path d=\"M15 8h-5\"/><path d=\"M19 17V5a2 2 0 0 0-2-2H4\"/><path d=\"M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3\"/>",
+  "feather": "<path d=\"M14.086 18.412A2 2 0 0112.67 19H5v-7.672a2 2 0 01.586-1.414L11.75 3.75a6 6 0 118.49 8.49z\"/><path d=\"M16 8 2 22\"/><path d=\"M17.488 15H9\"/>",
+  "gamepad-2": "<line x1=\"6\" x2=\"10\" y1=\"11\" y2=\"11\"/><line x1=\"8\" x2=\"8\" y1=\"9\" y2=\"13\"/><line x1=\"15\" x2=\"15.01\" y1=\"12\" y2=\"12\"/><line x1=\"18\" x2=\"18.01\" y1=\"10\" y2=\"10\"/><path d=\"M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z\"/>",
+  "origami": "<path d=\"M12 12V4a1 1 0 0 1 1-1h6.297a1 1 0 0 1 .651 1.759l-4.696 4.025\"/><path d=\"m12 21-7.414-7.414A2 2 0 0 1 4 12.172V6.415a1.002 1.002 0 0 1 1.707-.707L20 20.009\"/><path d=\"m12.214 3.381 8.414 14.966a1 1 0 0 1-.167 1.199l-1.168 1.163a1 1 0 0 1-.706.291H6.351a1 1 0 0 1-.625-.219L3.25 18.8a1 1 0 0 1 .631-1.781l4.165.027\"/>",
+  "tv": "<path d=\"m17 2-5 5-5-5\"/><rect width=\"20\" height=\"15\" x=\"2\" y=\"7\" rx=\"2\"/>",
+  "clapperboard": "<path d=\"m12.296 3.464 3.02 3.956\"/><path d=\"M20.2 6 3 11l-.9-2.4c-.3-1.1.3-2.2 1.3-2.5l13.5-4c1.1-.3 2.2.3 2.5 1.3z\"/><path d=\"M3 11h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"/><path d=\"m6.18 5.276 3.1 3.899\"/>",
   "apple": "<path d=\"M12 6.528V3a1 1 0 0 1 1-1h0\"/><path d=\"M18.237 21A15 15 0 0 0 22 11a6 6 0 0 0-10-4.472A6 6 0 0 0 2 11a15.1 15.1 0 0 0 3.763 10 3 3 0 0 0 3.648.648 5.5 5.5 0 0 1 5.178 0A3 3 0 0 0 18.237 21\"/>",
   "arrow-left": "<path d=\"m12 19-7-7 7-7\"/><path d=\"M19 12H5\"/>",
   "book-open": "<path d=\"M12 5v16\"/><path d=\"M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z\"/>",
@@ -1195,7 +1252,7 @@ window.lucide = {
     };
 
     const ARTE_BRANCHES = {
-      'AUDIOVISUAL':      ['Cine', 'Series', 'Anime', 'Documentales'],
+      'AUDIOVISUAL':      ['Cine', 'Series', 'Anime', 'Videojuegos'],   // v5.4: documentales dentro de Cine
       'LITERATURA':       ['Novela', 'Filosofía y Ensayo', 'Historia', 'Cómic y Manga'],
       'ARTES PLÁSTICAS':  ['Pintura', 'Escultura', 'Arquitectura', 'Fotografía'],
       'MÚSICA':           ['Discos', 'Clásica y BSO', 'Directos'],
@@ -1601,7 +1658,7 @@ function escapeWeek(value) { return String(value ?? '').replace(/[&<>"']/g, c =>
     }
 
     function hideAllViews() {
-      ['viewHome', 'viewMarcas', 'viewMarcaDetalle', 'viewMovilidad', 'viewNutricion', 'viewArte', 'viewSemana', 'viewProponer'].forEach(id => {
+      ['viewHome', 'viewMarcas', 'viewMarcaDetalle', 'viewMovilidad', 'viewNutricion', 'viewArteSubs', 'viewArte', 'viewSemana', 'viewProponer'].forEach(id => {
         document.getElementById(id).classList.add('hidden');
       });
     }
@@ -1647,6 +1704,7 @@ function escapeWeek(value) { return String(value ?? '').replace(/[&<>"']/g, c =>
         openScreen('marcas');
         return;
       }
+      if (currentScreen === 'arte') { openArteSubs(currentArteBranch); return; }   // cuadrícula → subcategorías
       currentScreen = 'home';
       hideAllViews();
       document.getElementById('headerSub').classList.add('hidden');
@@ -2282,26 +2340,21 @@ function escapeWeek(value) { return String(value ?? '').replace(/[&<>"']/g, c =>
       });
     }
 
-    function openArteBranch(branchName) {
-      currentArteBranch = branchName;
-      currentArteStatusFilter = 'ALL';
-      currentArteRewatchOnly = false;
-      currentArteCityGroupMode = false;
-      document.getElementById('arteCityFilter').value = 'ALL';
-      document.getElementById('arteGenreFilter').value = 'ALL';
-      document.getElementById('arteMemoryFilter').value = 'ALL';
-      openScreen('arte');
-    }
+    // openArteBranch(): bloque «ARTE (v5.4)» (abre la pantalla de subcategorías).
 
     function initArteBranchView() {
       const subSel = document.getElementById('arteSubcatFilter');
-      subSel.innerHTML = '<option value="ALL">SUBCATEGORÍA ▾</option>';
+      subSel.innerHTML = '<option value="ALL">TODAS</option>';
       (ARTE_BRANCHES[currentArteBranch] || []).forEach(sc => {
         const opt = document.createElement('option');
         opt.value = sc;
         opt.textContent = sc.toUpperCase();
         subSel.appendChild(opt);
       });
+      const wanted = ArteNav.pendingSubcat;
+      subSel.value = wanted && (ARTE_BRANCHES[currentArteBranch] || []).includes(wanted) ? wanted : 'ALL';
+      ArteNav.pendingSubcat = null;
+      setArteGridTitle();
 
       document.getElementById('arteStarsFilter').value = '0';
       updateArteDynamicDropdowns();
@@ -2315,7 +2368,7 @@ function escapeWeek(value) { return String(value ?? '').replace(/[&<>"']/g, c =>
       const cities = [...new Set(branchItems.map(i => (i.city || '').trim()).filter(Boolean))].sort();
       const citySel = document.getElementById('arteCityFilter');
       const prevCity = citySel.value;
-      citySel.innerHTML = '<option value="ALL">📍 CIUDAD ▾</option>';
+      citySel.innerHTML = '<option value="ALL">📍 CIUDAD</option>';
       cities.forEach(c => {
         const opt = document.createElement('option');
         opt.value = c;
@@ -2327,7 +2380,7 @@ function escapeWeek(value) { return String(value ?? '').replace(/[&<>"']/g, c =>
       const people = [...new Set(branchItems.map(i => (i.person || '').trim()).filter(Boolean))].sort();
       const personSel = document.getElementById('artePersonFilter');
       const prevPerson = personSel.value;
-      personSel.innerHTML = '<option value="ALL">👤 PERSONA ▾</option>';
+      personSel.innerHTML = '<option value="ALL">👤 PERSONA</option>';
       people.forEach(p => {
         const opt = document.createElement('option');
         opt.value = p;
@@ -2379,12 +2432,14 @@ function escapeWeek(value) { return String(value ?? '').replace(/[&<>"']/g, c =>
       const city = document.getElementById('arteCityFilter').value;
       const person = document.getElementById('artePersonFilter').value;
       const memory = document.getElementById('arteMemoryFilter').value;
+      const query = arteSearchQuery();
 
       return (appState.arte || []).filter(item => {
         if (item.branch !== currentArteBranch) return false;
         if (item.review) return false;   // pendiente de revisar (REVISAR)
         const genre = document.getElementById('arteGenreFilter').value;
-        if (['AUDIOVISUAL','MÚSICA'].includes(currentArteBranch) && genre !== 'ALL' && !arteGenres(item).includes(genre)) return false;
+        if (genre !== 'ALL' && !arteGenres(item).includes(genre)) return false;
+        if (query && !arteMatchesSearch(item, query)) return false;
         if (currentArteStatusFilter !== 'ALL' && item.status !== currentArteStatusFilter) return false;
         if (subcat !== 'ALL' && item.subcat !== subcat) return false;
         if (minStars > 0 && (Number(item.stars) || 0) < minStars) return false;
@@ -2411,6 +2466,7 @@ function escapeWeek(value) { return String(value ?? '').replace(/[&<>"']/g, c =>
 
     function renderArteGrid() {
       if (typeof updateReviewEntry === 'function') updateReviewEntry();
+      updateArteSelectPills();
       const items = getFilteredArteItems();
       const gridBox = document.getElementById('arteGridContainer');
       const cityGroupBox = document.getElementById('arteCityGroupedContainer');
@@ -2421,12 +2477,7 @@ function escapeWeek(value) { return String(value ?? '').replace(/[&<>"']/g, c =>
       if (!items.length) {
         gridBox.classList.remove('hidden');
         cityGroupBox.classList.add('hidden');
-        gridBox.innerHTML = `
-          <div class="col-span-3 bento-card p-8 text-center space-y-2">
-            <p class="text-xs font-bold uppercase tracking-wider text-earthMuted">No hay obras con estos filtros</p>
-            <p class="text-xs text-earthMuted">Pulsa "+ REGISTRAR" abajo para añadir títulos.</p>
-          </div>
-        `;
+        renderArteEmpty(gridBox);
         return;
       }
 
@@ -2544,7 +2595,7 @@ function escapeWeek(value) { return String(value ?? '').replace(/[&<>"']/g, c =>
         const nextNum = parseInt(match[1], 10) + 1;
         inp.value = val.slice(0, match.index) + nextNum + val.slice(match.index + match[1].length);
       } else {
-        inp.value = val ? `${val} 1` : 'Cap. 1';
+        inp.value = val ? `${val} 1` : (document.getElementById('arteDetailSubcat').value === 'Videojuegos' ? '1 h' : 'Cap. 1');
       }
     }
 
@@ -2560,7 +2611,7 @@ function escapeWeek(value) { return String(value ?? '').replace(/[&<>"']/g, c =>
       const subcat = document.getElementById('arteDetailSubcat').value;
 
       const draftMeta = {};
-      for (const key of ['runtime', 'total', 'technique', 'venue', 'genres', 'synopsis', 'source', 'sourceUrl', 'sourceId', 'originalTitle', 'coords']) {
+      for (const key of ['runtime', 'total', 'technique', 'venue', 'genres', 'platforms', 'synopsis', 'source', 'sourceUrl', 'sourceId', 'originalTitle', 'coords']) {
         if (draft[key] !== undefined) draftMeta[key] = draft[key];
       }
 
@@ -2619,7 +2670,7 @@ function escapeWeek(value) { return String(value ?? '').replace(/[&<>"']/g, c =>
 
     function openAddArteModal() {
       const branchSel = document.getElementById('addArteBranchSelect');
-      branchSel.value = currentScreen === 'arte' ? currentArteBranch : 'AUDIOVISUAL';
+      branchSel.value = currentScreen === 'arte' || currentScreen === 'arteSubs' ? currentArteBranch : 'AUDIOVISUAL';
       populateAddArteSubcats();
       const activeSubcat = currentScreen === 'arte' ? document.getElementById('arteSubcatFilter').value : 'ALL';
       if (activeSubcat && activeSubcat !== 'ALL') document.getElementById('addArteSubcatSelect').value = activeSubcat;
@@ -2665,7 +2716,7 @@ function escapeWeek(value) { return String(value ?? '').replace(/[&<>"']/g, c =>
         openCoachUploadModal();
       } else if (currentScreen === 'nutricion') {
         openAddRecordModal('peso', 'marca');
-      } else if (currentScreen === 'arte') {
+      } else if (currentScreen === 'arte' || currentScreen === 'arteSubs') {
         openAddArteModal();
       }
     }
@@ -2887,10 +2938,10 @@ function renderWeek() {
     const title=document.createElement('strong');title.textContent=item.title;title.title=item.title;
     const complete=document.createElement('button');complete.className='wk-button';complete.textContent=entry.done?'✓ COMPLETADO':'✓ COMPLETAR';complete.disabled=!!entry.done;complete.onclick=()=>completeWeekArt(item.id);
     card.append(cover,title,complete);
-    if(!entry.done&&['Series','Anime'].includes(item.subcat)){
-      const plus=document.createElement('button');plus.className='wk-button';plus.textContent='+1 CAP · '+(item.progress||'0');plus.onclick=()=>{
+    if(!entry.done&&['Series','Anime','Videojuegos'].includes(item.subcat)){
+      const plus=document.createElement('button');plus.className='wk-button';plus.textContent=(item.subcat==='Videojuegos'?'+1 H · ':'+1 CAP · ')+(item.progress||'0');plus.onclick=()=>{
         const value=String(item.progress||''),match=value.match(/(\d+)(?!.*\d)/);
-        item.progress=match?value.slice(0,match.index)+(Number(match[1])+1)+value.slice(match.index+match[1].length):'Cap. 1';item.status='EN_CURSO';saveState();renderWeek();};card.append(plus);
+        item.progress=match?value.slice(0,match.index)+(Number(match[1])+1)+value.slice(match.index+match[1].length):(item.subcat==='Videojuegos'?'1 h':'Cap. 1');item.status='EN_CURSO';saveState();renderWeek();};card.append(plus);
     }
     const remove=document.createElement('button');remove.className='wk-button';remove.textContent='QUITAR';remove.onclick=()=>{w.art=w.art.filter(e=>e.id!==item.id);saveState();renderWeek();};card.append(remove);shelf.append(card);
   });
@@ -2930,7 +2981,7 @@ function openWeekPicker() {
   showWeekModal('FIJAR OBRA',`<input id="weekSearch" aria-label="Buscar en mi colección" placeholder="Buscar en mi colección"><div id="weekPickList" style="display:grid;gap:8px"></div><button class="wk-button" onclick="closeWeekModal();openWeekScreen('proponer')">PROPONER</button><button class="wk-button" onclick="closeWeekModal();openAddArteModal()">+ REGISTRAR OBRA</button>`);
   function fill(){
     const list=document.getElementById('weekPickList');list.replaceChildren();const q=document.getElementById('weekSearch').value.toLocaleLowerCase();
-    const items=appState.arte.filter(a=>!weekData().art.some(e=>e.id===a.id)&&a.title.toLocaleLowerCase().includes(q));
+    const items=appState.arte.filter(a=>!a.review&&!weekData().art.some(e=>e.id===a.id)&&arteMatchesSearch(a,foldText(q).trim()));
     if(!items.length){list.textContent='No hay obras disponibles';return;}
     items.forEach(item=>{const b=document.createElement('button');b.className='wk-button wk-pick';b.append(weekPoster(item));const t=document.createElement('span');t.textContent=item.title;b.append(t);b.onclick=()=>{pinWeekArt(item);closeWeekModal();openWeekScreen('semana');};list.append(b);});
   }document.getElementById('weekSearch').oninput=fill;fill();
@@ -2954,35 +3005,87 @@ function finishWeekCompletion() {
   if(entry&&editingArteStatus==='VISTO')entry.done=true;
   pendingWeekCompletion=null;
 }
-/* ---------- PROPONER (v5.3): preguntas según el tipo, SORPRÉNDEME, ALEATORIO y tirada extra ---------- */
+/* ---------- PROPONER (v5.4): preguntas según el tipo, energías ampliadas, SORPRÉNDEME, ALEATORIO y tirada extra ---------- */
 // Cada respuesta puede ser «SORPRÉNDEME» (cualquiera). Las preferencias ordenan; no esconden nada.
 const PROP_ANY = 'any';
-const TONES_AV = ['Denso / Filosófico', 'Acción / Tensión', 'Drama', 'Calma / Belleza', 'Ligero'];
 const minutesOf = it => { const r = Number(it.runtime); if (r > 0) return r; const b = it.durationBand; return b === 0 || b === '0' ? 20 : b == null || b === '' ? null : [20, 45, 100, 150][Number(b)] ?? null; };
 const pagesOf = it => (it.branch === 'LITERATURA' && Number(it.total) > 0 ? Number(it.total) : null);
+const hoursOf = it => (it.subcat === 'Videojuegos' && Number(it.total) > 0 ? Number(it.total) : null);
 const within = (v, lo, hi) => (v == null ? null : v > lo && v <= hi);
+const GAME_PLATFORMS = ['PC', 'PlayStation', 'Xbox', 'Nintendo', 'Móvil'];
+
+/* Energías por tipo de obra. Los índices 0–4 conservan su significado de siempre (las obras ya clasificadas
+   no cambian); 5–7 son nuevos. Cada energía se relaciona con géneros: una obra sin energía asignada
+   se ordena por sus géneros. */
+const ENERGIES = {
+  av: { q: '¿QUÉ ENERGÍA BUSCAS?',
+    labels: ['Denso / Filosófico', 'Tensión / Adrenalina', 'Drama / Emoción', 'Calma / Belleza', 'Ligero / Divertido', 'Oscuro / Inquietante', 'Épico / Aventura', 'Asombro / Imaginación'],
+    genres: [['Psicológico', 'Documental', 'Biográfica', 'Seinen'], ['Acción', 'Thriller', 'Crimen', 'Shōnen', 'Mecha', 'Deportes'], ['Drama', 'Romance', 'Biográfica', 'Costumbrista'],
+      ['Costumbrista', 'Musical', 'Familia', 'Documental'], ['Comedia', 'Sitcom', 'Familia', 'Animación'], ['Terror', 'Noir', 'Misterio', 'Sobrenatural', 'Psicológico'],
+      ['Aventura', 'Histórica', 'Bélica', 'Western', 'Fantasía'], ['Ciencia ficción', 'Fantasía', 'Animación', 'Isekai', 'Mecha', 'Sobrenatural']] },
+  game: { q: '¿QUÉ ENERGÍA BUSCAS?',
+    labels: ['Historia profunda', 'Reto / Adrenalina', 'Emotivo', 'Relajante', 'Divertido / Partida rápida', 'Oscuro / Terror', 'Épico / Explorar', 'Pensar / Estrategia'],
+    genres: [['Narrativo', 'Rol'], ['Acción', 'Shooter', 'Lucha', 'Soulslike', 'Roguelike', 'Carreras'], ['Narrativo', 'Indie'], ['Simulación', 'Puzle', 'Sandbox'],
+      ['Plataformas', 'Carreras', 'Deportes', 'Multijugador', 'Roguelike'], ['Terror', 'Supervivencia', 'Sigilo'], ['Mundo abierto', 'Rol', 'Aventura', 'Metroidvania'], ['Estrategia', 'Puzle', 'Simulación']] },
+  book: { q: '¿QUÉ TE APETECE LEER?',
+    labels: ['Denso / Filosófico', 'Intriga / Aventura', 'Drama / Emoción', 'Calma / Belleza', 'Ligero / Divertido', 'Oscuro / Inquietante', 'Épico / Histórico', 'Aprender / Ideas'],
+    genres: [['Estoicismo', 'Ética', 'Existencialismo', 'Metafísica', 'Filosofía moderna', 'Filosofía oriental', 'Filosófica', 'Clásico', 'Psicológica'],
+      ['Aventura', 'Thriller', 'Misterio', 'Negra / Policíaca', 'Exploración y viajes'], ['Contemporánea', 'Literaria', 'Romántica', 'Biografía'],
+      ['Viajes', 'Realismo mágico', 'Arte y estética', 'Filosofía oriental'], ['Humor', 'Desarrollo personal'], ['Terror', 'Distopía', 'Negra / Policíaca', 'Psicológica'],
+      ['Histórica', 'Bélica', 'Antigua', 'Medieval', 'Imperios', 'Grecia y Roma', 'Militar', 'Western'],
+      ['Divulgación', 'Ciencia', 'Economía', 'Política', 'Sociedad', 'Tecnología', 'Psicología', 'Ideas', 'Moderna', 'Siglo XX', 'Arqueología']] },
+  comic: { q: '¿QUÉ TE APETECE LEER?',
+    labels: ['Denso / Filosófico', 'Acción / Aventura', 'Drama / Emoción', 'Calma / Belleza', 'Ligero / Humor', 'Oscuro / Inquietante', 'Épico / Histórico', 'Asombro / Imaginación'],
+    genres: [['Seinen', 'Novela gráfica', 'Autobiográfica'], ['Superhéroes', 'Shōnen', 'Aventura'], ['Autobiográfica', 'Novela gráfica', 'Costumbrista'], ['Costumbrista', 'Bande dessinée'],
+      ['Humor'], ['Terror', 'Negra / Policíaca'], ['Histórica', 'Bélica', 'Fantasía'], ['Ciencia ficción', 'Fantasía', 'Manga']] },
+  music: { q: '¿QUÉ AMBIENTE?',
+    labels: ['Intenso / Complejo', 'Energía', 'Emotivo / Melancólico', 'Calma', 'Ligero / De fondo', 'Oscuro / Nocturno', 'Épico / Grandioso', 'Concentración'],
+    genres: [['Jazz', 'Experimental', 'Progresivo', 'Siglo XX', 'Contemporánea'], ['Rock', 'Punk', 'Metal', 'Electrónica', 'Hip-hop / Rap', 'Funk'],
+      ['Soul', 'Blues', 'Cantautor', 'Folk', 'Indie', 'Romanticismo'], ['Ambient', 'Piano', 'Minimalismo', 'Acústico', 'Cámara'], ['Pop', 'Latina', 'Reggae', 'Funk', 'World', 'Country'],
+      ['Electrónica', 'Metal', 'Experimental', 'Ambient'], ['Sinfónica', 'Ópera', 'BSO', 'Romanticismo', 'Coral', 'Sacra'], ['Ambient', 'Barroco', 'Piano', 'Minimalismo', 'BSO videojuegos', 'Clasicismo', 'Jazz']] },
+  visit: { q: '¿QUÉ TIPO DE VISITA?',
+    labels: ['Contemporáneo / Reto', 'Grandes obras', 'Historia', 'Belleza / Calma', 'Visita ligera', 'Impacto / Monumental', 'Descubrir / Aprender', 'Íntimo / Pequeño'],
+    genres: [['Arte contemporáneo', 'Contemporánea', 'Instalación', 'Brutalista', 'Diseño', 'Arte urbano'], ['Bellas artes', 'Pintura', 'Escultura', 'Retrospectiva'],
+      ['Historia', 'Arqueología', 'Militar', 'Marítimo', 'Etnografía', 'Románica', 'Islámica / Mudéjar'], ['Casa-museo', 'Paisajismo', 'Fundación de artista', 'Fotografía'],
+      ['Diseño', 'Fotografía', 'Arte urbano', 'Moda'], ['Gótica', 'Modernista', 'Barroca', 'Religiosa', 'Ingeniería', 'Contemporánea'],
+      ['Ciencia', 'Ciencias naturales', 'Tecnología', 'Arqueología', 'Etnografía'], ['Casa-museo', 'Fundación de artista', 'Monográfico']] }
+};
 const PROP_TYPES = [
-  { label: 'Cine', subcats: ['Cine'], toneQ: '¿QUÉ ENERGÍA BUSCAS?', tones: TONES_AV, timeQ: '¿CUÁNTO PUEDE DURAR?',
+  { label: 'Cine', subcats: ['Cine'], energy: 'av', timeQ: '¿CUÁNTO PUEDE DURAR?',
     times: [['Hasta 2 h', it => within(minutesOf(it), 0, 125)], ['Más de 2 h', it => within(minutesOf(it), 125, 1e9)]] },
-  { label: 'Serie', subcats: ['Series'], toneQ: '¿QUÉ ENERGÍA BUSCAS?', tones: TONES_AV, timeQ: '¿CUÁNTO POR EPISODIO?',
+  { label: 'Serie', subcats: ['Series'], energy: 'av', timeQ: '¿CUÁNTO POR EPISODIO?',
     times: [['Menos de 30 min', it => within(minutesOf(it), 0, 32)], ['30 min – 1 h', it => within(minutesOf(it), 32, 65)], ['Más de 1 h', it => within(minutesOf(it), 65, 1e9)]] },
-  { label: 'Anime', subcats: ['Anime'], toneQ: '¿QUÉ ENERGÍA BUSCAS?', tones: TONES_AV, timeQ: '¿CUÁNTO POR EPISODIO?',
+  { label: 'Anime', subcats: ['Anime'], energy: 'av', timeQ: '¿CUÁNTO POR EPISODIO?',
     times: [['Menos de 30 min', it => within(minutesOf(it), 0, 32)], ['30 min – 1 h', it => within(minutesOf(it), 32, 65)], ['Película · más de 1 h', it => within(minutesOf(it), 65, 1e9)]] },
-  { label: 'Libro', subcats: ['Novela', 'Filosofía y Ensayo', 'Historia'], toneQ: '¿QUÉ TE APETECE LEER?', tones: ['Denso / Filosófico', 'Intriga / Aventura', 'Drama', 'Calma / Belleza', 'Ligero'], timeQ: '¿QUÉ EXTENSIÓN?',
+  { label: 'Videojuego', subcats: ['Videojuegos'], energy: 'game', platform: true, timeQ: '¿CUÁNTO QUIERES QUE DURE?',
+    times: [['Corto · menos de 10 h', it => within(hoursOf(it), 0, 10)], ['Medio · 10–30 h', it => within(hoursOf(it), 10, 30)], ['Largo · más de 30 h', it => within(hoursOf(it), 30, 1e9)]] },
+  { label: 'Libro', subcats: ['Novela', 'Filosofía y Ensayo', 'Historia'], energy: 'book', timeQ: '¿QUÉ EXTENSIÓN?',
     times: [['Corto · menos de 200 págs (≈ 5 h)', it => within(pagesOf(it), 0, 200)], ['Medio · 200–400 págs (5–10 h)', it => within(pagesOf(it), 200, 400)], ['Largo · más de 400 págs (+10 h)', it => within(pagesOf(it), 400, 1e9)]] },
-  { label: 'Cómic', subcats: ['Cómic y Manga'], toneQ: '¿QUÉ TE APETECE LEER?', tones: ['Denso / Filosófico', 'Acción / Aventura', 'Drama', 'Calma / Belleza', 'Ligero'], timeQ: '¿QUÉ EXTENSIÓN?',
+  { label: 'Cómic', subcats: ['Cómic y Manga'], energy: 'comic', timeQ: '¿QUÉ EXTENSIÓN?',
     times: [['Breve · menos de 120 págs (≈ 1 h)', it => within(pagesOf(it), 0, 120)], ['Medio · 120–250 págs', it => within(pagesOf(it), 120, 250)], ['Largo · más de 250 págs', it => within(pagesOf(it), 250, 1e9)]] },
-  { label: 'Disco', subcats: ['Discos', 'Clásica y BSO', 'Directos'], toneQ: '¿QUÉ AMBIENTE?', tones: ['Intenso / Complejo', 'Energía', 'Emotivo', 'Calma', 'Ligero / De fondo'], timeQ: '¿CUÁNTO TIEMPO TIENES?',
+  { label: 'Disco', subcats: ['Discos', 'Clásica y BSO', 'Directos'], energy: 'music', timeQ: '¿CUÁNTO TIEMPO TIENES?',
     times: [['Menos de 40 min', it => within(minutesOf(it), 0, 40)], ['40 min – 1 h', it => within(minutesOf(it), 40, 62)], ['Más de 1 h', it => within(minutesOf(it), 62, 1e9)]] },
-  { label: 'Museo / Arquitectura', subcats: ['Museos', 'Arquitectura', 'Exposiciones'], toneQ: '¿QUÉ TIPO DE VISITA?', tones: ['Contemporáneo / Reto', 'Grandes obras', 'Historia', 'Belleza / Calma', 'Visita ligera'], timeQ: '¿CUÁNTO TIEMPO TIENES?',
+  { label: 'Museo / Arquitectura', subcats: ['Museos', 'Arquitectura', 'Exposiciones'], energy: 'visit', timeQ: '¿CUÁNTO TIEMPO TIENES?',
     times: [['Visita rápida · menos de 1 h', it => within(minutesOf(it), 0, 60)], ['1 – 2 h', it => within(minutesOf(it), 60, 120)], ['Medio día o más', it => within(minutesOf(it), 120, 1e9)]] }
 ];
+for (const t of PROP_TYPES) Object.assign(t, { toneQ: ENERGIES[t.energy].q, tones: ENERGIES[t.energy].labels, toneGenres: ENERGIES[t.energy].genres });
+function propTypeFor(subcat) { return PROP_TYPES.find(t => t.subcats.includes(subcat)) || null; }
+// Energías de una obra: la que le pusiste (si la hay) y las que se deducen de sus géneros.
+function toneSetOf(item, type) {
+  const set = new Set();
+  type = type || propTypeFor(item.subcat);
+  if (!type) return set;
+  const genres = arteGenres(item);
+  type.toneGenres.forEach((gs, i) => { if (gs.some(g => genres.includes(g))) set.add(i); });
+  return set;
+}
 
 /* Catálogo de la app: sugerencias y «primera subida» de la bóveda (MIS DATOS → CARGAR CATÁLOGO INICIAL).
-   [tipo, título, autor, año, tono, extra, subcategoría?, ciudad?]
-   extra = cine y museos: franja (2 ≤ 2 h, 3 > 2 h · museos 1 < 1 h, 2 = 1–2 h, 3 medio día) ·
-           series, anime y discos: minutos · libros y cómics: páginas. */
-const CATALOG_ROWS = [
+   [tipo, título, autor, año, energía, extra, subcategoría?, ciudad?, plataformas?]
+   tipo = índice en CAT_TYPES · extra = cine y museos: franja (2 ≤ 2 h, 3 > 2 h · museos 1 < 1 h, 2 = 1–2 h, 3 medio día) ·
+   series, anime y discos: minutos · libros y cómics: páginas · videojuegos: horas para acabarlo. */
+const CAT_TYPES = ['Cine', 'Serie', 'Anime', 'Libro', 'Cómic', 'Disco', 'Museo / Arquitectura', 'Videojuego'];
+const CATALOG_ROWS_V1 = [
   [0, 'Taxi Driver', 'Martin Scorsese', 1976, 2, 2], [0, 'Uno de los nuestros', 'Martin Scorsese', 1990, 1, 3], [0, 'Toro salvaje', 'Martin Scorsese', 1980, 2, 2],
   [0, 'Casino', 'Martin Scorsese', 1995, 1, 3], [0, 'El irlandés', 'Martin Scorsese', 2019, 2, 3], [0, 'Los asesinos de la luna', 'Martin Scorsese', 2023, 2, 3],
   [0, 'Origen', 'Christopher Nolan', 2010, 1, 3], [0, 'Interstellar', 'Christopher Nolan', 2014, 0, 3], [0, 'El caballero oscuro', 'Christopher Nolan', 2008, 1, 3],
@@ -3033,19 +3136,99 @@ const CATALOG_ROWS = [
   [6, 'Catedral de Mallorca', 'La Seu', 1601, 2, 1, 'Arquitectura', 'Palma'], [6, 'Alhambra', 'Alhambra', 1238, 2, 3, 'Arquitectura', 'Granada'],
   [6, 'Fundación César Manrique', 'César Manrique', 1992, 3, 1, 'Arquitectura', 'Lanzarote']
 ];
-const CATALOG = CATALOG_ROWS.map(([t, title, author, year, tone, extra, sub, city], i) => {
-  const type = PROP_TYPES[t], subcat = sub || type.subcats[0];
+// v5.4: videojuegos (horas aproximadas de la historia principal).
+const CATALOG_ROWS_V2 = [
+  [7, 'The Last of Us Parte I', 'Naughty Dog', 2013, 2, 15, '', '', ['PlayStation', 'PC']], [7, 'Red Dead Redemption 2', 'Rockstar Games', 2018, 6, 50, '', '', ['PlayStation', 'Xbox', 'PC']],
+  [7, 'The Legend of Zelda: Breath of the Wild', 'Nintendo', 2017, 6, 50, '', '', ['Nintendo']], [7, 'The Witcher 3: Wild Hunt', 'CD Projekt Red', 2015, 6, 50, '', '', ['PC', 'PlayStation', 'Xbox', 'Nintendo']],
+  [7, 'Elden Ring', 'FromSoftware', 2022, 1, 55, '', '', ['PC', 'PlayStation', 'Xbox']], [7, 'God of War', 'Santa Monica Studio', 2018, 6, 21, '', '', ['PlayStation', 'PC']],
+  [7, 'Hollow Knight', 'Team Cherry', 2017, 1, 27, '', '', ['PC', 'PlayStation', 'Xbox', 'Nintendo']], [7, 'Celeste', 'Maddy Makes Games', 2018, 1, 8, '', '', ['PC', 'PlayStation', 'Xbox', 'Nintendo']],
+  [7, 'Hades', 'Supergiant Games', 2020, 4, 22, '', '', ['PC', 'PlayStation', 'Xbox', 'Nintendo']], [7, 'Journey', 'thatgamecompany', 2012, 3, 2, '', '', ['PlayStation', 'PC']],
+  [7, 'Disco Elysium', 'ZA/UM', 2019, 0, 22, '', '', ['PC', 'PlayStation', 'Xbox', 'Nintendo']], [7, 'Outer Wilds', 'Mobius Digital', 2019, 6, 17, '', '', ['PC', 'PlayStation', 'Xbox', 'Nintendo']],
+  [7, 'Portal 2', 'Valve', 2011, 7, 8, '', '', ['PC', 'PlayStation', 'Xbox', 'Nintendo']], [7, 'Stardew Valley', 'ConcernedApe', 2016, 3, 53, '', '', ['PC', 'PlayStation', 'Xbox', 'Nintendo', 'Móvil']],
+  [7, 'Shadow of the Colossus', 'Team Ico', 2005, 2, 8, '', '', ['PlayStation']], [7, 'Sekiro: Shadows Die Twice', 'FromSoftware', 2019, 1, 30, '', '', ['PC', 'PlayStation', 'Xbox']],
+  [7, 'Ghost of Tsushima', 'Sucker Punch Productions', 2020, 6, 25, '', '', ['PlayStation', 'PC']], [7, 'Inside', 'Playdead', 2016, 5, 4, '', '', ['PC', 'PlayStation', 'Xbox', 'Nintendo', 'Móvil']],
+  [7, 'Resident Evil 4', 'Capcom', 2023, 5, 16, '', '', ['PC', 'PlayStation', 'Xbox']], [7, 'Super Mario Odyssey', 'Nintendo', 2017, 4, 12, '', '', ['Nintendo']],
+  [7, 'Death Stranding', 'Kojima Productions', 2019, 0, 40, '', '', ['PlayStation', 'PC']], [7, "Baldur's Gate 3", 'Larian Studios', 2023, 6, 75, '', '', ['PC', 'PlayStation', 'Xbox']],
+  [7, 'What Remains of Edith Finch', 'Giant Sparrow', 2017, 2, 2, '', '', ['PC', 'PlayStation', 'Xbox', 'Nintendo']], [7, 'Civilization VI', 'Firaxis Games', 2016, 7, 60, '', '', ['PC', 'PlayStation', 'Xbox', 'Nintendo']]
+];
+
+// Géneros del catálogo (alimentan el filtro GÉNERO y las energías de PROPONER).
+const CATALOG_GENRES = {
+  'Taxi Driver': ['Drama', 'Crimen', 'Psicológico'], 'Uno de los nuestros': ['Crimen', 'Drama', 'Biográfica'], 'Toro salvaje': ['Drama', 'Biográfica', 'Deportes'],
+  'Casino': ['Crimen', 'Drama'], 'El irlandés': ['Crimen', 'Drama', 'Biográfica'], 'Los asesinos de la luna': ['Crimen', 'Western', 'Histórica'],
+  'Origen': ['Ciencia ficción', 'Acción', 'Thriller'], 'Interstellar': ['Ciencia ficción', 'Drama', 'Aventura'], 'El caballero oscuro': ['Acción', 'Crimen', 'Thriller'],
+  'El truco final': ['Misterio', 'Thriller', 'Drama'], 'Oppenheimer': ['Biográfica', 'Drama', 'Histórica'], 'Memento': ['Thriller', 'Misterio', 'Psicológico'],
+  'Pulp Fiction': ['Crimen', 'Comedia'], 'Reservoir Dogs': ['Crimen', 'Thriller'], 'Malditos bastardos': ['Bélica', 'Acción'],
+  'Érase una vez en Hollywood': ['Comedia', 'Drama'], 'Django desencadenado': ['Western', 'Acción'], 'Heat': ['Crimen', 'Thriller', 'Acción'],
+  'Blade Runner': ['Ciencia ficción', 'Noir'], '2001: una odisea del espacio': ['Ciencia ficción', 'Aventura'], 'El padrino': ['Crimen', 'Drama'],
+  'Apocalypse Now': ['Bélica', 'Drama', 'Psicológico'], 'No es país para viejos': ['Thriller', 'Crimen', 'Western'], 'Pozos de ambición': ['Drama', 'Histórica'],
+  'Drive': ['Thriller', 'Crimen', 'Noir'], 'Sicario': ['Thriller', 'Crimen', 'Acción'], 'Dune': ['Ciencia ficción', 'Aventura'],
+  'La gran belleza': ['Drama', 'Comedia'], 'La sociedad de la nieve': ['Drama', 'Aventura', 'Biográfica'], 'Perfect Days': ['Drama'],
+  'Paterson': ['Drama', 'Comedia'], 'Antes del amanecer': ['Romance', 'Drama'], 'El show de Truman': ['Comedia', 'Drama', 'Ciencia ficción'],
+  'El gran hotel Budapest': ['Comedia', 'Aventura'],
+  'Los Soprano': ['Crimen', 'Drama'], 'The Wire': ['Crimen', 'Drama'], 'Breaking Bad': ['Crimen', 'Drama', 'Thriller'], 'Better Call Saul': ['Crimen', 'Drama'],
+  'True Detective': ['Crimen', 'Misterio', 'Thriller'], 'Mad Men': ['Drama', 'Histórica'], 'Succession': ['Drama', 'Comedia'], 'Chernobyl': ['Drama', 'Histórica', 'Miniserie'],
+  'Mindhunter': ['Crimen', 'Thriller', 'Psicológico'], 'Severance': ['Ciencia ficción', 'Thriller', 'Misterio'], 'The Bear': ['Drama', 'Comedia'],
+  'Shōgun': ['Histórica', 'Drama', 'Aventura'], 'Dark': ['Ciencia ficción', 'Misterio', 'Thriller'], 'Hermanos de sangre': ['Bélica', 'Histórica', 'Miniserie'],
+  'Fleabag': ['Comedia', 'Drama'], 'The Office': ['Comedia', 'Sitcom'],
+  'Cowboy Bebop': ['Ciencia ficción', 'Acción', 'Drama'], 'Monster': ['Thriller', 'Misterio', 'Seinen'], 'Mushishi': ['Costumbrista', 'Sobrenatural', 'Seinen'],
+  'Neon Genesis Evangelion': ['Mecha', 'Psicológico', 'Ciencia ficción'], 'Fullmetal Alchemist: Brotherhood': ['Aventura', 'Fantasía', 'Shōnen'],
+  'Ataque a los titanes': ['Acción', 'Fantasía', 'Shōnen'], 'Vinland Saga': ['Acción', 'Histórica', 'Seinen'], 'Death Note': ['Thriller', 'Sobrenatural', 'Shōnen'],
+  'Mob Psycho 100': ['Acción', 'Comedia', 'Sobrenatural'], 'El viaje de Chihiro': ['Fantasía', 'Aventura'], 'La princesa Mononoke': ['Fantasía', 'Aventura'],
+  'Your Name': ['Romance', 'Fantasía', 'Drama'], 'Ghost in the Shell': ['Ciencia ficción', 'Psicológico', 'Acción'],
+  'Meditaciones': ['Estoicismo', 'Ética', 'Antigua'], 'Cartas a Lucilio': ['Estoicismo', 'Ética', 'Antigua'], 'Sobre la brevedad de la vida': ['Estoicismo', 'Ética'],
+  'Enquiridión': ['Estoicismo', 'Ética'], 'El hombre en busca de sentido': ['Psicología', 'Existencialismo'], 'El mito de Sísifo': ['Existencialismo'],
+  'Así habló Zaratustra': ['Filosofía moderna', 'Ética'], 'El infinito en un junco': ['Divulgación', 'Arte y estética', 'Antigua'], 'Sapiens': ['Ideas', 'Divulgación'],
+  'SPQR': ['Grecia y Roma', 'Antigua'], 'Anábasis': ['Grecia y Roma', 'Militar', 'Antigua'], 'El extranjero': ['Clásico', 'Filosófica'],
+  'El viejo y el mar': ['Clásico', 'Aventura'], 'Stoner': ['Literaria', 'Clásico'], 'Meridiano de sangre': ['Western', 'Literaria', 'Histórica'],
+  'La carretera': ['Distopía', 'Literaria'], 'Crimen y castigo': ['Clásico', 'Psicológica', 'Filosófica'], '1984': ['Distopía', 'Ciencia ficción', 'Clásico'],
+  'Siddhartha': ['Filosófica', 'Clásico'], 'Patria': ['Contemporánea', 'Literaria'], 'Moby Dick': ['Clásico', 'Aventura'],
+  'Maus': ['Novela gráfica', 'Histórica', 'Autobiográfica'], 'El almanaque de mi padre': ['Manga', 'Costumbrista', 'Autobiográfica'],
+  'Watchmen': ['Superhéroes', 'Novela gráfica', 'Negra / Policíaca'], 'Akira': ['Manga', 'Ciencia ficción', 'Seinen'], 'Berserk': ['Manga', 'Fantasía', 'Seinen'],
+  'Vagabond': ['Manga', 'Histórica', 'Seinen'], 'Persépolis': ['Novela gráfica', 'Autobiográfica', 'Histórica'], 'Arrugas': ['Novela gráfica', 'Costumbrista'],
+  'El arte de volar': ['Novela gráfica', 'Histórica', 'Autobiográfica'],
+  'Kind of Blue': ['Jazz'], 'A Love Supreme': ['Jazz'], 'In Rainbows': ['Rock', 'Indie'], 'OK Computer': ['Rock', 'Experimental'],
+  'The Dark Side of the Moon': ['Rock', 'Progresivo'], 'Abbey Road': ['Rock', 'Pop'], 'Rumours': ['Rock', 'Pop'], 'Blue': ['Folk', 'Cantautor'],
+  'Pet Sounds': ['Pop', 'Rock'], 'Nevermind': ['Rock', 'Punk'], 'Random Access Memories': ['Electrónica', 'Funk', 'Pop'], 'El mal querer': ['Flamenco', 'Pop', 'Electrónica'],
+  'Fuente y caudal': ['Flamenco'], 'The Köln Concert': ['Jazz', 'Acústico'], 'Interstellar (banda sonora)': ['BSO', 'Minimalismo'],
+  'Las cuatro estaciones': ['Barroco', 'Concierto'], 'Variaciones Goldberg (1981)': ['Barroco', 'Piano'],
+  'Museo del Prado': ['Bellas artes'], 'Museo Reina Sofía': ['Arte contemporáneo'], 'Museo Thyssen-Bornemisza': ['Bellas artes'], 'Museo Sorolla': ['Casa-museo', 'Monográfico'],
+  'IVAM': ['Arte contemporáneo'], 'Museo Guggenheim Bilbao': ['Arte contemporáneo'], 'Fundació Pilar i Joan Miró': ['Fundación de artista', 'Monográfico'],
+  'Es Baluard': ['Arte contemporáneo'], 'Museo Picasso Málaga': ['Monográfico', 'Bellas artes'], 'Museo del Louvre': ['Bellas artes', 'Arqueología'],
+  'Tate Modern': ['Arte contemporáneo'], 'MoMA': ['Arte contemporáneo', 'Diseño'],
+  'Sagrada Familia': ['Modernista', 'Religiosa'], 'Casa Batlló': ['Modernista', 'Civil'], 'Pabellón Alemán de Barcelona': ['Racionalista'],
+  'Ciudad de las Artes y las Ciencias': ['Contemporánea'], 'Catedral de Mallorca': ['Gótica', 'Religiosa'], 'Alhambra': ['Islámica / Mudéjar', 'Civil'],
+  'Fundación César Manrique': ['Contemporánea', 'Paisajismo'],
+  'The Last of Us Parte I': ['Acción', 'Aventura', 'Narrativo', 'Supervivencia'], 'Red Dead Redemption 2': ['Mundo abierto', 'Acción', 'Narrativo'],
+  'The Legend of Zelda: Breath of the Wild': ['Mundo abierto', 'Aventura', 'Acción'], 'The Witcher 3: Wild Hunt': ['Rol', 'Mundo abierto', 'Narrativo'],
+  'Elden Ring': ['Soulslike', 'Rol', 'Mundo abierto'], 'God of War': ['Acción', 'Aventura', 'Narrativo'], 'Hollow Knight': ['Metroidvania', 'Plataformas', 'Indie'],
+  'Celeste': ['Plataformas', 'Indie'], 'Hades': ['Roguelike', 'Acción', 'Indie'], 'Journey': ['Aventura', 'Indie'], 'Disco Elysium': ['Rol', 'Narrativo'],
+  'Outer Wilds': ['Aventura', 'Puzle', 'Indie'], 'Portal 2': ['Puzle'], 'Stardew Valley': ['Simulación', 'Indie'], 'Shadow of the Colossus': ['Aventura', 'Acción'],
+  'Sekiro: Shadows Die Twice': ['Soulslike', 'Acción', 'Sigilo'], 'Ghost of Tsushima': ['Mundo abierto', 'Acción', 'Sigilo'], 'Inside': ['Plataformas', 'Puzle', 'Indie'],
+  'Resident Evil 4': ['Terror', 'Acción', 'Supervivencia'], 'Super Mario Odyssey': ['Plataformas', 'Aventura'], 'Death Stranding': ['Acción', 'Narrativo', 'Mundo abierto'],
+  "Baldur's Gate 3": ['Rol', 'Estrategia', 'Narrativo'], 'What Remains of Edith Finch': ['Narrativo', 'Indie'], 'Civilization VI': ['Estrategia']
+};
+const CATALOG_ROWS = [...CATALOG_ROWS_V1, ...CATALOG_ROWS_V2];
+const CATALOG_LEVEL = 2;   // versión del catálogo: 1 = primera subida, 2 = videojuegos (v5.4)
+const CATALOG = CATALOG_ROWS.map(([t, title, author, year, tone, extra, sub, city, platforms], i) => {
+  const type = PROP_TYPES.find(p => p.label === CAT_TYPES[t]), subcat = sub || type.subcats[0];
   const branch = Object.keys(ARTE_BRANCHES).find(b => ARTE_BRANCHES[b].includes(subcat));
-  const item = { id: 'editorial_' + i, title, author, year: year === '' ? '' : String(year), branch, subcat, tone, city: city || '', cover: '', genres: [] };
+  const item = { id: 'editorial_' + i, title, author, year: year === '' ? '' : String(year), branch, subcat, tone, city: city || '', cover: '', genres: [...(CATALOG_GENRES[title] || [])] };
   if (t === 0 || t === 6) item.durationBand = extra;
-  else if (t === 3 || t === 4) item.total = extra;
+  else if (t === 3 || t === 4 || t === 7) item.total = extra;   // páginas · horas
   else { item.runtime = extra; item.durationBand = extra < 30 ? 0 : extra <= 60 ? 1 : extra <= 120 ? 2 : 3; }
+  if (platforms) item.platforms = [...platforms];
   return item;
 });
+function catalogLevelOf(c) { return Number(String(c.id).split('_')[1]) >= CATALOG_ROWS_V1.length ? 2 : 1; }
 
 const Prop = { ans: {}, step: 0, pool: [], offset: 0, label: '' };
+const PROP_ORDER = ['type', 'platform', 'mode', 'tone', 'time', 'origin'];
 function propSteps() {
-  const s = ['type', 'mode'];
+  const type = PROP_TYPES[Prop.ans.type];
+  const s = ['type'];
+  if (type && type.platform) s.push('platform');
+  s.push('mode');
   if (Prop.ans.mode === 'new' || Prop.ans.mode === 'repeat') s.push('tone', 'time');
   if (Prop.ans.mode === 'new') s.push('origin');
   return s;
@@ -3053,6 +3236,7 @@ function propSteps() {
 function propQuestion(key) {
   const type = PROP_TYPES[Prop.ans.type];
   if (key === 'type') return ['¿QUÉ TIPO DE ARTE?', PROP_TYPES.map((t, i) => [i, t.label]), null];
+  if (key === 'platform') return ['¿EN QUÉ VAS A JUGAR?', GAME_PLATFORMS.map(p => [p, p]), [PROP_ANY, 'CUALQUIERA']];
   if (key === 'mode') return ['¿NUEVO O REPETIR?', [['new', 'Descubrimiento'], ['repeat', 'Re-disfrutar una joya']], ['random', 'ALEATORIO']];
   if (key === 'tone') return [type.toneQ, type.tones.map((t, i) => [i, t]), [PROP_ANY, 'SORPRÉNDEME']];
   if (key === 'time') return [type.timeQ, type.times.map(([t], i) => [i, t]), [PROP_ANY, 'SORPRÉNDEME']];
@@ -3069,7 +3253,7 @@ function renderPropStep() {
   const btn = ([v, label], wide) => `<button class="wk-button${wide ? ' wk-wide' : ''}" data-v="${escapeWeek(String(v))}">${escapeWeek(label)}</button>`;
   root.innerHTML = `<div class="wk-progress">${steps.map((_, i) => `<span class="${i <= Prop.step ? 'active' : ''}"></span>`).join('')}</div>
     <div class="wk-row"><h3 class="wk-title">${escapeWeek(question)}</h3><span class="wk-subtle">${Prop.step + 1} / ${steps.length}</span></div>
-    <div class="wk-options">${options.map(o => btn(o)).join('')}${extra ? btn(extra, true) : ''}</div>
+    <div class="wk-options${options.length > 5 ? ' wk-many' : ''}">${options.map(o => btn(o)).join('')}${extra ? btn(extra, true) : ''}</div>
     ${Prop.step ? '<button class="wk-button" id="propBack">ATRÁS</button>' : ''}`;
   root.querySelectorAll('.wk-options .wk-button').forEach(b => { b.onclick = () => choosePropAnswer(key, b.dataset.v); });
   const back = document.getElementById('propBack');
@@ -3079,8 +3263,7 @@ function choosePropAnswer(key, raw) {
   const v = /^\d+$/.test(raw) ? Number(raw) : raw;
   Prop.ans[key] = v;
   // Lo que venía después ya no vale si cambia una respuesta anterior.
-  const order = ['type', 'mode', 'tone', 'time', 'origin'];
-  for (const k of order.slice(order.indexOf(key) + 1)) delete Prop.ans[k];
+  for (const k of PROP_ORDER.slice(PROP_ORDER.indexOf(key) + 1)) delete Prop.ans[k];
   const next = propSteps();
   if (Prop.step + 1 < next.length) { Prop.step++; renderPropStep(); } else buildProposalPool();
 }
@@ -3095,8 +3278,17 @@ function propSuggestions(subcats) {
 function propScore(item) {
   const type = PROP_TYPES[Prop.ans.type];
   let s = 0;
-  if (Prop.ans.tone !== undefined && Prop.ans.tone !== PROP_ANY) s += item.tone == null || item.tone === '' ? 0.5 : Number(item.tone) === Prop.ans.tone ? 2 : -1;
+  const tone = Prop.ans.tone;
+  if (tone !== undefined && tone !== PROP_ANY) {
+    const explicit = item.tone == null || item.tone === '' ? null : Number(item.tone), inferred = toneSetOf(item, type);
+    s += explicit === tone ? 2 : inferred.has(tone) ? 1.2 : explicit != null || inferred.size ? -0.8 : 0.4;
+  }
   if (Prop.ans.time !== undefined && Prop.ans.time !== PROP_ANY) { const r = type.times[Prop.ans.time][1](item); s += r == null ? 0.3 : r ? 1.5 : -1; }
+  // Plataforma: un juego que no puedes jugar ahí va al final (no desaparece).
+  if (Prop.ans.platform !== undefined && Prop.ans.platform !== PROP_ANY) {
+    const plats = Array.isArray(item.platforms) ? item.platforms : [];
+    s += !plats.length ? 0 : plats.includes(Prop.ans.platform) ? 2.5 : -4;
+  }
   // Re-disfrutar: primero lo que mejor valoraste y menos recuerdas.
   if (Prop.ans.mode === 'repeat') s += ({ forgotten: 1.5, vague: 0.75 }[item.memory] || 0) + (Number(item.stars) || 0) / 5;
   return s;
@@ -3115,7 +3307,8 @@ function buildProposalPool() {
     Prop.label = Prop.ans.origin === 'mine' ? 'De tu lista de pendientes' : Prop.ans.origin === 'app' ? 'Sugerencias de la app' : 'Tu lista y sugerencias';
   }
   pool = shuffled(pool.filter(a => !pinned.has(a.id)));
-  if (mode !== 'random') pool.sort((a, b) => propScore(b) - propScore(a));   // orden estable: entre iguales, al azar
+  // ALEATORIO respeta solo la plataforma (si la elegiste); lo demás, ordenado por tus respuestas.
+  if (mode !== 'random' || (Prop.ans.platform !== undefined && Prop.ans.platform !== PROP_ANY)) pool.sort((a, b) => propScore(b) - propScore(a));
   Prop.pool = pool; Prop.offset = 0;
   showProposalResults();
 }
@@ -3125,15 +3318,16 @@ function proposalExtraRoll() {
   if (Prop.offset >= Prop.pool.length) { Prop.offset = 0; Prop.pool = Prop.ans.mode === 'random' ? shuffled(Prop.pool) : Prop.pool; showToast('Ya has visto todas: vuelven a salir desde el principio.'); }
   showProposalResults();
 }
+function propPinnedId(item) { const own = propInBase(item); return own && weekData().art.some(e => e.id === own.id) ? own.id : null; }
+// Resultado limpio: carátula (se toca para abrir la ficha), título y autor.
 function showProposalResults() {
   const root = document.getElementById('viewProponer');
   const shown = Prop.pool.slice(Prop.offset, Prop.offset + 3);
   proposalCandidates = shown;
-  root.innerHTML = `<div class="wk-row"><h3 class="wk-title">PARA TU SEMANA</h3><span class="wk-subtle">${escapeWeek(Prop.label)}</span></div>
+  root.innerHTML = `<p class="wk-subtle">${escapeWeek(Prop.label)}</p>
     <div id="proposalShelf" class="wk-shelf"></div>
     <button class="wk-button primary" id="propRoll">TIRADA EXTRA</button>
-    <button class="wk-button" id="propChange">CAMBIAR PREFERENCIAS</button>
-    <button class="wk-button" onclick="openWeekScreen('semana')">VER MI SEMANA</button>`;
+    <button class="wk-button" id="propChange">CAMBIAR PREFERENCIAS</button>`;
   document.getElementById('propRoll').onclick = proposalExtraRoll;
   document.getElementById('propChange').onclick = () => { Prop.step = Math.max(0, propSteps().length - 1); renderPropStep(); };
   const shelf = document.getElementById('proposalShelf');
@@ -3144,27 +3338,47 @@ function showProposalResults() {
     const card = document.createElement('article'); card.className = 'wk-book';
     const coverBtn = document.createElement('button'); coverBtn.className = 'wk-cover-btn'; coverBtn.setAttribute('aria-label', 'Abrir ficha de ' + item.title);
     const poster = weekPoster(mine ? own : item); coverBtn.append(poster); covers.push({ item, img: poster });
-    coverBtn.onclick = () => (mine ? openArteDetailModal(own.id) : openSuggestionPreview(item));
+    if (propPinnedId(item)) { const b = document.createElement('span'); b.className = 'wk-pin'; b.textContent = '✓'; b.setAttribute('aria-label', 'En tu semana'); coverBtn.append(b); }
+    coverBtn.onclick = () => (mine ? openOwnProposal(own) : openSuggestionPreview(item));
     const title = document.createElement('strong'); title.textContent = item.title; title.title = item.title;
-    const type = PROP_TYPES[Prop.ans.type];
-    const meta = document.createElement('span'); meta.className = 'wk-subtle';
-    meta.textContent = [item.author, item.tone != null && item.tone !== '' ? type.tones[item.tone] : ''].filter(Boolean)[0] || item.subcat;
-    const pin = document.createElement('button'); pin.className = 'wk-button primary'; pin.textContent = '+ MI SEMANA';
-    pin.onclick = () => { const id = pinWeekArt(own || item); const a = appState.arte.find(x => x.id === id); if (a && a.review) { delete a.review; saveState(); } pin.disabled = true; pin.textContent = '✓ FIJADA'; };
-    card.append(coverBtn, title, meta, pin);
-    if (!mine) { const add = document.createElement('button'); add.className = 'wk-button'; add.textContent = '+ MI BASE'; add.onclick = () => openSuggestionPreview(item); card.append(add); }
+    const meta = document.createElement('span'); meta.className = 'wk-subtle wk-meta'; meta.textContent = item.author || item.subcat;
+    card.append(coverBtn, title, meta);
     shelf.append(card);
   }
   decorateProposalCovers(covers);
 }
-// Ficha de una sugerencia que aún no está en tu base: añadir como pendiente o como vista (y valorarla).
+// Verbos según el tipo de obra (ver, leer, jugar, escuchar, visitar).
+function propVerbs(item) {
+  if (item.subcat === 'Videojuegos') return ['LO QUIERO JUGAR', 'YA LO HE JUGADO'];
+  if (item.branch === 'LITERATURA') return ['LO QUIERO LEER', 'YA LO HE LEÍDO'];
+  if (item.branch === 'MÚSICA') return ['LO QUIERO ESCUCHAR', 'YA LO HE ESCUCHADO'];
+  if (item.branch === 'EN VIVO' || item.branch === 'ARTES PLÁSTICAS') return ['QUIERO IR', 'YA HE IDO'];
+  return ['LA QUIERO VER', 'YA LA HE VISTO'];
+}
+function propSheetHead(item, coverItem) {
+  const meta = [item.author, item.year, item.subcat, item.city, Array.isArray(item.platforms) ? item.platforms.join(' · ') : ''].filter(Boolean).map(escapeWeek).join(' · ');
+  const genres = arteGenres(item).slice(0, 3).map(escapeWeek).join(' · ');
+  const syn = item.synopsis ? `<p class="wk-subtle sg-syn">${escapeWeek(String(item.synopsis).slice(0, 360))}</p>` : '';
+  return { html: `<div class="sg-head"><div id="sgCover" class="sg-cover"></div><div><p class="wk-subtle">${meta}</p>${genres ? `<p class="wk-subtle sg-gen">${genres}</p>` : ''}</div></div>${syn}`,
+    paint: () => { const box = document.getElementById('sgCover'); if (box) box.append(coverImg(coverItem)); } };
+}
+// Obra que ya está en tu base: a tu semana o a su ficha completa.
+async function openOwnProposal(own) {
+  const pinned = weekData().art.some(e => e.id === own.id);
+  const head = propSheetHead(own, own);
+  const p = choiceBox(own.title, head.html + (pinned ? '<p class="wk-subtle">✓ Ya está en tu semana</p>' : ''), [...(pinned ? [] : [['week', 'PARA ESTA SEMANA', true]]), ['open', 'ABRIR FICHA']]);
+  head.paint();
+  const v = await p;
+  if (v === 'week') { pinWeekArt(own); showToast('En tu semana · ARTE ACTIVO'); showProposalResults(); }
+  else if (v === 'open') openArteDetailModal(own.id);
+}
+// Ficha de una sugerencia que aún no está en tu base: a tu semana, como pendiente o como vista (y valorarla).
 async function openSuggestionPreview(item) {
   const own = propInBase(item);
-  const meta = [item.author, item.year, item.subcat, item.city].filter(Boolean).map(escapeWeek).join(' · ');
-  const syn = item.synopsis ? `<p class="wk-subtle sg-syn">${escapeWeek(String(item.synopsis).slice(0, 360))}</p>` : '';
-  const buttons = [['want', 'LA QUIERO VER', true], ['seen', 'YA LA HE VISTO'], ['no', 'NO ME INTERESA'], [null, 'CERRAR']];
-  const p = choiceBox(item.title, `<div class="sg-head"><div id="sgCover" class="sg-cover"></div><p class="wk-subtle">${meta}</p></div>${syn}`, buttons);
-  const box = document.getElementById('sgCover'); if (box) box.append(coverImg(own || item));
+  const [want, seen] = propVerbs(item);
+  const head = propSheetHead(item, own || item);
+  const p = choiceBox(item.title, head.html, [['week', 'PARA ESTA SEMANA', true], ['want', want], ['seen', seen], ['no', 'NO ME INTERESA']]);
+  head.paint();
   const v = await p;
   if (!v) return;
   if (v === 'no') {
@@ -3174,16 +3388,17 @@ async function openSuggestionPreview(item) {
     saveState(); showToast('No volverá a salir'); showProposalResults(); return;
   }
   const id = addSuggestionToBase(item, v === 'seen' ? 'VISTO' : 'PENDIENTE');
+  if (v === 'week') { pinWeekArt(appState.arte.find(a => a.id === id)); showToast('Añadida a tu base y a tu semana'); }
   showProposalResults();
   if (v === 'seen') openArteDetailModal(id);   // para ponerle nota y recuerdo
-  else showToast('Añadida a tu base · PENDIENTE');
+  else if (v === 'want') showToast('Añadida a tu base · PENDIENTE');
 }
 function addSuggestionToBase(item, status) {
   let actual = propInBase(item);
   if (actual) delete actual.review;
   else {
     const { id, ...rest } = item;
-    actual = { ...deepClone(rest), id: 'art_' + uid(), stars: 0, times: 0, progress: '', person: '', notes: '', city: item.city || '', genres: item.genres || [] };
+    actual = { ...deepClone(rest), id: 'art_' + uid(), stars: 0, times: 0, progress: '', person: '', notes: '', city: item.city || '', genres: [...(item.genres || [])] };
     appState.arte.unshift(actual);
   }
   actual.status = status;
@@ -3197,36 +3412,147 @@ function addSuggestionToBase(item, status) {
 
 </script>
 <script>
-const ARTE_GENRES={AUDIOVISUAL:['Drama','Thriller','Acción','Comedia','Ciencia ficción','Fantasía','Terror','Romance','Animación','Aventura','Crimen','Documental','Historia'],MÚSICA:['Rock','Pop','Jazz','Clásica','Electrónica','Hip-hop / Rap','Soul','R&B','Blues','Folk','Metal','Indie','Latina','Reggae','Flamenco','Ambient','BSO']};
-const GENRE_ALIASES={'drama':'Drama','thriller':'Thriller','thrillers':'Thriller','action':'Acción','action & adventure':'Acción','comedy':'Comedia','comedies':'Comedia','science-fiction':'Ciencia ficción','sci-fi & fantasy':'Ciencia ficción','science fiction':'Ciencia ficción','fantasy':'Fantasía','horror':'Terror','romance':'Romance','animation':'Animación','adventure':'Aventura','crime':'Crimen','documentary':'Documental','documentaries':'Documental','history':'Historia','alternative':'Indie','classical':'Clásica','electronic':'Electrónica','hip-hop/rap':'Hip-hop / Rap','soundtrack':'BSO','soundtracks':'BSO','latin':'Latina','acción y aventura':'Acción','acción':'Acción','ciencia ficción y fantasía':'Ciencia ficción','ciencia ficción':'Ciencia ficción','sci-fi':'Ciencia ficción','suspense':'Thriller','animación':'Animación','documental':'Documental','documentales':'Documental','comedia':'Comedia','aventura':'Aventura','terror':'Terror','fantasía':'Fantasía','crimen':'Crimen','mystery':'Misterio','supernatural':'Sobrenatural','war':'Bélica','bélica':'Bélica','family':'Familia','anime':'Animación','slice of life':'Costumbrista','sports':'Deportes','psychological':'Psicológico','alternativa':'Indie','bandas sonoras':'BSO','banda sonora':'BSO','música clásica':'Clásica','clásica':'Clásica','electrónica':'Electrónica','dance':'Electrónica','hip hop/rap':'Hip-hop / Rap','hip-hop':'Hip-hop / Rap','rap':'Hip-hop / Rap','r&b/soul':'R&B','pop latino':'Latina','latino':'Latina','música latina':'Latina','cantautores':'Folk','singer/songwriter':'Folk','heavy metal':'Metal'};
-function arteGenres(item){const values=Array.isArray(item.genres)?item.genres:String(item.genre||'').split(/[,;]/);return [...new Set(values.map(g=>g.trim()).filter(Boolean).map(g=>GENRE_ALIASES[g.toLowerCase()]||g))];}
+/* ---------- GÉNEROS (v5.4): situacionales, por subcategoría ----------
+   Cada subcategoría tiene su propia lista (no se ofrecen los mismos géneros para un museo que para una película).
+   arteGenres() traduce lo que llega de las fuentes (iTunes, TVmaze, MyAnimeList, Google Books, Wikidata…)
+   a estos nombres; lo que no reconoce se conserva tal cual como género propio. */
+const GENRES_BY_SUBCAT = {
+  'Cine': ['Acción', 'Animación', 'Aventura', 'Bélica', 'Biográfica', 'Ciencia ficción', 'Comedia', 'Crimen', 'Deportes', 'Documental', 'Drama', 'Familia', 'Fantasía', 'Histórica', 'Misterio', 'Musical', 'Noir', 'Psicológico', 'Romance', 'Terror', 'Thriller', 'Western'],
+  'Series': ['Acción', 'Animación', 'Aventura', 'Bélica', 'Ciencia ficción', 'Comedia', 'Crimen', 'Documental', 'Drama', 'Familia', 'Fantasía', 'Histórica', 'Miniserie', 'Misterio', 'Psicológico', 'Romance', 'Sitcom', 'Terror', 'Thriller', 'Western'],
+  'Anime': ['Acción', 'Aventura', 'Ciencia ficción', 'Comedia', 'Costumbrista', 'Deportes', 'Drama', 'Fantasía', 'Histórica', 'Isekai', 'Mecha', 'Misterio', 'Psicológico', 'Romance', 'Seinen', 'Shōjo', 'Shōnen', 'Sobrenatural', 'Terror', 'Thriller'],
+  'Videojuegos': ['Acción', 'Aventura', 'Carreras', 'Deportes', 'Estrategia', 'Indie', 'Lucha', 'Metroidvania', 'Multijugador', 'Mundo abierto', 'Narrativo', 'Plataformas', 'Puzle', 'Rol', 'Roguelike', 'Sandbox', 'Shooter', 'Sigilo', 'Simulación', 'Soulslike', 'Supervivencia', 'Terror'],
+  'Novela': ['Aventura', 'Bélica', 'Ciencia ficción', 'Clásico', 'Contemporánea', 'Distopía', 'Fantasía', 'Filosófica', 'Histórica', 'Humor', 'Literaria', 'Misterio', 'Negra / Policíaca', 'Psicológica', 'Realismo mágico', 'Romántica', 'Terror', 'Thriller', 'Viajes', 'Western'],
+  'Filosofía y Ensayo': ['Antigua', 'Arte y estética', 'Ciencia', 'Desarrollo personal', 'Divulgación', 'Economía', 'Estoicismo', 'Ética', 'Existencialismo', 'Filosofía moderna', 'Filosofía oriental', 'Metafísica', 'Política', 'Psicología', 'Religión', 'Sociedad', 'Tecnología'],
+  'Historia': ['Antigua', 'Arqueología', 'Biografía', 'Contemporánea', 'Divulgación', 'España', 'Exploración y viajes', 'Grecia y Roma', 'Ideas', 'Imperios', 'Medieval', 'Militar', 'Moderna', 'Siglo XX'],
+  'Cómic y Manga': ['Autobiográfica', 'Aventura', 'Bande dessinée', 'Bélica', 'Ciencia ficción', 'Costumbrista', 'Fantasía', 'Histórica', 'Humor', 'Manga', 'Negra / Policíaca', 'Novela gráfica', 'Seinen', 'Shōnen', 'Superhéroes', 'Terror'],
+  'Pintura': ['Abstracción', 'Barroco', 'Bodegón', 'Contemporáneo', 'Cubismo', 'Expresionismo', 'Gótico', 'Impresionismo', 'Mitológica', 'Neoclasicismo', 'Paisaje', 'Pop art', 'Postimpresionismo', 'Realismo', 'Religiosa', 'Renacimiento', 'Retrato', 'Romanticismo', 'Surrealismo'],
+  'Escultura': ['Abstracta', 'Barroca', 'Clásica', 'Contemporánea', 'Gótica', 'Instalación', 'Land art', 'Moderna', 'Monumental', 'Neoclásica', 'Religiosa', 'Renacimiento', 'Románica'],
+  'Arquitectura': ['Art déco', 'Barroca', 'Brutalista', 'Civil', 'Clásica', 'Contemporánea', 'Gótica', 'Ingeniería', 'Islámica / Mudéjar', 'Modernista', 'Neoclásica', 'Paisajismo', 'Racionalista', 'Religiosa', 'Renacentista', 'Románica'],
+  'Fotografía': ['Arquitectura', 'Bellas artes', 'Blanco y negro', 'Calle', 'Conceptual', 'Documental', 'Fotoperiodismo', 'Moda', 'Naturaleza', 'Paisaje', 'Retrato'],
+  'Discos': ['Ambient', 'Blues', 'Cantautor', 'Country', 'Electrónica', 'Experimental', 'Flamenco', 'Folk', 'Funk', 'Hip-hop / Rap', 'Indie', 'Jazz', 'Latina', 'Metal', 'Pop', 'Progresivo', 'Punk', 'R&B', 'Reggae', 'Rock', 'Soul', 'World'],
+  'Clásica y BSO': ['Barroco', 'BSO', 'BSO videojuegos', 'Cámara', 'Clasicismo', 'Clásica', 'Concierto', 'Contemporánea', 'Coral', 'Impresionismo', 'Minimalismo', 'Ópera', 'Piano', 'Romanticismo', 'Sacra', 'Siglo XX', 'Sinfónica'],
+  'Directos': ['Acústico', 'Blues', 'Cantautor', 'Clásica', 'Electrónica', 'Flamenco', 'Folk', 'Jazz', 'Metal', 'Pop', 'Rock', 'Soul'],
+  'Exposiciones': ['Arqueología', 'Arquitectura', 'Arte contemporáneo', 'Arte urbano', 'Ciencia', 'Diseño', 'Escultura', 'Fotografía', 'Historia', 'Instalación', 'Moda', 'Pintura', 'Retrospectiva'],
+  'Museos': ['Arqueología', 'Arte contemporáneo', 'Bellas artes', 'Casa-museo', 'Ciencia', 'Ciencias naturales', 'Diseño', 'Etnografía', 'Fotografía', 'Fundación de artista', 'Historia', 'Marítimo', 'Militar', 'Monográfico', 'Tecnología'],
+  'Teatro': ['Ballet', 'Clásico', 'Comedia', 'Contemporáneo', 'Danza', 'Drama', 'Experimental', 'Improvisación', 'Infantil', 'Monólogo', 'Musical', 'Ópera', 'Tragedia', 'Zarzuela'],
+  'Conciertos': ['Acústico', 'Cantautor', 'Clásica', 'Electrónica', 'Festival', 'Flamenco', 'Folk', 'Hip-hop / Rap', 'Indie', 'Jazz', 'Metal', 'Ópera', 'Pop', 'Rock']
+};
+// Por rama: la unión de sus subcategorías (para las vistas con TODAS las subcategorías).
+const ARTE_GENRES = Object.fromEntries(Object.entries(ARTE_BRANCHES).map(([b, subs]) => [b, [...new Set(subs.flatMap(s => GENRES_BY_SUBCAT[s] || []))]]));
+const CANON_GENRES = new Map([...new Set(Object.values(GENRES_BY_SUBCAT).flat())].map(g => [g.toLowerCase(), g]));
+function genresFor(subcat, branch) { return GENRES_BY_SUBCAT[subcat] || ARTE_GENRES[branch] || []; }
+
+// Equivalencias directas ('' = se descarta por no aportar nada).
+const GENRE_ALIASES = {
+  'drama': 'Drama', 'thriller': 'Thriller', 'thrillers': 'Thriller', 'suspense': 'Thriller', 'suspenso': 'Thriller', 'espionage': 'Thriller',
+  'action': 'Acción', 'action & adventure': 'Acción', 'acción y aventura': 'Acción', 'comedy': 'Comedia', 'comedies': 'Comedia',
+  'science-fiction': 'Ciencia ficción', 'science fiction': 'Ciencia ficción', 'sci-fi': 'Ciencia ficción', 'sci-fi & fantasy': 'Ciencia ficción', 'ciencia ficción y fantasía': 'Ciencia ficción',
+  'fantasy': 'Fantasía', 'horror': 'Terror', 'romance': 'Romance', 'animation': 'Animación', 'animated': 'Animación', 'anime': 'Animación',
+  'adventure': 'Aventura', 'crime': 'Crimen', 'documentary': 'Documental', 'documentaries': 'Documental', 'documentales': 'Documental', 'nature': 'Documental',
+  'history': 'Histórica', 'historical': 'Histórica', 'war': 'Bélica', 'military': 'Bélica', 'mystery': 'Misterio', 'detective': 'Misterio', 'supernatural': 'Sobrenatural',
+  'family': 'Familia', 'kids & family': 'Familia', 'infantil y familiar': 'Familia', 'children': 'Familia', 'western': 'Western', 'wéstern': 'Western',
+  'music': 'Musical', 'musicals': 'Musical', 'musicales': 'Musical', 'biography': 'Biográfica', 'biographical': 'Biográfica', 'biopic': 'Biográfica',
+  'film noir': 'Noir', 'cine negro': 'Noir', 'neo-noir': 'Noir', 'mini-series': 'Miniserie', 'miniseries': 'Miniserie', 'medical': 'Drama', 'legal': 'Drama', 'soap': 'Drama',
+  'slice of life': 'Costumbrista', 'sports': 'Deportes', 'psychological': 'Psicológico', 'shounen': 'Shōnen', 'shonen': 'Shōnen', 'shoujo': 'Shōjo', 'shojo': 'Shōjo',
+  'samurai': 'Histórica', 'martial arts': 'Acción', 'space': 'Ciencia ficción', 'time travel': 'Ciencia ficción', 'gore': 'Terror', 'super power': 'Acción', 'mythology': 'Fantasía',
+  'independent': '', 'independiente': '', 'avant garde': '', 'school': '', 'reality': '', 'talk show': '', 'game show': '', 'food': '', 'travel': '', 'teen': '', 'award winning': '',
+  // Libros (Google Books)
+  'fiction': '', 'general': '', 'juvenile fiction': '', 'young adult fiction': '', 'literary collections': '', 'literary criticism': '', 'philosophy': '', 'filosofía': '',
+  'biography & autobiography': 'Biografía', 'comics & graphic novels': 'Novela gráfica', 'psychology': 'Psicología', 'science': 'Ciencia', 'political science': 'Política',
+  'social science': 'Sociedad', 'self-help': 'Desarrollo personal', 'business & economics': 'Economía', 'art': 'Arte y estética', 'religion': 'Religión', 'true crime': 'Negra / Policíaca',
+  // Música
+  'alternative': 'Indie', 'alternativa': 'Indie', 'classical': 'Clásica', 'música clásica': 'Clásica', 'electronic': 'Electrónica', 'electronica': 'Electrónica', 'dance': 'Electrónica',
+  'hip-hop/rap': 'Hip-hop / Rap', 'hip hop/rap': 'Hip-hop / Rap', 'hip-hop': 'Hip-hop / Rap', 'rap': 'Hip-hop / Rap', 'r&b/soul': 'R&B', 'soundtrack': 'BSO', 'soundtracks': 'BSO',
+  'banda sonora': 'BSO', 'bandas sonoras': 'BSO', 'original score': 'BSO', 'latin': 'Latina', 'latino': 'Latina', 'pop latino': 'Latina', 'música latina': 'Latina', 'urbano latino': 'Latina',
+  'singer/songwriter': 'Cantautor', 'cantautores': 'Cantautor', 'singer-songwriter': 'Cantautor', 'heavy metal': 'Metal', 'world': 'World', 'música del mundo': 'World',
+  'new age': 'Ambient', 'americana': 'Folk', 'opera': 'Ópera', 'vocal': '', 'christmas': '', 'navidad': '', "children's music": '', 'música infantil': ''
+};
+// Reglas por palabras para etiquetas compuestas (sobre todo Wikidata): «videojuego de rol», «película bélica»…
+const GENRE_RULES = [
+  [/acci[oó]n[- ]aventura|action[- ]adventure/, ['Acción', 'Aventura']], [/rol de acci[oó]n|action role/, ['Rol', 'Acción']],
+  [/videojuego de rol|role-playing|\brpg\b|jrpg|rol t[aá]ctico/, ['Rol']], [/mundo abierto|open world/, ['Mundo abierto']],
+  [/disparos|shooter|\bfps\b/, ['Shooter']], [/plataformas|platform game|platformer/, ['Plataformas']], [/metroidvania/, ['Metroidvania']],
+  [/souls-?like/, ['Soulslike']], [/rogue-?(like|lite)/, ['Roguelike']], [/videojuego de estrategia|strategy game|\b4x\b|tower defense|estrategia en tiempo real|estrategia por turnos/, ['Estrategia']],
+  [/videojuego de l[oó]gica|puzzle|rompecabezas/, ['Puzle']], [/videojuego de simulaci[oó]n|simulation game|simulador|construcci[oó]n de ciudades|city-building|life simulation/, ['Simulación']],
+  [/videojuego de deportes|videojuego deportivo|sports game/, ['Deportes']], [/videojuego de carreras|racing/, ['Carreras']], [/videojuego de lucha|fighting game|beat .em up/, ['Lucha']],
+  [/hack (and|.n.) slash/, ['Acción']], [/survival horror|horror de supervivencia/, ['Terror', 'Supervivencia']], [/videojuego de terror|horror game/, ['Terror']],
+  [/sigilo|stealth/, ['Sigilo']], [/aventura gr[aá]fica|point-and-click|novela visual|visual novel|walking simulator|simulador de caminar|drama interactivo|interactive (drama|film|fiction)|pel[ií]cula interactiva/, ['Narrativo']],
+  [/videojuego independiente|indie game|videojuego indie/, ['Indie']], [/videojuego de supervivencia|survival game/, ['Supervivencia']], [/sandbox|mundo libre/, ['Sandbox']],
+  [/multijugador|multiplayer|\bmmo|battle royale/, ['Multijugador']], [/videojuego de aventura|adventure game/, ['Aventura']], [/videojuego de acci[oó]n|action game/, ['Acción']],
+  [/arquitectura g[oó]tica|g[oó]tico/, ['Gótica']], [/rom[aá]nic/, ['Románica']], [/renacentista|renacimiento/, ['Renacentista']], [/barroc/, ['Barroca']],
+  [/neocl[aá]sic/, ['Neoclásica']], [/modernis|art nouveau/, ['Modernista']], [/art d[eé]co/, ['Art déco']], [/brutalis/, ['Brutalista']],
+  [/racionalis|movimiento moderno|estilo internacional|bauhaus/, ['Racionalista']], [/nazar[ií]|mud[eé]jar|isl[aá]mic|andalus[ií]/, ['Islámica / Mudéjar']],
+  [/deconstructiv|posmodern|high-tech|arquitectura contempor/, ['Contemporánea']],
+  [/comedia dram[aá]tica|dramedy/, ['Comedia', 'Drama']], [/comedia rom[aá]ntica|romantic comedy/, ['Comedia', 'Romance']],
+  [/ciencia ficci[oó]n|science fiction|sci-fi/, ['Ciencia ficción']], [/fantas[ií]a|fantasy/, ['Fantasía']], [/terror|horror/, ['Terror']],
+  [/suspen(se|so)|thriller/, ['Thriller']], [/b[eé]lic|war film|de guerra/, ['Bélica']], [/biogr[aá]fic|biopic/, ['Biográfica']], [/hist[oó]ric/, ['Histórica']],
+  [/documental|documentary/, ['Documental']], [/animaci[oó]n|animated/, ['Animación']], [/musical/, ['Musical']], [/w[eé]stern/, ['Western']],
+  [/polic[ií]ac|criminal|crimen|crime|g[aá]nster|gangster|mafia/, ['Crimen']], [/misterio|mystery|detectiv/, ['Misterio']], [/distop/, ['Distopía']],
+  [/realismo m[aá]gico|magic realism/, ['Realismo mágico']], [/psicol[oó]gic|psychological/, ['Psicológico']],
+  [/hip ?hop|\brap\b/, ['Hip-hop / Rap']], [/electr[oó]nic|techno|\bhouse\b|synth/, ['Electrónica']], [/jazz/, ['Jazz']], [/flamenco/, ['Flamenco']],
+  [/metal/, ['Metal']], [/punk/, ['Punk']], [/indie|alternativ/, ['Indie']], [/progresiv|progressive/, ['Progresivo']], [/folk/, ['Folk']], [/soul/, ['Soul']],
+  [/blues/, ['Blues']], [/reggae/, ['Reggae']], [/cantautor|singer-songwriter/, ['Cantautor']], [/[oó]pera/, ['Ópera']], [/banda sonora|soundtrack|\bbso\b/, ['BSO']],
+  [/\brock\b/, ['Rock']], [/\bpop\b/, ['Pop']],
+  [/aventura|adventure/, ['Aventura']], [/acci[oó]n|action/, ['Acción']], [/rom[aá]ntic|romance/, ['Romance']], [/comedia|comedy|humor/, ['Comedia']], [/drama|dram[aá]tic/, ['Drama']]
+];
+// Mismo concepto, nombre propio de cada subcategoría.
+const GENRE_REMAP = {
+  'Cine': { 'Historia': 'Histórica' }, 'Series': { 'Historia': 'Histórica' },
+  'Novela': { 'Crimen': 'Negra / Policíaca', 'Romance': 'Romántica', 'Comedia': 'Humor', 'Psicológico': 'Psicológica', 'Drama': 'Literaria', 'Historia': 'Histórica' },
+  'Cómic y Manga': { 'Crimen': 'Negra / Policíaca', 'Comedia': 'Humor', 'Biográfica': 'Autobiográfica', 'Historia': 'Histórica' },
+  'Historia': { 'Biográfica': 'Biografía', 'Bélica': 'Militar', 'Histórica': '', 'Historia': '' },
+  'Filosofía y Ensayo': { 'Filosófica': '' },
+  'Anime': { 'Animación': '', 'Crimen': 'Thriller', 'Historia': 'Histórica' },
+  'Videojuegos': { 'Drama': 'Narrativo' },
+  'Pintura': { 'Gótica': 'Gótico', 'Renacentista': 'Renacimiento', 'Barroca': 'Barroco', 'Neoclásica': 'Neoclasicismo' },
+  'Escultura': { 'Gótico': 'Gótica', 'Barroco': 'Barroca', 'Neoclasicismo': 'Neoclásica', 'Renacentista': 'Renacimiento' },
+  'Arquitectura': { 'Gótico': 'Gótica', 'Barroco': 'Barroca', 'Renacimiento': 'Renacentista', 'Neoclasicismo': 'Neoclásica' }
+};
+// Las reglas por palabras solo se aplican a lo que llega de las fuentes: lo que escribes tú se respeta tal cual.
+function canonGenres(raw, fromSource) {
+  const s = String(raw || '').trim();
+  if (!s) return [];
+  const k = s.toLowerCase();
+  if (CANON_GENRES.has(k)) return [CANON_GENRES.get(k)];
+  if (k in GENRE_ALIASES) return GENRE_ALIASES[k] ? [GENRE_ALIASES[k]] : [];
+  const out = [];
+  if (fromSource) for (const [re, gs] of GENRE_RULES) if (re.test(k)) for (const g of gs) { if (!out.includes(g)) out.push(g); if (out.length >= 3) return out; }
+  return out.length ? out : [s.charAt(0).toUpperCase() + s.slice(1)];
+}
+function arteGenres(item, { fromSource = false } = {}) {
+  const values = Array.isArray(item.genres) ? item.genres : String(item.genre || '').split(/[,;]/);
+  const remap = GENRE_REMAP[item.subcat] || {};
+  const out = [];
+  for (const raw of values) for (let g of canonGenres(raw, fromSource)) {
+    if (g in remap) g = remap[g];
+    if (g && !out.includes(g)) out.push(g);
+  }
+  return out;
+}
 function migrateArteTypes(){
   for(const item of appState.arte||[]){if(item.subcat==='Museos')item.branch='EN VIVO';if(item.subcat==='Galerías'){item.legacySubcat='Galerías';item.subcat='Exposiciones';item.branch='EN VIVO';}item.genres=arteGenres(item);}
+  if(typeof migrateArte54==='function')migrateArte54();
   saveState();
 }
-function updateSituationalFilters(){
-  const located=LOCATED_BRANCHES.includes(currentArteBranch);
-  for(const id of ['arteCityFilter','arteMapGroupBtn'])document.getElementById(id).classList.toggle('hidden',!located);
-  if(!located){document.getElementById('arteCityFilter').value='ALL';currentArteCityGroupMode=false;}
-  const sel=document.getElementById('arteGenreFilter'),previous=sel.value,enabled=!!ARTE_GENRES[currentArteBranch];sel.classList.toggle('hidden',!enabled);
-  const values=[...new Set([...(ARTE_GENRES[currentArteBranch]||[]),...appState.arte.filter(i=>i.branch===currentArteBranch).flatMap(arteGenres)])].sort((a,b)=>a.localeCompare(b,'es'));
-  sel.replaceChildren(new Option('GÉNERO ▾','ALL'),...values.map(g=>new Option(g,g)));sel.value=values.includes(previous)?previous:'ALL';
-}
+// updateSituationalFilters(): bloque «ARTE (v5.4)».
 function arteProfile(branch,subcat){
-  const series=['Series','Anime'].includes(subcat),book=branch==='LITERATURA',live=branch==='EN VIVO';
-  return {series,book,live,located:live||branch==='ARTES PLÁSTICAS',genre:!!ARTE_GENRES[branch],progress:series||book,author:branch==='MÚSICA'?'ARTISTA / INTÉRPRETE':branch==='AUDIOVISUAL'?(series?'CREADOR / DIRECCIÓN':'DIRECCIÓN'):live?(subcat==='Museos'?'INSTITUCIÓN':subcat==='Conciertos'?'ARTISTA / GRUPO':'ARTISTA / COMPAÑÍA'):subcat==='Arquitectura'?'ARQUITECTO':'AUTOR / ARTISTA',times:live?'VISITAS':branch==='MÚSICA'?'ESCUCHAS':book?'LECTURAS':'VECES VISTA',unit:series?'EPISODIO ACTUAL':'PÁGINA ACTUAL'};
+  const series=['Series','Anime'].includes(subcat),game=subcat==='Videojuegos',book=branch==='LITERATURA',live=branch==='EN VIVO';
+  return {series,game,book,live,located:live||branch==='ARTES PLÁSTICAS',genre:true,progress:series||book||game,
+    author:game?'ESTUDIO / DESARROLLO':branch==='MÚSICA'?'ARTISTA / INTÉRPRETE':branch==='AUDIOVISUAL'?(series?'CREADOR / DIRECCIÓN':'DIRECCIÓN'):live?(subcat==='Museos'?'INSTITUCIÓN':subcat==='Conciertos'?'ARTISTA / GRUPO':'ARTISTA / COMPAÑÍA'):subcat==='Arquitectura'?'ARQUITECTO':'AUTOR / ARTISTA',
+    times:live?'VISITAS':branch==='MÚSICA'?'ESCUCHAS':book?'LECTURAS':game?'VECES COMPLETADO':'VECES VISTA',unit:series?'EPISODIO ACTUAL':game?'HORAS JUGADAS':'PÁGINA ACTUAL'};
 }
 function detailField(id,label,value='',type='text'){return `<label class="block text-[10px] font-bold uppercase text-earthMuted">${label}<input id="${id}" type="${type}" value="${escapeWeek(value)}" ${type==='number'?'min="0" step="1"':''} class="w-full mt-1 p-2.5 rounded-xl bg-sand border border-stoneBorder text-xs text-espresso"></label>`;}
 function renderSituationalArte(item){
   const subcat=document.getElementById('arteDetailSubcat').value||item.subcat,p=arteProfile(item.branch,subcat);
-  const progress=document.getElementById('arteDetailProgress'),box=progress.closest('.bento-card');box.classList.toggle('hidden',!p.progress);box.querySelector('label').textContent=p.unit;progress.placeholder=p.series?'Ej: 4':'Ej: 120';
+  const progress=document.getElementById('arteDetailProgress'),box=progress.closest('.bento-card');box.classList.toggle('hidden',!p.progress);box.querySelector('label').textContent=p.unit;progress.placeholder=p.series?'Ej: 4':p.game?'Ej: 12 h':'Ej: 120';
   document.getElementById('arteDetailCity').parentElement.classList.toggle('hidden',!p.located);
   document.getElementById('arteDetailTimes').closest('.bento-card').querySelector('label').textContent=p.times;
   const author=document.getElementById('arteDetailAuthor');author.placeholder=p.author;author.setAttribute('aria-label',p.author);
   const area=document.getElementById('arteSituationalFields');
   let html='';
-  if(p.genre)html+=detailField('detailGenres','GÉNEROS (SEPARADOS POR COMAS)',arteGenres(item).join(', '));
+  html+=genreChipsHtml(item,subcat);
   if(p.series)html+='<div class="grid grid-cols-2 gap-2">'+detailField('detailSeason','TEMPORADA',item.season||'','number')+detailField('detailTotal','EPISODIOS TOTALES',item.total||'','number')+'</div>';
+  else if(p.game)html+=platformChipsHtml(item)+detailField('detailTotal','HORAS PARA ACABARLO',item.total||'','number');
   else if(p.book)html+=detailField('detailTotal','PÁGINAS TOTALES',item.total||'','number');
   else if(item.branch==='AUDIOVISUAL'||item.branch==='MÚSICA')html+=detailField('detailRuntime','DURACIÓN (MIN)',item.runtime||'','number');
   if(p.live)html+='<div class="grid grid-cols-2 gap-2">'+detailField('detailVenue','RECINTO',item.venue||'')+detailField('detailVisit','FECHA DE VISITA',item.visitDate||'','date')+'</div>';
@@ -3235,12 +3561,14 @@ function renderSituationalArte(item){
   if(item.synopsis)html+=`<details class="text-xs"><summary>INFORMACIÓN DE LA OBRA</summary><p class="mt-2">${escapeWeek(item.synopsis)}</p></details>`;
   if(/^https:\/\//.test(item.sourceUrl||''))html+=`<a href="${escapeWeek(item.sourceUrl)}" target="_blank" rel="noopener noreferrer" class="text-xs underline">${escapeWeek(item.source||'Fuente')}</a>`;
   area.innerHTML=html;
-  if(p.genre){const field=document.getElementById('detailGenres');field.setAttribute('list','arteGenreSuggestions');area.insertAdjacentHTML('beforeend',`<datalist id="arteGenreSuggestions">${ARTE_GENRES[item.branch].map(g=>`<option value="${g}"></option>`).join('')}</datalist>`);}
+  wireDetailChips();
+  fillToneSelect(subcat);
   document.getElementById('arteDetailSubcat').onchange=()=>{saveSituationalArteDraft(item);renderSituationalArte(item);paintDetailCover();};
 }
 function saveSituationalArteDraft(item){ // Field edits are local until GUARDAR FICHA.
   for(const [id,key] of [['detailSeason','season'],['detailTotal','total'],['detailRuntime','runtime'],['detailVenue','venue'],['detailVisit','visitDate'],['detailTechnique','technique']]){const el=document.getElementById(id);if(el)item[key]=el.value;}
   const genres=document.getElementById('detailGenres');if(genres)item.genres=arteGenres({genre:genres.value});
+  const plats=document.getElementById('detailPlatforms');if(plats)item.platforms=plats.value?plats.value.split('|'):[];
 }
 function saveSituationalArte(item){saveSituationalArteDraft(item);}
 let arteSearchGeneration=0;
@@ -3418,7 +3746,7 @@ const PROVIDERS = {
         const anime = gids.includes(16) && r.original_language === 'ja';
         const poster = r.poster_path || '';
         return mkCand({
-          provider: 'tmdb', pid: r.media_type + ':' + r.id, kind: gids.includes(99) ? 'doc' : anime ? 'anime' : tv ? 'tv' : 'movie',
+          provider: 'tmdb', pid: r.media_type + ':' + r.id, kind: anime ? 'anime' : tv ? 'tv' : 'movie', genres: gids.includes(99) ? ['Documental'] : [],
           title: (tv ? r.name : r.title) || '', originalTitle: (tv ? r.original_name : r.original_title) || '',
           year: String((tv ? r.first_air_date : r.release_date) || '').slice(0, 4), synopsis: r.overview || '',
           cover: poster ? TMDB_IMG + 'w500' + poster : '', thumb: poster ? TMDB_IMG + 'w342' + poster : '', aspect: poster ? 2 / 3 : 0,
@@ -3449,7 +3777,7 @@ const PROVIDERS = {
       return (data.results || []).filter(r => r.trackName).map((r, i) => {
         const genre = r.primaryGenreName || '';
         return mkCand({
-          provider: 'itunes', pid: 'm:' + r.trackId, kind: /document/i.test(genre) ? 'doc' : 'movie',
+          provider: 'itunes', pid: 'm:' + r.trackId, kind: 'movie',
           title: r.trackName, author: r.artistName || '', year: String(r.releaseDate || '').slice(0, 4),
           runtime: r.trackTimeMillis ? Math.round(r.trackTimeMillis / 60000) : '', genres: genre ? [genre] : [],
           synopsis: r.longDescription || r.shortDescription || '',
@@ -3484,9 +3812,9 @@ const PROVIDERS = {
       const data = await getJSON(`https://api.tvmaze.com/search/shows?q=${encodeURIComponent(pq.q)}`);
       return (data || []).slice(0, 8).filter(x => x && x.show).map(({ show: s }, i) => mkCand({
         provider: 'tvmaze', pid: String(s.id),
-        kind: s.type === 'Documentary' ? 'doc' : (s.type === 'Animation' && s.language === 'Japanese') ? 'anime' : 'tv',
+        kind: (s.type === 'Animation' && s.language === 'Japanese') ? 'anime' : 'tv',
         title: s.name || '', year: String(s.premiered || '').slice(0, 4), runtime: s.averageRuntime || s.runtime || '',
-        genres: s.genres || [], synopsis: plainText(s.summary),
+        genres: [...(s.genres || []), ...(s.type === 'Documentary' ? ['Documental'] : [])], synopsis: plainText(s.summary),
         cover: (s.image && (s.image.original || s.image.medium)) || '', thumb: (s.image && s.image.medium) || '',
         rank: i, popularity: s.weight || 0, source: 'TVmaze', sourceUrl: s.url || ''
       }));
@@ -3511,7 +3839,7 @@ const PROVIDERS = {
           provider: 'jikan', pid: 'anime:' + r.mal_id, kind: 'anime', title: t.title, originalTitle: r.title || '', altTitles: t.alt,
           author: (r.studios || []).map(s => s.name).slice(0, 2).join(', '),
           year: String(r.year || (r.aired && r.aired.from) || '').slice(0, 4), runtime: minutesFromJikan(r.duration), total: r.episodes || '',
-          genres: (r.genres || []).map(g => g.name).filter(g => !JIKAN_SKIP_GENRES.has(g)), synopsis: cleanMal(r.synopsis),
+          genres: [...(r.demographics || []), ...(r.genres || []), ...(r.themes || [])].map(g => g.name).filter(g => !JIKAN_SKIP_GENRES.has(g)), synopsis: cleanMal(r.synopsis),
           cover: img.large_image_url || img.image_url || '', thumb: img.image_url || img.large_image_url || '',
           rank: i, popularity: r.members || 0, source: 'MyAnimeList', sourceUrl: r.url || ''
         });
@@ -3528,7 +3856,7 @@ const PROVIDERS = {
           provider: 'jikan', pid: 'manga:' + r.mal_id, kind: 'manga', title: t.title, originalTitle: r.title || '', altTitles: t.alt,
           author: (r.authors || []).map(a => malPersonName(a.name)).slice(0, 2).join(', '),
           year: String((r.published && r.published.from) || '').slice(0, 4),
-          genres: (r.genres || []).map(g => g.name).filter(g => !JIKAN_SKIP_GENRES.has(g)), synopsis: cleanMal(r.synopsis),
+          genres: [...(r.demographics || []), ...(r.genres || []), ...(r.themes || [])].map(g => g.name).filter(g => !JIKAN_SKIP_GENRES.has(g)), synopsis: cleanMal(r.synopsis),
           cover: img.large_image_url || img.image_url || '', thumb: img.image_url || img.large_image_url || '',
           rank: i, popularity: r.members || 0, source: 'MyAnimeList', sourceUrl: r.url || ''
         });
@@ -3632,7 +3960,7 @@ const PROVIDERS = {
 };
 
 const WIKI_HINTS = {
-  'Cine': ['película', 'film'], 'Series': ['serie'], 'Anime': ['anime', 'manga', 'serie'], 'Documentales': ['documental'],
+  'Cine': ['película', 'film', 'documental'], 'Series': ['serie'], 'Anime': ['anime', 'manga', 'serie'], 'Videojuegos': ['videojuego', 'juego'],
   'Novela': ['novela', 'libro'], 'Filosofía y Ensayo': ['ensayo', 'libro', 'tratado', 'filósof'], 'Historia': ['libro', 'ensayo', 'historia'],
   'Cómic y Manga': ['cómic', 'historieta', 'manga', 'novela gráfica'],
   'Pintura': ['pintura', 'cuadro', 'óleo', 'lienzo', 'retrato', 'tríptico', 'fresco'], 'Escultura': ['escultura', 'estatua', 'busto', 'relieve'],
@@ -3643,7 +3971,7 @@ const WIKI_HINTS = {
   'Teatro': ['obra de teatro', 'teatro', 'drama', 'comedia', 'tragedia', 'obra teatral', 'musical', 'dramaturg'],
   'Conciertos': ['banda', 'grupo', 'cantante', 'músico', 'compositor', 'orquesta', 'cantautor', 'rapero', 'dj', 'pianista']
 };
-const WIKI_SUFFIX = { 'Cine': 'película', 'Series': 'serie', 'Documentales': 'documental', 'Discos': 'álbum', 'Clásica y BSO': 'álbum', 'Directos': 'álbum' };
+const WIKI_SUFFIX = { 'Cine': 'película', 'Series': 'serie', 'Videojuegos': 'videojuego', 'Discos': 'álbum', 'Clásica y BSO': 'álbum', 'Directos': 'álbum' };
 function wikiThumb(src) { return /\/thumb\//.test(src || '') ? String(src).replace(/\/\d+px-/, '/250px-') : (src || ''); }
 function wikiQuery(lang, params) {
   const url = new URL(`https://${lang}.wikipedia.org/w/api.php`);
@@ -3671,18 +3999,19 @@ async function wikidataDetails(qid, ctx) {
   const ent = ((await wikidataGet({ action: 'wbgetentities', ids: qid, props: 'claims' })).entities || {})[qid];
   const cl = (ent && ent.claims) || {};
   const { branch, subcat } = ctx;
-  const creatorProps = branch === 'AUDIOVISUAL' ? ['P57', 'P170', 'P86'] : branch === 'LITERATURA' ? ['P50', 'P170'] : branch === 'MÚSICA' ? ['P175', 'P86', 'P170']
+  const creatorProps = subcat === 'Videojuegos' ? ['P178', 'P123'] : branch === 'AUDIOVISUAL' ? ['P57', 'P170', 'P86'] : branch === 'LITERATURA' ? ['P50', 'P170'] : branch === 'MÚSICA' ? ['P175', 'P86', 'P170']
     : subcat === 'Arquitectura' ? ['P84', 'P170'] : subcat === 'Teatro' ? ['P50', 'P170'] : subcat === 'Museos' ? [] : ['P170', 'P84', 'P50', 'P175'];
   let creators = [];
   for (const p of creatorProps) { creators = wdIds(cl, p); if (creators.length) break; }
   creators = creators.slice(0, 2);
-  const genreIds = wdIds(cl, 'P136').slice(0, 3), materialIds = wdIds(cl, 'P186').slice(0, 3), styleIds = wdIds(cl, 'P149').slice(0, 2);
+  const platIds = subcat === 'Videojuegos' ? wdIds(cl, 'P400').slice(0, 12) : [];
+  const genreIds = (subcat === 'Museos' ? wdIds(cl, 'P31') : wdIds(cl, 'P136')).slice(0, 3), materialIds = wdIds(cl, 'P186').slice(0, 3), styleIds = wdIds(cl, 'P149').slice(0, 2);
   const placeIds = subcat === 'Museos' ? [] : [...wdIds(cl, 'P276'), ...wdIds(cl, 'P195')].slice(0, 1);
   let cityIds = wdIds(cl, 'P131').slice(0, 1);
   if (!cityIds.length && placeIds.length) {
     try { const r = await wikidataGet({ action: 'wbgetclaims', entity: placeIds[0], property: 'P131' }); cityIds = wdIds(r.claims || {}, 'P131').slice(0, 1); } catch { /* sin ciudad */ }
   }
-  const ids = [...new Set([...creators, ...genreIds, ...materialIds, ...styleIds, ...placeIds, ...cityIds])];
+  const ids = [...new Set([...creators, ...genreIds, ...materialIds, ...styleIds, ...placeIds, ...cityIds, ...platIds])];
   const labels = {};
   if (ids.length) {
     const r = await wikidataGet({ action: 'wbgetentities', ids: ids.slice(0, 50).join('|'), props: 'labels', languages: 'es|en' });
@@ -3696,7 +4025,8 @@ async function wikidataDetails(qid, ctx) {
     year: wdYear(wdValues(cl, 'P577')[0]) || wdYear(wdValues(cl, 'P571')[0]) || wdYear(wdValues(cl, 'P580')[0]),
     runtime: wdMinutes(wdValues(cl, 'P2047')[0]),
     total: branch === 'LITERATURA' ? qty('P1104') : qty('P1113'),
-    genres: L(genreIds),
+    genres: subcat === 'Museos' ? museumGenres(L(genreIds)) : subcat === 'Arquitectura' ? [...L(styleIds), ...L(genreIds)] : L(genreIds),
+    platforms: platformFamilies(L(platIds)),
     technique: subcat === 'Arquitectura' ? L(styleIds).join(', ') : L(materialIds).join(', '),
     venue: L(placeIds)[0] || '',
     city: L(cityIds)[0] || '',
@@ -3706,6 +4036,7 @@ async function wikidataDetails(qid, ctx) {
 
 /* ---------- Búsqueda, puntuación y enriquecimiento ---------- */
 function providerPlan(branch, subcat) {
+  if (subcat === 'Videojuegos') return { primary: ['wikiGame'], fallback: ['wiki'] };
   const tmdb = !!tmdbKey();
   if (branch === 'AUDIOVISUAL') {
     // Con clave TMDB manda TMDB; si no encuentra nada (o la clave falla) se recurre a las fuentes libres.
@@ -3731,7 +4062,7 @@ function authorMatch(hint, author) {
   const hits = words.filter(w => a.includes(' ' + w + ' ')).length;
   return a.includes(' ' + words[words.length - 1] + ' ') || hits >= 2;
 }
-const KIND_FOR_SUBCAT = { 'Cine': ['movie'], 'Series': ['tv'], 'Anime': ['anime'], 'Documentales': ['doc'], 'Cómic y Manga': ['manga'] };
+const KIND_FOR_SUBCAT = { 'Cine': ['movie', 'doc'], 'Series': ['tv'], 'Anime': ['anime'], 'Cómic y Manga': ['manga'] };
 const PROVIDER_WEIGHT = { tmdb: 0.12, itunes: 0.08, tvmaze: 0.07, jikan: 0.07, gbooks: 0.06, openlibrary: 0.05, wiki: 0.04, aic: 0.03 };
 function rankCandidates(cands, ctx) {
   const { pq, branch, subcat } = ctx, hints = ctx.hints || {};
@@ -3828,7 +4159,7 @@ function inferSubcat(branch, c, chosen, touched) {
   if (touched || !c) return chosen;
   const subs = ARTE_BRANCHES[branch] || [];
   let s = '';
-  if (branch === 'AUDIOVISUAL') s = { movie: 'Cine', tv: 'Series', anime: 'Anime', doc: 'Documentales' }[c.kind] || '';
+  if (branch === 'AUDIOVISUAL') s = { movie: 'Cine', tv: 'Series', anime: 'Anime', doc: 'Cine' }[c.kind] || (c.kind === 'wiki' && /videojuego|video ?game/i.test(c.desc || '') ? 'Videojuegos' : '');
   else if (branch === 'LITERATURA') {
     const g = (c.genres || []).join(' ').toLowerCase();
     if (c.kind === 'manga' || /comic|graphic novel|manga|historieta/.test(g)) s = 'Cómic y Manga';
@@ -3842,7 +4173,7 @@ function inferSubcat(branch, c, chosen, touched) {
   return subs.includes(s) ? s : chosen;
 }
 function durationBandFor(min) { return !min ? null : min < 30 ? 0 : min <= 60 ? 1 : min <= 120 ? 2 : 3; }
-const META_FIELDS = ['author', 'year', 'runtime', 'total', 'genres', 'synopsis', 'technique', 'venue', 'city', 'coords', 'originalTitle', 'source', 'sourceUrl', 'sourceId'];
+const META_FIELDS = ['author', 'year', 'runtime', 'total', 'genres', 'platforms', 'synopsis', 'technique', 'venue', 'city', 'coords', 'originalTitle', 'source', 'sourceUrl', 'sourceId'];
 // Vuelca los datos de una coincidencia en la obra. Los campos personales nunca se tocan.
 function applyCandidate(item, c, { onlyEmpty = false, typed = '', skip = null } = {}) {
   const put = (k, v) => {
@@ -3857,7 +4188,8 @@ function applyCandidate(item, c, { onlyEmpty = false, typed = '', skip = null } 
   put('year', c.year ? String(c.year) : '');
   put('runtime', c.runtime ? String(c.runtime) : '');
   put('total', c.total ? String(c.total) : '');
-  put('genres', arteGenres({ genres: c.genres || [] }).slice(0, 3));
+  put('genres', arteGenres({ genres: c.genres || [], subcat: item.subcat }, { fromSource: true }).slice(0, 4));
+  put('platforms', Array.isArray(c.platforms) ? [...c.platforms] : []);
   put('synopsis', c.synopsis);
   put('technique', c.technique);
   put('venue', c.venue);
@@ -3869,7 +4201,7 @@ function applyCandidate(item, c, { onlyEmpty = false, typed = '', skip = null } 
   if (c.pid) put('sourceId', (c.pkey || c.provider) + ':' + c.pid);
   if ((item.durationBand == null || item.durationBand === '') && c.runtime && ['AUDIOVISUAL', 'MÚSICA'].includes(item.branch)) item.durationBand = durationBandFor(+c.runtime);
 }
-function clearMeta(item, skip) { for (const k of META_FIELDS) if (!(skip && skip.has(k))) item[k] = k === 'genres' ? [] : k === 'coords' ? null : ''; }
+function clearMeta(item, skip) { for (const k of META_FIELDS) if (!(skip && skip.has(k))) item[k] = k === 'genres' || k === 'platforms' ? [] : k === 'coords' ? null : ''; }
 
 /* ---------- Imágenes: comprobación, normalización y almacén local ---------- */
 const probeCache = new Map();
@@ -4325,6 +4657,7 @@ function stagedMetaLine(it) {
   if (it.runtime && ['AUDIOVISUAL', 'MÚSICA'].includes(it.branch) && !serial) parts.push(it.runtime + ' min');
   else if (it.total && serial) parts.push(it.total + ' episodios');
   else if (it.total && it.branch === 'LITERATURA') parts.push(it.total + ' págs.');
+  else if (it.total && it.subcat === 'Videojuegos') parts.push(it.total + ' h');
   const g = arteGenres(it)[0];
   if (g && ARTE_GENRES[it.branch]) parts.push(g);
   if (it.city && LOCATED_BRANCHES.includes(it.branch)) parts.push(it.city);
@@ -4425,6 +4758,7 @@ function renderStagedArteCards() {
     field('year', 'AÑO');
     if (serial) field('total', 'EPISODIOS', { type: 'number' });
     else if (p.book) field('total', 'PÁGINAS', { type: 'number' });
+    else if (it.subcat === 'Videojuegos') field('total', 'HORAS PARA ACABARLO', { type: 'number' });
     else if (['AUDIOVISUAL', 'MÚSICA'].includes(it.branch)) field('runtime', 'DURACIÓN (MIN)', { type: 'number' });
     const memLab = mkEl('label', '', 'RECUERDO');
     const memSel = mkEl('select', 'st-in');
@@ -4506,7 +4840,7 @@ async function confirmSaveStagedArte() {
     closeModal('modalAddArte');
     const targetBranch = created[0].item.branch;
     stagedArteItems = [];
-    openArteBranch(targetBranch);
+    openArteGrid(targetBranch, created[0].item.subcat);
     for (const { item } of [...fresh, ...merged]) {
       if (item.cover && !item.coverLocal) cacheRemoteCover(item);
       else if (!hasCover(item) && (!item.coverLookup || item.coverLookup.status !== 'off')) CoverAuto.enqueue(item.id);
@@ -4981,7 +5315,7 @@ function openDB() {
       resolve(d);
     };
     req.onerror = () => reject(req.error);
-    req.onblocked = () => showToast('Cierra las otras pestañas de Mi Espacio para continuar.', { ms: 15000 });
+    req.onblocked = () => { window.__bootStep = 'datos: abrir (bloqueada por otra ventana)'; showToast('Cierra las otras pestañas de Mi Espacio para continuar.', { ms: 15000 }); };
   });
 }
 
@@ -5327,6 +5661,7 @@ async function migrateCoachFiles(s) {
 /* ---------- Arranque del almacén ---------- */
 async function initDB() {
   Store.tab = uid();
+  window.__bootStep = 'datos: abrir';
   try { db = await openDB(); }
   catch (error) {
     Store.memoryOnly = true;
@@ -5335,10 +5670,12 @@ async function initDB() {
     return;
   }
   let raw = null, recovered = false;
+  window.__bootStep = 'datos: leer';
   try { raw = await idbGet('main'); } catch { raw = null; }
   if (raw != null && !isObj(raw)) {
     try { await idbPut('corrupt:' + Date.now(), raw); } catch { /* sin copia */ }
     raw = null;
+    window.__bootStep = 'datos: copia';
     const snap = await latestSnapshot();
     if (snap) { raw = snap; recovered = true; }
   }
@@ -5347,11 +5684,13 @@ async function initDB() {
   // Antes de convertir datos de una versión anterior, se guardan tal cual como punto de restauración.
   if (upgrading) { try { await idbPut('snap:' + new Date().toISOString() + '~antes-de-actualizar', raw); } catch { /* sin punto */ } }
   appState = raw ? normalizeState(raw, { legacyAt: legacy ? Date.now() : 0 }).state : freshState();
+  window.__bootStep = 'datos: fichas';
   const moved = await migrateCoachFiles(appState);
   Store.rev = appState._sync.rev;
   Store.maxStamp = appState._sync.legacyAt;
   for (const t of [...Object.values(appState._sync.stamps), ...Object.values(appState._sync.deleted)]) if (t > Store.maxStamp) Store.maxStamp = t;
   Store.index = indexRecords(appState);
+  window.__bootStep = 'datos: ajustes';
   try { Store.meta = (await idbGet('meta')) || {}; } catch { Store.meta = {}; }
   if (!Store.meta.installedAt) { Store.meta.installedAt = Date.now(); saveMeta(); }
   // Estado nuevo, heredado o reparado: se escribe ya. Sin sellar nada (los datos de fábrica quedan con sello 0
@@ -5939,6 +6278,7 @@ async function restoreSnapshotFlow(key) {
 // Cada paso va protegido: si uno falla con tus datos, la app arranca igual, avisa del error
 // y sigue pudiendo recibir versiones nuevas (el registro del service worker va primero).
 async function bootStep(name, fn) {
+  window.__bootStep = name;
   try { await fn(); }
   catch (error) { console.error('[arranque] ' + name, error); (window.__bootErrors = window.__bootErrors || []).push(name + ': ' + (error && error.message || error)); }
 }
@@ -5951,6 +6291,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   await bootStep('carátulas', migrateCovers);
   await bootStep('navegación', () => Nav.init());
   document.body.classList.remove('booting');
+  window.__bootStep = 'listo';
   await bootStep('estado', updateBackupDot);
   await bootStep('revisar', () => { if (typeof updateReviewEntry === 'function') updateReviewEntry(); });
   if (typeof Cloud !== 'undefined') Cloud.init().catch(error => console.error(error));
@@ -6663,7 +7004,7 @@ function renderReview() {
   if (!it) {
     const left = typeof catalogPendingCount === 'function' ? catalogPendingCount() : 0;
     body.innerHTML = `<div class="rv-empty"><strong>NADA POR REVISAR</strong>
-      ${left ? `<button class="wk-button primary" id="rvCatalog">CARGAR CATÁLOGO INICIAL (${left})</button>` : ''}
+      ${left ? `<button class="wk-button primary" id="rvCatalog">${catalogButtonLabel(left)}</button>` : ''}
       <button class="wk-button" id="rvBulk">AÑADIR LISTA DE TÍTULOS</button></div>`;
     const cat = document.getElementById('rvCatalog'); if (cat) cat.onclick = loadCatalogFlow;
     document.getElementById('rvBulk').onclick = openBulkList;
@@ -6772,19 +7113,22 @@ function openBulkList() {
 }
 
 /* ---------- Catálogo inicial (primera subida) ---------- */
+// El catálogo crece por versiones (1 = primera subida, 2 = videojuegos…): solo se ofrece lo que aún no cargaste.
+function catalogLoadedLevel() { return Number((appState.settings && appState.settings.catalogLoaded) || 0); }
 function catalogPendingItems() {
-  const no = new Set((appState.settings && appState.settings.notInterested) || []);
-  return CATALOG.filter(c => !no.has(normTitle(c.title) + '|' + c.subcat) && !findArteDuplicate({ ...c, id: '__catalogo' }, appState.arte || []));
+  const no = new Set((appState.settings && appState.settings.notInterested) || []), level = catalogLoadedLevel();
+  return CATALOG.filter(c => catalogLevelOf(c) > level && !no.has(normTitle(c.title) + '|' + c.subcat) && !findArteDuplicate({ ...c, id: '__catalogo' }, appState.arte || []));
 }
-function catalogPendingCount() { return appState.settings && appState.settings.catalogLoaded ? 0 : catalogPendingItems().length; }
+function catalogPendingCount() { return catalogLoadedLevel() >= CATALOG_LEVEL ? 0 : catalogPendingItems().length; }
+function catalogButtonLabel(n) { return (catalogLoadedLevel() ? 'AÑADIR NOVEDADES DEL CATÁLOGO' : 'CARGAR CATÁLOGO INICIAL') + ` (${n})`; }
 async function loadCatalogFlow() {
   const items = catalogPendingItems();
-  if (!items.length) { showToast('Ya tienes todo el catálogo'); return; }
+  if (!items.length) { appState.settings.catalogLoaded = CATALOG_LEVEL; saveState(); showToast('Ya tienes todo el catálogo'); return; }
   const by = {}; for (const c of items) by[c.branch] = (by[c.branch] || 0) + 1;
-  const ok = await confirmBox({ title: 'CATÁLOGO INICIAL', html: `<p class="wk-subtle">Se añaden ${items.length} obras (${Object.entries(by).map(([b, n]) => `${n} de ${b.toLowerCase()}`).join(', ')}) para revisar una a una: VISTO con tu nota, PENDIENTE o NO ME INTERESA. No salen en tu bóveda hasta que las revises. Las carátulas se completan solas.</p>`, ok: 'CARGAR' });
+  const ok = await confirmBox({ title: catalogLoadedLevel() ? 'NOVEDADES DEL CATÁLOGO' : 'CATÁLOGO INICIAL', html: `<p class="wk-subtle">Se añaden ${items.length} obras (${Object.entries(by).map(([b, n]) => `${n} de ${b.toLowerCase()}`).join(', ')}) para revisar una a una: VISTO con tu nota, PENDIENTE o NO ME INTERESA. No salen en tu bóveda hasta que las revises. Las carátulas se completan solas.</p>`, ok: 'CARGAR' });
   if (!ok) return;
   for (const c of items) { const { id, ...rest } = c; appState.arte.push({ ...deepClone(rest), id: 'art_' + uid(), status: 'PENDIENTE', stars: 0, times: 0, progress: '', person: '', notes: '', review: true }); }
-  appState.settings.catalogLoaded = 1;
+  appState.settings.catalogLoaded = CATALOG_LEVEL;
   saveState();
   setTimeout(() => CoverAuto.start(), 300);
   updateReviewEntry();
@@ -6794,7 +7138,7 @@ async function loadCatalogFlow() {
 function bulkToolsHtml() {
   const left = catalogPendingCount(), n = reviewCount();
   return `<div class="md-sec"><h3 class="wk-title">ENTRADA MASIVA</h3>
-    ${left ? `<button class="wk-button" id="mdCatalog">CARGAR CATÁLOGO INICIAL (${left})</button>` : ''}
+    ${left ? `<button class="wk-button" id="mdCatalog">${catalogButtonLabel(left)}</button>` : ''}
     <button class="wk-button" id="mdBulk">AÑADIR LISTA DE TÍTULOS</button>
     ${n ? `<button class="wk-button" id="mdReview">REVISAR (${n})</button>` : ''}</div>`;
 }
@@ -6804,6 +7148,236 @@ function wireBulkTools() {
   if ($('mdBulk')) $('mdBulk').onclick = openBulkList;
   if ($('mdReview')) $('mdReview').onclick = () => { closeWeekModal(); openReview(); };
 }
+</script>
+<script>
+/* =====================================================================
+   ARTE (v5.4)
+   · Al entrar en una rama (AUDIOVISUAL, LITERATURA…) se eligen primero sus
+     subcategorías con botones grandes; luego la cuadrícula, ya filtrada (con
+     SUBCATEGORÍA → TODAS se vuelven a ver juntas).
+   · Buscador en todas las cuadrículas (título, autor, año, ciudad, género…).
+   · Géneros por subcategoría en la ficha (fichas tocables) y en el filtro.
+   · Videojuegos: plataformas, horas para acabarlo y horas jugadas.
+   ===================================================================== */
+const ARTE_SUB_ICONS = {
+  'Cine': 'clapperboard', 'Series': 'tv', 'Anime': 'origami', 'Videojuegos': 'gamepad-2',
+  'Novela': 'book-open', 'Filosofía y Ensayo': 'feather', 'Historia': 'scroll-text', 'Cómic y Manga': 'book-image',
+  'Pintura': 'palette', 'Escultura': 'shapes', 'Arquitectura': 'church', 'Fotografía': 'camera',
+  'Discos': 'disc-3', 'Clásica y BSO': 'piano', 'Directos': 'mic-vocal',
+  'Exposiciones': 'image', 'Museos': 'landmark', 'Teatro': 'drama', 'Conciertos': 'guitar'
+};
+const ArteNav = { pendingSubcat: null };
+
+/* ---------- Pantalla de subcategorías ---------- */
+function openArteBranch(branchName) { openArteSubs(branchName); }
+function openArteSubs(branch) {
+  currentArteBranch = branch;
+  currentScreen = 'arteSubs';
+  hideAllViews();
+  document.getElementById('headerSub').classList.remove('hidden');
+  document.getElementById('headerSubTitle').textContent = branch;
+  document.getElementById('mainFabText').textContent = '+ REGISTRAR';
+  renderArteSubs();
+  document.getElementById('viewArteSubs').classList.remove('hidden');
+  window.scrollTo(0, 0);
+}
+function renderArteSubs() {
+  const root = document.getElementById('viewArteSubs');
+  root.innerHTML = (ARTE_BRANCHES[currentArteBranch] || []).map(sc => `<button type="button" class="sub-btn as-btn" data-sc="${escapeWeek(sc)}">
+      <span class="flex items-center gap-3.5"><i data-lucide="${ARTE_SUB_ICONS[sc] || 'sparkles'}" class="w-7 h-7 text-espresso"></i><span class="text-[17px] font-semibold uppercase tracking-wide">${escapeWeek(sc)}</span></span>
+      <i data-lucide="chevron-right" class="w-5 h-5 text-earthMuted"></i></button>`).join('');
+  root.querySelectorAll('[data-sc]').forEach(b => { b.onclick = () => openArteGrid(currentArteBranch, b.dataset.sc); });
+  lucide.createIcons();
+}
+// Cuadrícula de una rama, ya filtrada por subcategoría ('ALL' = todas).
+function openArteGrid(branch, subcat = 'ALL', { keepSearch = false } = {}) {
+  currentArteBranch = branch;
+  currentArteStatusFilter = 'ALL';
+  currentArteRewatchOnly = false;
+  currentArteCityGroupMode = false;
+  for (const id of ['arteCityFilter', 'arteGenreFilter', 'arteMemoryFilter', 'artePersonFilter']) document.getElementById(id).value = 'ALL';
+  if (!keepSearch) document.getElementById('arteSearch').value = '';
+  ArteNav.pendingSubcat = subcat;
+  openScreen('arte');
+}
+function setArteGridTitle() {
+  const sub = document.getElementById('arteSubcatFilter').value;
+  document.getElementById('headerSubTitle').textContent = sub && sub !== 'ALL' ? sub.toUpperCase() : currentArteBranch;
+}
+function onArteSubcatChange() {
+  setArteGridTitle();
+  updateSituationalFilters();
+  renderArteGrid();
+}
+// Los desplegables con un filtro puesto se marcan como las píldoras activas.
+function updateArteSelectPills() {
+  for (const id of ['arteSubcatFilter', 'arteGenreFilter', 'arteStarsFilter', 'arteMemoryFilter', 'arteCityFilter', 'artePersonFilter']) {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('active-filter', !['ALL', '0', ''].includes(el.value));
+  }
+}
+
+/* ---------- Buscador ---------- */
+const foldText = s => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+function arteSearchQuery() { const el = document.getElementById('arteSearch'); return el ? foldText(el.value).trim() : ''; }
+function arteMatchesSearch(item, q) {
+  if (!q) return true;
+  const hay = foldText([item.title, item.originalTitle, item.author, item.year, item.city, item.venue, item.person,
+    Array.isArray(item.platforms) ? item.platforms.join(' ') : '', arteGenres(item).join(' ')].join(' '));
+  return q.split(/\s+/).every(w => hay.includes(w));
+}
+let arteSearchTimer = 0;
+function onArteSearchInput() { clearTimeout(arteSearchTimer); arteSearchTimer = setTimeout(renderArteGrid, 140); }
+function clearArteOtherFilters() {
+  currentArteStatusFilter = 'ALL'; currentArteRewatchOnly = false;
+  for (const id of ['arteGenreFilter', 'arteMemoryFilter', 'arteCityFilter', 'artePersonFilter']) document.getElementById(id).value = 'ALL';
+  document.getElementById('arteStarsFilter').value = '0';
+  updateArteFilterPillsUI();
+}
+// Sin resultados: si lo buscado está en otra subcategoría (o tapado por otros filtros), se ofrece ir allí.
+function renderArteEmpty(gridBox) {
+  const q = arteSearchQuery();
+  gridBox.innerHTML = `<div class="col-span-3 bento-card p-8 text-center space-y-2">
+      <p class="text-xs font-bold uppercase tracking-wider text-earthMuted">${q ? 'Sin resultados' : 'No hay obras con estos filtros'}</p>
+      ${q ? '' : '<p class="text-xs text-earthMuted">Pulsa "+ REGISTRAR" abajo para añadir títulos.</p>'}</div>`;
+  if (!q) return;
+  const all = (appState.arte || []).filter(a => !a.review && arteMatchesSearch(a, q));
+  if (!all.length) return;
+  const sub = document.getElementById('arteSubcatFilter').value;
+  const here = all.filter(a => a.branch === currentArteBranch && (sub === 'ALL' || a.subcat === sub));
+  const groups = new Map();
+  for (const a of all) if (!here.includes(a)) { const k = a.branch + '|' + a.subcat; groups.set(k, (groups.get(k) || 0) + 1); }
+  const wrap = document.createElement('div'); wrap.className = 'as-else';
+  const add = (label, fn) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'filter-pill'; b.textContent = label; b.onclick = fn; wrap.append(b); };
+  if (here.length) add(`QUITAR FILTROS (${here.length})`, () => { clearArteOtherFilters(); renderArteGrid(); });
+  for (const [k, n] of groups) { const [branch, subcat] = k.split('|'); add(`${subcat} (${n})`, () => openArteGrid(branch, subcat, { keepSearch: true })); }
+  gridBox.firstElementChild.append(wrap);
+}
+
+/* ---------- Filtro GÉNERO: situacional ---------- */
+// Con una subcategoría: su lista de géneros (los que aún no tienen obras, apagados).
+// Con TODAS: solo los géneros que tienen tus obras.
+function updateSituationalFilters() {
+  const located = LOCATED_BRANCHES.includes(currentArteBranch);
+  for (const id of ['arteCityFilter', 'arteMapGroupBtn']) document.getElementById(id).classList.toggle('hidden', !located);
+  if (!located) { document.getElementById('arteCityFilter').value = 'ALL'; currentArteCityGroupMode = false; }
+  const sel = document.getElementById('arteGenreFilter'), previous = sel.value, sub = document.getElementById('arteSubcatFilter').value;
+  const scope = (appState.arte || []).filter(i => i.branch === currentArteBranch && !i.review && (sub === 'ALL' || i.subcat === sub));
+  const counts = new Map();
+  for (const it of scope) for (const g of arteGenres(it)) counts.set(g, (counts.get(g) || 0) + 1);
+  const base = sub === 'ALL' ? [] : genresFor(sub, currentArteBranch);
+  const values = [...new Set([...base, ...counts.keys()])].sort((a, b) => a.localeCompare(b, 'es'));
+  sel.replaceChildren(new Option('GÉNERO', 'ALL'), ...values.map(g => { const o = new Option(g, g); if (!counts.has(g)) o.disabled = true; return o; }));
+  sel.value = counts.has(previous) ? previous : 'ALL';
+  sel.classList.toggle('hidden', !values.length);
+}
+
+/* ---------- Ficha: géneros y plataformas como fichas tocables ---------- */
+function chipsHtml(values, selected, attr) {
+  return values.map(v => `<button type="button" class="ge-chip" ${attr}="${escapeWeek(v)}" aria-pressed="${selected.includes(v)}">${escapeWeek(v)}</button>`).join('');
+}
+function genreChipsHtml(item, subcat) {
+  const sel = arteGenres({ genres: item.genres || [], subcat });
+  const list = genresFor(subcat, item.branch);
+  const values = [...sel.filter(g => !list.includes(g)), ...list];
+  return `<details class="ge-box" id="detailGenresBox"><summary><span class="ge-l">GÉNEROS</span><span class="ge-sum" id="detailGenresSum">${escapeWeek(sel.join(' · ')) || 'Sin género'}</span></summary>
+    <div class="ge-chips" id="detailGenreChips">${chipsHtml(values, sel, 'data-g')}</div>
+    <input id="detailGenreOther" class="ge-other" placeholder="Otro género" maxlength="40" enterkeyhint="done" aria-label="Añadir otro género">
+    <input type="hidden" id="detailGenres" value="${escapeWeek(sel.join(', '))}"></details>`;
+}
+function platformChipsHtml(item) {
+  const sel = Array.isArray(item.platforms) ? item.platforms : [];
+  const values = [...new Set([...GAME_PLATFORMS, ...sel])];
+  return `<div class="ge-row"><span class="ge-l">PLATAFORMAS</span><div class="ge-chips" id="detailPlatformChips">${chipsHtml(values, sel, 'data-p')}</div>
+    <input type="hidden" id="detailPlatforms" value="${escapeWeek(sel.join('|'))}"></div>`;
+}
+function wireDetailChips() {
+  const gbox = document.getElementById('detailGenreChips');
+  // Se respeta el orden: el primer género es el principal; lo que marcas se añade al final.
+  const hidden = document.getElementById('detailGenres');
+  const order = hidden ? hidden.value.split(',').map(x => x.trim()).filter(Boolean) : [];
+  const syncGenres = () => {
+    hidden.value = order.join(', ');
+    document.getElementById('detailGenresSum').textContent = order.join(' · ') || 'Sin género';
+  };
+  const setGenre = (b, on) => {
+    b.setAttribute('aria-pressed', String(on));
+    const g = b.dataset.g, i = order.indexOf(g);
+    if (on && i < 0) order.push(g); else if (!on && i >= 0) order.splice(i, 1);
+    syncGenres();
+  };
+  if (gbox) {
+    gbox.onclick = e => { const b = e.target.closest('.ge-chip'); if (b) setGenre(b, b.getAttribute('aria-pressed') !== 'true'); };
+    const other = document.getElementById('detailGenreOther');
+    const addOther = () => {
+      const v = other.value.trim().replace(/[,;|]/g, ' ').replace(/\s+/g, ' ');
+      if (!v) return;
+      const g = v.charAt(0).toUpperCase() + v.slice(1);
+      let b = [...gbox.querySelectorAll('.ge-chip')].find(x => x.dataset.g.toLowerCase() === g.toLowerCase());
+      if (!b) { gbox.insertAdjacentHTML('afterbegin', chipsHtml([g], [g], 'data-g')); b = gbox.firstElementChild; }
+      setGenre(b, true);
+      other.value = '';
+    };
+    other.onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); addOther(); } };
+    other.onchange = addOther;
+  }
+  const pbox = document.getElementById('detailPlatformChips');
+  if (pbox) pbox.onclick = e => {
+    const b = e.target.closest('.ge-chip'); if (!b) return;
+    b.setAttribute('aria-pressed', String(b.getAttribute('aria-pressed') !== 'true'));
+    document.getElementById('detailPlatforms').value = [...pbox.querySelectorAll('[aria-pressed="true"]')].map(x => x.dataset.p).join('|');
+  };
+}
+// ENERGÍA para PROPONER: las opciones dependen del tipo de obra (y no se muestra donde PROPONER no llega).
+function fillToneSelect(subcat) {
+  const sel = document.getElementById('arteDetailTone'), dur = document.getElementById('arteDetailDuration');
+  const type = typeof propTypeFor === 'function' ? propTypeFor(subcat) : null, box = sel.closest('details');
+  if (box) box.classList.toggle('hidden', !type);
+  if (!type) return;
+  const keep = sel.value;
+  sel.replaceChildren(new Option('Sin clasificar', ''), ...type.tones.map((t, i) => new Option(t, String(i))));
+  sel.value = keep !== '' && Number(keep) < type.tones.length ? keep : '';
+  const durLabel = dur.closest('label');
+  if (durLabel) durLabel.classList.toggle('hidden', ['book', 'comic', 'game'].includes(type.energy));
+}
+
+/* ---------- Datos: documentales → cine, géneros del catálogo, plataformas ---------- */
+const PLATFORM_RULES = [[/playstation|\bps[1-5p]\b|\bpsp\b|vita/i, 'PlayStation'], [/xbox/i, 'Xbox'], [/switch|nintendo|\bwii\b|3ds|game ?boy|gamecube|\bsnes\b|\bnes\b/i, 'Nintendo'],
+  [/windows|macos|mac os|linux|steam|\bpc\b|ms-dos|ordenador/i, 'PC'], [/android|\bios\b|iphone|ipad|m[oó]vil|mobile/i, 'Móvil']];
+function platformFamilies(labels) {
+  const out = [];
+  for (const l of labels || []) for (const [re, fam] of PLATFORM_RULES) if (re.test(l) && !out.includes(fam)) out.push(fam);
+  return GAME_PLATFORMS.filter(p => out.includes(p));
+}
+const MUSEUM_RULES = [[/arte contempor|arte moderno|modern art|contemporary art/, 'Arte contemporáneo'], [/historia natural|ciencias naturales|natural history/, 'Ciencias naturales'],
+  [/arqueol/, 'Arqueología'], [/museo de (la )?ciencia|science museum|planetario|ciencia y tecnolog/, 'Ciencia'], [/casa[- ]museo|house museum|historic house/, 'Casa-museo'],
+  [/etnogr|etnol|antropol/, 'Etnografía'], [/mar[ií]tim|naval/, 'Marítimo'], [/militar|military|del ej[eé]rcito/, 'Militar'], [/dise[ñn]o|design/, 'Diseño'],
+  [/fotograf|photograph/, 'Fotografía'], [/tecnolog|technology/, 'Tecnología'], [/museo de historia|history museum|museo hist[oó]rico/, 'Historia'],
+  [/museo de arte|art museum|pinacoteca|bellas artes|fine arts|galer[ií]a de arte|art gallery/, 'Bellas artes']];
+function museumGenres(labels) {
+  const out = [];
+  for (const l of labels || []) for (const [re, g] of MUSEUM_RULES) if (re.test(String(l).toLowerCase()) && !out.includes(g)) { out.push(g); break; }
+  return out;
+}
+function migrateArte54() {
+  const byKey = new Map(CATALOG.map(c => [normTitle(c.title) + '|' + c.subcat, c]));
+  for (const it of appState.arte || []) {
+    if (it.subcat === 'Documentales' || it.subcat === 'Documental') {
+      it.subcat = 'Cine'; it.branch = 'AUDIOVISUAL';
+      const g = arteGenres(it); if (!g.includes('Documental')) g.unshift('Documental');
+      it.genres = g;
+    }
+    const c = byKey.get(normTitle(it.title) + '|' + it.subcat);
+    if (c && !arteGenres(it).length && c.genres.length) it.genres = [...c.genres];
+    if (c && it.subcat === 'Videojuegos' && !(Array.isArray(it.platforms) && it.platforms.length) && c.platforms) it.platforms = [...c.platforms];
+  }
+}
+
+/* ---------- Videojuegos en las fuentes: Wikipedia con «videojuego» + Wikidata (estudio, plataformas, géneros) ---------- */
+PROVIDERS.wikiGame = {
+  search: (pq, ctx) => PROVIDERS.wiki.search(pq, { ...ctx, fallback: true }),
+  enrich: (c, ctx) => PROVIDERS.wiki.enrich(c, ctx)
+};
 </script>
 </body>
 </html>
